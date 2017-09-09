@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tv_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/red"
+        android:text="left"/>
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue"
+        android:text="right"/>
+
+
+    <TextView
+        android:id="@+id/tv_center_hor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:text="center_hor"/>
+
+    <com.fanwe.demo.view.SDPageView
+        android:id="@+id/view_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.fanwe.demo.view.SDPageView>
+
+
+</FrameLayout>

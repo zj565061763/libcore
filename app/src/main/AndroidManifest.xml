@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.fanwe.demo"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:name="com.fanwe.demo.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.fanwe.demo.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.RecyclerViewActivity"/>
+        <activity android:name=".activity.FlexboxActivity"/>
+        <activity android:name=".activity.ViewPagerActivity"/>
+        <activity android:name=".activity.ListViewActivity"/>
+        <activity android:name=".activity.SelectManagerActivity"/>
+
+    </application>
+
+</manifest>

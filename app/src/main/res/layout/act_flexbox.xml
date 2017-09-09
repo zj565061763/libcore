@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/green"
+        app:flexDirection="row"
+        app:flexWrap="wrap">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="1"
+            app:layout_flexBasisPercent="25%"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="2"
+            app:layout_flexBasisPercent="25%"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="3"
+            app:layout_flexBasisPercent="25%"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="4"
+            app:layout_flexBasisPercent="25%"/>
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="5"/>
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="6"/>
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="7"/>
+
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="8"/>
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="9"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+</LinearLayout>
