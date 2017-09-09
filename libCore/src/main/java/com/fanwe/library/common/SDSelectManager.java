@@ -643,13 +643,14 @@ public class SDSelectManager<T>
                 break;
             case MULTI:
             case MULTI_MUST_ONE_SELECTED:
-                List<Integer> listIndexs = getSelectedIndexs();
-                if (listIndexs != null)
+                if (!mMapSelectedIndexItem.isEmpty())
                 {
-                    for (Integer index : listIndexs)
+                    final Iterator<Entry<Integer, T>> it = mMapSelectedIndexItem.entrySet().iterator();
+                    while (it.hasNext())
                     {
-                        mMapSelectedIndexItem.remove(index);
-                        notifyNormal(index);
+                        final Entry<Integer, T> item = it.next();
+                        it.remove();
+                        notifyNormal(item.getKey());
                     }
                     resetIndex();
                 }
