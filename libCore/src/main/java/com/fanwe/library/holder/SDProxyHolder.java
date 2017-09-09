@@ -103,20 +103,23 @@ public class SDProxyHolder<T> extends SDObjectHolder<T> implements InvocationHan
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
-        if (super.get() != null)
+        final Object object = super.get();
+        final SDProxyHolder child = getChild();
+
+        if (object != null)
         {
             //先触发内部持有对象，再触发child中的持有对象
-            Object realResult = method.invoke(super.get(), args);
-            if (getChild() != null)
+            Object realResult = method.invoke(object, args);
+            if (child != null)
             {
-                method.invoke(getChild().get(), args);
+                method.invoke(child.get(), args);
             }
             return realResult;
         } else
         {
-            if (getChild() != null)
+            if (child != null)
             {
-                return method.invoke(getChild().get(), args);
+                return method.invoke(child.get(), args);
             } else
             {
                 return null;
