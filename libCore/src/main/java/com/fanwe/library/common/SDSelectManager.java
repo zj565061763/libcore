@@ -481,14 +481,7 @@ public class SDSelectManager<T>
             case MULTI_MUST_ONE_SELECTED:
                 if (selected)
                 {
-                    if (mMapSelectedIndexItem.containsKey(index))
-                    {
-
-                    } else
-                    {
-                        mMapSelectedIndexItem.put(index, getItem(index));
-                        notifySelected(index);
-                    }
+                    selectItemMulti(index);
                 } else
                 {
                     if (mMapSelectedIndexItem.containsKey(index))
@@ -510,14 +503,7 @@ public class SDSelectManager<T>
             case MULTI:
                 if (selected)
                 {
-                    if (mMapSelectedIndexItem.containsKey(index))
-                    {
-
-                    } else
-                    {
-                        mMapSelectedIndexItem.put(index, getItem(index));
-                        notifySelected(index);
-                    }
+                    selectItemMulti(index);
                 } else
                 {
                     if (mMapSelectedIndexItem.containsKey(index))
@@ -550,6 +536,18 @@ public class SDSelectManager<T>
             notifySelected(mCurrentIndex);
 
             mLastIndex = mCurrentIndex;
+        }
+    }
+
+    private void selectItemMulti(int index)
+    {
+        if (mMapSelectedIndexItem.containsKey(index))
+        {
+
+        } else
+        {
+            mMapSelectedIndexItem.put(index, getItem(index));
+            notifySelected(index);
         }
     }
 
@@ -638,7 +636,7 @@ public class SDSelectManager<T>
             case SINGLE_MUST_ONE_SELECTED:
                 if (mCurrentIndex >= 0)
                 {
-                    int tempCurrentIndex = mCurrentIndex;
+                    final int tempCurrentIndex = mCurrentIndex;
                     resetIndex();
                     notifyNormal(tempCurrentIndex);
                 }
