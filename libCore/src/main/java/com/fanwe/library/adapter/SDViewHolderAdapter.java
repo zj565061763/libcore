@@ -44,7 +44,7 @@ public abstract class SDViewHolderAdapter<T> extends SDAdapter<T>
         SDViewHolder<T> holder = null;
         if (convertView == null)
         {
-            holder = onCreateViewHolder(position, convertView, parent);
+            holder = onCreateVHolder(position, convertView, parent);
             holder.setAdapter(this);
 
             int layoutId = holder.getLayoutId(position, convertView, parent);
@@ -64,7 +64,7 @@ public abstract class SDViewHolderAdapter<T> extends SDAdapter<T>
         return convertView;
     }
 
-    public abstract SDViewHolder<T> onCreateViewHolder(int position, View convertView, ViewGroup parent);
+    public abstract SDViewHolder<T> onCreateVHolder(int position, View convertView, ViewGroup parent);
 
     public abstract void onBindData(int position, View convertView, ViewGroup parent, T model, SDViewHolder<T> holder);
 

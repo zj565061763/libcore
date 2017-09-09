@@ -126,15 +126,6 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
         return holder;
     }
 
-    /**
-     * 创建ViewHolder
-     *
-     * @param parent
-     * @param viewType
-     * @return
-     */
-    public abstract SDRecyclerViewHolder<T> onCreateVHolder(ViewGroup parent, int viewType);
-
     @Override
     public final void onBindViewHolder(SDRecyclerViewHolder<T> holder, int position, List<Object> payloads)
     {
@@ -162,6 +153,15 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
             onBindData(holder, position, model);
         }
     }
+
+    /**
+     * 创建ViewHolder
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
+    public abstract SDRecyclerViewHolder<T> onCreateVHolder(ViewGroup parent, int viewType);
 
     /**
      * 绑定数据
