@@ -30,17 +30,6 @@ public class SDSelectManager<T>
     private ISDObjectsHolder<SelectCallback<T>> mSelectCallbackHolder = new SDObjectsHolder<>();
 
     /**
-     * 用addSelectCallback替代
-     *
-     * @param selectCallback
-     */
-    @Deprecated
-    public void setSelectCallback(SelectCallback<T> selectCallback)
-    {
-        addSelectCallback(selectCallback);
-    }
-
-    /**
      * 添加选择状态回调
      *
      * @param selectCallback
