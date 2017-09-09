@@ -180,28 +180,28 @@ public class SDSelectManager<T>
         return selected;
     }
 
-    public void synchronizedSelected()
+    public void synchronizeSelected()
     {
-        synchronizedSelected(mListItem);
+        synchronizeSelected(mListItem);
     }
 
-    public void synchronizedSelected(List<T> items)
+    public void synchronizeSelected(List<T> items)
     {
         if (items != null)
         {
             for (T item : items)
             {
-                synchronizedSelected(item);
+                synchronizeSelected(item);
             }
         }
     }
 
-    public void synchronizedSelected(T item)
+    public void synchronizeSelected(T item)
     {
-        synchronizedSelected(indexOfItem(item));
+        synchronizeSelected(indexOfItem(item));
     }
 
-    public void synchronizedSelected(int index)
+    public void synchronizeSelected(int index)
     {
         T model = getItem(index);
         if (model instanceof SDSelectManager.Selectable)

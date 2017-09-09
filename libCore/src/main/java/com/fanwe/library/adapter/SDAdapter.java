@@ -325,7 +325,7 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         if (model != null)
         {
             mListModel.add(model);
-            getSelectManager().synchronizedSelected(model);
+            getSelectManager().synchronizeSelected(model);
             notifyDataSetChanged();
         }
     }
@@ -336,7 +336,7 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         if (list != null && list.size() > 0)
         {
             mListModel.addAll(list);
-            getSelectManager().synchronizedSelected(list);
+            getSelectManager().synchronizeSelected(list);
             notifyDataSetChanged();
         }
     }
@@ -366,7 +366,7 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         if (model != null)
         {
             mListModel.add(position, model);
-            getSelectManager().synchronizedSelected(model);
+            getSelectManager().synchronizeSelected(model);
             notifyDataSetChanged();
         }
     }
@@ -377,7 +377,7 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         if (list != null && !list.isEmpty())
         {
             mListModel.addAll(position, list);
-            getSelectManager().synchronizedSelected(list);
+            getSelectManager().synchronizeSelected(list);
             notifyDataSetChanged();
         }
     }
@@ -388,7 +388,7 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         if (isPositionLegal(position))
         {
             mListModel.set(position, model);
-            getSelectManager().synchronizedSelected(model);
+            getSelectManager().synchronizeSelected(model);
             updateData(position);
         }
     }

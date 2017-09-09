@@ -280,7 +280,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
             this.mListModel.clear();
         }
         getSelectManager().setItems(mListModel);
-        getSelectManager().synchronizedSelected();
+        getSelectManager().synchronizeSelected();
     }
 
     @Override
@@ -295,7 +295,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
         if (model != null)
         {
             mListModel.add(model);
-            getSelectManager().synchronizedSelected(model);
+            getSelectManager().synchronizeSelected(model);
             notifyItemInserted(mListModel.size() - 1);
         }
     }
@@ -309,7 +309,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
             int itemCount = list.size();
 
             mListModel.addAll(list);
-            getSelectManager().synchronizedSelected(list);
+            getSelectManager().synchronizeSelected(list);
             notifyItemRangeInserted(positionStart, itemCount);
         }
     }
@@ -343,7 +343,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
         if (model != null)
         {
             mListModel.add(position, model);
-            getSelectManager().synchronizedSelected(position);
+            getSelectManager().synchronizeSelected(position);
             notifyItemInserted(position);
         }
     }
@@ -357,7 +357,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
             int itemCount = list.size();
 
             mListModel.addAll(position, list);
-            getSelectManager().synchronizedSelected(list);
+            getSelectManager().synchronizeSelected(list);
             notifyItemRangeInserted(positionStart, itemCount);
         }
     }
@@ -368,7 +368,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
         if (model != null && isPositionLegal(position))
         {
             mListModel.set(position, model);
-            getSelectManager().synchronizedSelected(model);
+            getSelectManager().synchronizeSelected(model);
             updateData(position);
         }
     }
