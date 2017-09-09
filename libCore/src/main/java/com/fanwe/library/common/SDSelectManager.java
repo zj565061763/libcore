@@ -191,7 +191,7 @@ public class SDSelectManager<T>
         synchronizeSelected(indexOfItem(item));
     }
 
-    public void synchronizeSelected(int index)
+    private void synchronizeSelected(int index)
     {
         T model = getItem(index);
         if (model instanceof SDSelectManager.Selectable)

@@ -343,7 +343,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
         if (model != null)
         {
             mListModel.add(position, model);
-            getSelectManager().synchronizeSelected(position);
+            getSelectManager().synchronizeSelected(model);
             notifyItemInserted(position);
         }
     }
