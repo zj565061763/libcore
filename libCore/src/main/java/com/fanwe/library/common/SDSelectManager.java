@@ -5,6 +5,7 @@ import com.fanwe.library.holder.SDObjectsHolder;
 import com.fanwe.library.listener.SDIterateCallback;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -256,16 +257,12 @@ public class SDSelectManager<T>
         return listItem;
     }
 
-
-    public void setItems(T[] items)
+    public void setItems(T... items)
     {
-        List<T> listItem = new ArrayList<T>();
+        List<T> listItem = null;
         if (items != null && items.length > 0)
         {
-            for (int i = 0; i < items.length; i++)
-            {
-                listItem.add(items[i]);
-            }
+            listItem = Arrays.asList(items);
         }
         setItems(listItem);
     }
@@ -274,7 +271,7 @@ public class SDSelectManager<T>
     {
         if (items != null)
         {
-            this.mListItem = items;
+            mListItem = items;
         } else
         {
             mListItem.clear();
