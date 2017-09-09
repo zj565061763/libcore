@@ -311,6 +311,7 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
             this.mListModel.clear();
         }
         getSelectManager().setItems(mListModel);
+        getSelectManager().synchronizeSelected();
     }
 
     @Override
