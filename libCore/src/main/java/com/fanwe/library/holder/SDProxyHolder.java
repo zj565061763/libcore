@@ -12,10 +12,10 @@ import java.lang.reflect.Proxy;
  */
 public class SDProxyHolder<T> extends SDObjectHolder<T> implements InvocationHandler
 {
-    private WeakReference mChildReference;
-
     private Class<T> mClass;
     private T mProxy;
+
+    private WeakReference mChild;
 
     public SDProxyHolder(Class<T> clazz)
     {
@@ -76,10 +76,10 @@ public class SDProxyHolder<T> extends SDObjectHolder<T> implements InvocationHan
         {
             if (child != null)
             {
-                mChildReference = new WeakReference<>(child);
+                mChild = new WeakReference<>(child);
             } else
             {
-                mChildReference = null;
+                mChild = null;
             }
         }
     }
@@ -91,12 +91,12 @@ public class SDProxyHolder<T> extends SDObjectHolder<T> implements InvocationHan
      */
     protected SDProxyHolder<T> getChild()
     {
-        if (mChildReference == null)
+        if (mChild == null)
         {
             return null;
         } else
         {
-            return (SDProxyHolder<T>) mChildReference.get();
+            return (SDProxyHolder<T>) mChild.get();
         }
     }
 
