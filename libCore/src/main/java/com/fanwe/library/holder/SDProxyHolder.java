@@ -74,14 +74,12 @@ public class SDProxyHolder<T> extends SDObjectHolder<T> implements InvocationHan
         }
         if (getChild() != child)
         {
-            if (mChildReference != null)
-            {
-                mChildReference.clear();
-                mChildReference = null;
-            }
             if (child != null)
             {
                 mChildReference = new WeakReference<>(child);
+            } else
+            {
+                mChildReference = null;
             }
         }
     }
