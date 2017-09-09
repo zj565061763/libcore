@@ -138,16 +138,16 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     @Override
     public final void onBindViewHolder(SDRecyclerViewHolder<T> holder, int position, List<Object> payloads)
     {
-        onBindViewHolderInside(holder, position, true);
+        onBindViewHolderInternal(holder, position, true);
     }
 
     @Override
     public final void onBindViewHolder(SDRecyclerViewHolder<T> holder, int position)
     {
-        onBindViewHolderInside(holder, position, false);
+        onBindViewHolderInternal(holder, position, false);
     }
 
-    private void onBindViewHolderInside(SDRecyclerViewHolder<T> holder, int position, boolean isUpdate)
+    private void onBindViewHolderInternal(SDRecyclerViewHolder<T> holder, int position, boolean isUpdate)
     {
         T model = getData(position);
         holder.setModel(model);
