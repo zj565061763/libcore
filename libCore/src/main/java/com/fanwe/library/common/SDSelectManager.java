@@ -468,7 +468,7 @@ public class SDSelectManager<T>
                 {
                     if (mCurrentIndex == index)
                     {
-                        int tempCurrentIndex = mCurrentIndex;
+                        final int tempCurrentIndex = mCurrentIndex;
                         mCurrentIndex = -1;
 
                         notifyNormal(tempCurrentIndex);
