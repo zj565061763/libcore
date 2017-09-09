@@ -445,19 +445,7 @@ public class SDSelectManager<T>
             case SINGLE_MUST_ONE_SELECTED:
                 if (selected)
                 {
-                    if (mCurrentIndex == index)
-                    {
-
-                    } else
-                    {
-                        int tempCurrentIndex = mCurrentIndex;
-                        mCurrentIndex = index;
-
-                        normalItem(tempCurrentIndex);
-                        selectItem(mCurrentIndex);
-
-                        mLastIndex = mCurrentIndex;
-                    }
+                    selectItemSingle(index);
                 } else
                 {
                     if (mCurrentIndex == index)
@@ -475,19 +463,7 @@ public class SDSelectManager<T>
             case SINGLE:
                 if (selected)
                 {
-                    if (mCurrentIndex == index)
-                    {
-
-                    } else
-                    {
-                        int tempCurrentIndex = mCurrentIndex;
-                        mCurrentIndex = index;
-
-                        normalItem(tempCurrentIndex);
-                        selectItem(mCurrentIndex);
-
-                        mLastIndex = mCurrentIndex;
-                    }
+                    selectItemSingle(index);
                 } else
                 {
                     if (mCurrentIndex == index)
@@ -495,7 +471,7 @@ public class SDSelectManager<T>
                         int tempCurrentIndex = mCurrentIndex;
                         mCurrentIndex = -1;
 
-                        normalItem(tempCurrentIndex);
+                        notifyNormal(tempCurrentIndex);
                     } else
                     {
 
@@ -511,7 +487,7 @@ public class SDSelectManager<T>
                     } else
                     {
                         mMapSelectedIndexItem.put(index, getItem(index));
-                        selectItem(index);
+                        notifySelected(index);
                     }
                 } else
                 {
@@ -523,7 +499,7 @@ public class SDSelectManager<T>
                         } else
                         {
                             mMapSelectedIndexItem.remove(index);
-                            normalItem(index);
+                            notifyNormal(index);
                         }
                     } else
                     {
@@ -540,14 +516,14 @@ public class SDSelectManager<T>
                     } else
                     {
                         mMapSelectedIndexItem.put(index, getItem(index));
-                        selectItem(index);
+                        notifySelected(index);
                     }
                 } else
                 {
                     if (mMapSelectedIndexItem.containsKey(index))
                     {
                         mMapSelectedIndexItem.remove(index);
-                        normalItem(index);
+                        notifyNormal(index);
                     } else
                     {
 
@@ -560,7 +536,24 @@ public class SDSelectManager<T>
         }
     }
 
-    private void normalItem(int index)
+    private void selectItemSingle(int index)
+    {
+        if (mCurrentIndex == index)
+        {
+
+        } else
+        {
+            final int tempCurrentIndex = mCurrentIndex;
+            mCurrentIndex = index;
+
+            notifyNormal(tempCurrentIndex);
+            notifySelected(mCurrentIndex);
+
+            mLastIndex = mCurrentIndex;
+        }
+    }
+
+    private void notifyNormal(int index)
     {
         if (isIndexLegal(index))
         {
@@ -568,7 +561,7 @@ public class SDSelectManager<T>
         }
     }
 
-    private void selectItem(int index)
+    private void notifySelected(int index)
     {
         if (isIndexLegal(index))
         {
@@ -647,7 +640,7 @@ public class SDSelectManager<T>
                 {
                     int tempCurrentIndex = mCurrentIndex;
                     resetIndex();
-                    normalItem(tempCurrentIndex);
+                    notifyNormal(tempCurrentIndex);
                 }
                 break;
             case MULTI:
@@ -658,7 +651,7 @@ public class SDSelectManager<T>
                     for (Integer index : listIndexs)
                     {
                         mMapSelectedIndexItem.remove(index);
-                        normalItem(index);
+                        notifyNormal(index);
                     }
                     resetIndex();
                 }
