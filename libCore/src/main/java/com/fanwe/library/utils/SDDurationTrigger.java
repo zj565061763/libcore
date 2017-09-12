@@ -107,10 +107,7 @@ public class SDDurationTrigger
             mCurrentTriggerCount = 1;
         } else
         {
-            if (mCurrentTriggerCount + 1 <= mMaxTriggerCount)
-            {
-                mCurrentTriggerCount++;
-            }
+            mCurrentTriggerCount++;
         }
         mLastTriggerTime = currentTime;
         return mCurrentTriggerCount >= mMaxTriggerCount;
