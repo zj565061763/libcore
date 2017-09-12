@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 20170909
-        versionName "1.0.82"
+        versionCode 20170912
+        versionName "1.0.83"
     }
 
     buildTypes {
@@ -43,7 +43,7 @@ publish {
     userOrg = 'zj565061763'
     groupId = 'com.fanwe.android'
     artifactId = 'libCore'
-    publishVersion = '1.0.82'
+    publishVersion = '1.0.83'
     desc = 'fnawe android library'
     website = 'https://github.com/zj565061763/libcore'
 }
