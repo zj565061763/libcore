@@ -50,7 +50,7 @@ public class SDDragRelativeLayout extends RelativeLayout
         public int clampViewPositionHorizontal(View child, int left, int dx)
         {
             int leftBound = getPaddingLeft();
-            int rightBound = getWidth() - child.getWidth() - leftBound;
+            int rightBound = getWidth() - child.getWidth() - getPaddingRight();
 
             int newLeft = Math.min(Math.max(left, leftBound), rightBound);
             return newLeft;
@@ -60,7 +60,7 @@ public class SDDragRelativeLayout extends RelativeLayout
         public int clampViewPositionVertical(View child, int top, int dy)
         {
             int topBound = getPaddingTop();
-            int botBound = getHeight() - child.getHeight() - topBound;
+            int botBound = getHeight() - child.getHeight() - getPaddingBottom();
 
             int newTop = Math.min(Math.max(top, topBound), botBound);
             return newTop;
@@ -88,13 +88,7 @@ public class SDDragRelativeLayout extends RelativeLayout
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        boolean result = super.onTouchEvent(event);
-
         mDragHelper.processTouchEvent(event);
-        if (mDragHelper.getCapturedView() != null)
-        {
-            result = true;
-        }
-        return result;
+        return super.onTouchEvent(event);
     }
 }
