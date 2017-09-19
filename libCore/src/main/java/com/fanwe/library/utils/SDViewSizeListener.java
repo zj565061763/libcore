@@ -103,11 +103,11 @@ public class SDViewSizeListener
         @Override
         public void onGlobalLayout()
         {
-            process();
+            onProcess();
         }
     };
 
-    private void process()
+    private void onProcess()
     {
         final View view = getView();
         if (view == null)
@@ -118,8 +118,8 @@ public class SDViewSizeListener
         final int oldWidth = mWidth;
         final int oldHeight = mHeight;
 
-        final int newWidth = view.getWidth();
-        final int newHeight = view.getHeight();
+        final int newWidth = onGetWidth(view);
+        final int newHeight = onGetHeight(view);
 
         if (newWidth != oldWidth)
         {
@@ -133,11 +133,7 @@ public class SDViewSizeListener
                     mFirstWidth = newWidth;
                 }
             }
-
-            if (mCallback != null)
-            {
-                mCallback.onWidthChanged(newWidth, oldWidth, view);
-            }
+            onWidthChanged(newWidth, oldWidth, view);
         }
 
         if (newHeight != oldHeight)
@@ -152,12 +148,33 @@ public class SDViewSizeListener
                     mFirstHeight = newHeight;
                 }
             }
-
-            if (mCallback != null)
-            {
-                mCallback.onHeightChanged(newHeight, oldHeight, view);
-            }
+            onHeightChanged(newHeight, oldHeight, view);
         }
     }
 
+    protected int onGetWidth(View view)
+    {
+        return view.getWidth();
+    }
+
+    protected int onGetHeight(View view)
+    {
+        return view.getHeight();
+    }
+
+    protected void onWidthChanged(int newWidth, int oldWidth, View view)
+    {
+        if (mCallback != null)
+        {
+            mCallback.onWidthChanged(newWidth, oldWidth, view);
+        }
+    }
+
+    protected void onHeightChanged(int newHeight, int oldHeight, View view)
+    {
+        if (mCallback != null)
+        {
+            mCallback.onHeightChanged(newHeight, oldHeight, view);
+        }
+    }
 }
