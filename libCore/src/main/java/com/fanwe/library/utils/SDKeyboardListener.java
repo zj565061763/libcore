@@ -1,27 +1,43 @@
 package com.fanwe.library.utils;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.view.View;
 
 /**
  * 监听软键盘显示隐藏（仅竖屏方向有效）
  */
-public class SDKeyboardListener extends SDWindowSizeListener
+public class SDKeyboardListener extends SDViewSizeListener
 {
-    private boolean isKeyboardActive;
-    private int keyboardHeight = -1;
-    private SDKeyboardVisibilityCallback callback;
+    private boolean mIsKeyboardActive;
+    private int mKeyboardHeight = -1;
+    private Rect mRect = new Rect();
+    private SDKeyboardVisibilityCallback mKeyboardVisibilityCallback;
 
-    /**
-     * 监听软键盘显示隐藏
-     *
-     * @param activity
-     * @param callback
-     */
-    public void listen(Activity activity, SDKeyboardVisibilityCallback callback)
+    public SDKeyboardListener setKeyboardVisibilityCallback(SDKeyboardVisibilityCallback keyboardVisibilityCallback)
     {
-        super.listen(activity, null);
-        this.callback = callback;
+        mKeyboardVisibilityCallback = keyboardVisibilityCallback;
+        return this;
+    }
+
+    public SDKeyboardListener setActivity(Activity activity)
+    {
+        setView(activity.findViewById(android.R.id.content));
+        return this;
+    }
+
+    @Override
+    protected int onGetWidth(View view)
+    {
+        view.getWindowVisibleDisplayFrame(mRect);
+        return mRect.width();
+    }
+
+    @Override
+    protected int onGetHeight(View view)
+    {
+        view.getWindowVisibleDisplayFrame(mRect);
+        return mRect.height();
     }
 
     @Override
@@ -35,33 +51,33 @@ public class SDKeyboardListener extends SDWindowSizeListener
         {
             if (differ > 0)
             {
-                if (isKeyboardActive)
+                if (mIsKeyboardActive)
                 {
-                    if (absDiffer == keyboardHeight)
+                    if (absDiffer == mKeyboardHeight)
                     {
                         //键盘收起
-                        isKeyboardActive = false;
+                        mIsKeyboardActive = false;
 
-                        if (callback != null)
+                        if (mKeyboardVisibilityCallback != null)
                         {
-                            callback.onKeyboardVisibilityChange(isKeyboardActive, absDiffer);
+                            mKeyboardVisibilityCallback.onKeyboardVisibilityChange(mIsKeyboardActive, absDiffer);
                         }
                         LogUtil.i("onKeyboard hdie:" + absDiffer);
                     }
                 }
             } else
             {
-                if (!isKeyboardActive)
+                if (!mIsKeyboardActive)
                 {
                     if (SDKeyboardUtil.isKeyboardActive(target.getContext()))
                     {
                         // 键盘显示
-                        isKeyboardActive = true;
-                        keyboardHeight = absDiffer;
+                        mIsKeyboardActive = true;
+                        mKeyboardHeight = absDiffer;
 
-                        if (callback != null)
+                        if (mKeyboardVisibilityCallback != null)
                         {
-                            callback.onKeyboardVisibilityChange(isKeyboardActive, absDiffer);
+                            mKeyboardVisibilityCallback.onKeyboardVisibilityChange(mIsKeyboardActive, absDiffer);
                         }
                         LogUtil.i("onKeyboard show:" + absDiffer);
                     }
@@ -77,7 +93,7 @@ public class SDKeyboardListener extends SDWindowSizeListener
      */
     public int getKeyboardHeight()
     {
-        return keyboardHeight;
+        return mKeyboardHeight;
     }
 
     public interface SDKeyboardVisibilityCallback
