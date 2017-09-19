@@ -74,42 +74,39 @@ public class SDWindowSizeListener
 
     private void process()
     {
-        int oldWidth = width;
-        int oldHeight = height;
+        final int oldWidth = width;
+        final int oldHeight = height;
 
         view.getWindowVisibleDisplayFrame(rect);
-        int newWidth = rect.width();
-        int newHeight = rect.height();
-
-        int differWidth = newWidth - oldWidth;
-        int differHeight = newHeight - oldHeight;
+        final int newWidth = rect.width();
+        final int newHeight = rect.height();
 
         if (newWidth != oldWidth)
         {
             width = newWidth;
-            onWidthChanged(newWidth, oldWidth, differWidth, view);
+            onWidthChanged(newWidth, oldWidth, view);
         }
 
         if (newHeight != oldHeight)
         {
             height = newHeight;
-            onHeightChanged(newHeight, oldHeight, differHeight, view);
+            onHeightChanged(newHeight, oldHeight, view);
         }
     }
 
-    protected void onWidthChanged(int newWidth, int oldWidth, int differ, View target)
+    protected void onWidthChanged(int newWidth, int oldWidth, View target)
     {
         if (callback != null)
         {
-            callback.onWidthChanged(newWidth, oldWidth, differ, view);
+            callback.onWidthChanged(newWidth, oldWidth, view);
         }
     }
 
-    protected void onHeightChanged(int newHeight, int oldHeight, int differ, View target)
+    protected void onHeightChanged(int newHeight, int oldHeight, View target)
     {
         if (callback != null)
         {
-            callback.onHeightChanged(newHeight, oldHeight, differ, view);
+            callback.onHeightChanged(newHeight, oldHeight, view);
         }
     }
 }

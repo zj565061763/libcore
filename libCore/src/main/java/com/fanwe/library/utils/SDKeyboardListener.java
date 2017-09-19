@@ -25,10 +25,11 @@ public class SDKeyboardListener extends SDWindowSizeListener
     }
 
     @Override
-    protected void onHeightChanged(int newHeight, int oldHeight, int differ, View target)
+    protected void onHeightChanged(int newHeight, int oldHeight, View target)
     {
-        super.onHeightChanged(newHeight, oldHeight, differ, target);
+        super.onHeightChanged(newHeight, oldHeight, target);
 
+        int differ = newHeight - oldHeight;
         int absDiffer = Math.abs(differ);
         if (absDiffer > 400)
         {

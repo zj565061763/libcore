@@ -5,7 +5,7 @@ package com.fanwe.library.listener;
  */
 public interface SDSizeChangedCallback<T>
 {
-    void onWidthChanged(int newWidth, int oldWidth, int differ, T target);
+    void onWidthChanged(int newWidth, int oldWidth, T target);
 
-    void onHeightChanged(int newHeight, int oldHeight, int differ, T target);
+    void onHeightChanged(int newHeight, int oldHeight, T target);
 }

@@ -5,12 +5,14 @@ import android.view.ViewTreeObserver;
 
 import com.fanwe.library.listener.SDSizeChangedCallback;
 
+import java.lang.ref.WeakReference;
+
 /**
  * 可以监听view宽高变化的类
  */
 public class SDViewSizeListener
 {
-    private View mView;
+    private WeakReference<View> mView;
     private int mWidth;
     private int mHeight;
 
@@ -39,56 +41,64 @@ public class SDViewSizeListener
         return mFirstHeight;
     }
 
-    private void reset()
+    public View getView()
     {
-        mWidth = 0;
-        mHeight = 0;
+        if (mView != null)
+        {
+            return mView.get();
+        }
+        return null;
+    }
+
+    /**
+     * 设置回调
+     *
+     * @param callback
+     * @return
+     */
+    public SDViewSizeListener setCallback(SDSizeChangedCallback<View> callback)
+    {
+        mCallback = callback;
+        return this;
     }
 
     /**
      * 设置要监听的view
      *
      * @param view
-     * @param callback
      * @return
      */
-    public SDViewSizeListener listen(View view, SDSizeChangedCallback<View> callback)
+    public SDViewSizeListener setView(View view)
     {
-        mCallback = callback;
-        if (mView != view)
+        final View oldView = getView();
+        if (oldView != view)
         {
-            releaseView();
-            mView = view;
-            initView();
+            if (oldView != null)
+            {
+                oldView.getViewTreeObserver().removeGlobalOnLayoutListener(mOnGlobalLayoutListener);
+                reset();
+            }
+
+            if (view != null)
+            {
+                mView = new WeakReference<>(view);
+
+                view.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+            } else
+            {
+                mView = null;
+            }
         }
         return this;
     }
 
-    /**
-     * 释放view
-     */
-    private void releaseView()
+    private void reset()
     {
-        if (mView != null)
-        {
-            mView.getViewTreeObserver().removeGlobalOnLayoutListener(defaultListener);
-            mView = null;
-        }
-        reset();
+        mWidth = 0;
+        mHeight = 0;
     }
 
-    /**
-     * 初始化view
-     */
-    private void initView()
-    {
-        if (mView != null)
-        {
-            mView.getViewTreeObserver().addOnGlobalLayoutListener(defaultListener);
-        }
-    }
-
-    private ViewTreeObserver.OnGlobalLayoutListener defaultListener = new ViewTreeObserver.OnGlobalLayoutListener()
+    private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener()
     {
         @Override
         public void onGlobalLayout()
@@ -99,19 +109,17 @@ public class SDViewSizeListener
 
     private void process()
     {
-        if (mView == null)
+        final View view = getView();
+        if (view == null)
         {
             return;
         }
 
-        int oldWidth = mWidth;
-        int oldHeight = mHeight;
+        final int oldWidth = mWidth;
+        final int oldHeight = mHeight;
 
-        int newWidth = mView.getWidth();
-        int newHeight = mView.getHeight();
-
-        int differWidth = newWidth - oldWidth;
-        int differHeight = newHeight - oldHeight;
+        final int newWidth = view.getWidth();
+        final int newHeight = view.getHeight();
 
         if (newWidth != oldWidth)
         {
@@ -128,7 +136,7 @@ public class SDViewSizeListener
 
             if (mCallback != null)
             {
-                mCallback.onWidthChanged(newWidth, oldWidth, differWidth, mView);
+                mCallback.onWidthChanged(newWidth, oldWidth, view);
             }
         }
 
@@ -147,7 +155,7 @@ public class SDViewSizeListener
 
             if (mCallback != null)
             {
-                mCallback.onHeightChanged(newHeight, oldHeight, differHeight, mView);
+                mCallback.onHeightChanged(newHeight, oldHeight, view);
             }
         }
     }
