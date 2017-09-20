@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.fanwe.library.common.SDCookieManager;
 import com.fanwe.library.config.SDConfig;
-import com.fanwe.library.utils.SDCache;
 
 public class SDLibrary
 {
@@ -26,7 +25,6 @@ public class SDLibrary
         this.mContext = context;
         SDConfig.init(context);
         SDCookieManager.getInstance().init(context);
-        SDCache.init(context);
     }
 
     public static SDLibrary getInstance()
