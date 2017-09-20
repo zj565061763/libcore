@@ -1,2 +1,2 @@
 ## Gradle
-`compile 'com.fanwe.android:libCore:1.0.86'`
+`compile 'com.fanwe.android:libCore:1.0.87'`
