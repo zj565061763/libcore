@@ -22,7 +22,8 @@ public class SDLibrary
 
     public void init(Context context)
     {
-        this.mContext = context;
+        mContext = context.getApplicationContext();
+
         SDConfig.init(context);
         SDCookieManager.getInstance().init(context);
     }
