@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import com.fanwe.library.R;
 import com.fanwe.library.drawable.SDDrawable;
 import com.fanwe.library.utils.SDCollectionUtil;
-import com.fanwe.library.utils.SDLayoutParamsUtil;
 import com.fanwe.library.utils.SDViewUtil;
 
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
     private void init()
     {
         mView = LayoutInflater.from(getContext()).inflate(R.layout.title_simple, null);
-        this.addView(mView, SDLayoutParamsUtil.newParamsLinearLayoutMM());
+        this.addView(mView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
         mTitleLeft = (SDTitleItem) findViewById(R.id.title_left);
         mTitleMiddle = (SDTitleItem) findViewById(R.id.title_middle);
@@ -191,7 +190,7 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
         {
             SDViewUtil.setBackgroundDrawable(item, getBackgroundItem());
         }
-        LayoutParams params = SDLayoutParamsUtil.newParamsLinearLayoutWM();
+        LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         mLlRight.addView(item, params);
         mListRightItem.add(item);
         return item;

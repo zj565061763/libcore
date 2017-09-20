@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fanwe.library.R;
-import com.fanwe.library.utils.SDLayoutParamsUtil;
 import com.fanwe.library.utils.SDViewBinder;
 
 public class SDTitleItem extends LinearLayout
@@ -39,7 +38,7 @@ public class SDTitleItem extends LinearLayout
     private void init()
     {
         this.setGravity(Gravity.CENTER);
-        this.setLayoutParams(SDLayoutParamsUtil.newParamsLinearLayoutWM());
+        this.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
         mView = LayoutInflater.from(getContext()).inflate(R.layout.title_item, null);
         this.addView(mView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         this.setBackgroundColor(getResources().getColor(android.R.color.transparent));
