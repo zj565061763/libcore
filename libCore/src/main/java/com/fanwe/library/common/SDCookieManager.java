@@ -1,6 +1,7 @@
 package com.fanwe.library.common;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -36,28 +37,31 @@ public class SDCookieManager
 
     public void setCookie(String url, String value)
     {
-        if (url != null && value != null)
+        if (TextUtils.isEmpty(url) || TextUtils.isEmpty(value))
         {
-            CookieManager.getInstance().setCookie(url, value);
+            return;
         }
+        CookieManager.getInstance().setCookie(url, value);
     }
 
     public void setCookie(String url, HttpCookie cookie)
     {
-        if (cookie != null)
+        if (cookie == null)
         {
-            setCookie(url, cookie.getName() + "=" + cookie.getValue());
+            return;
         }
+        setCookie(url, cookie.getName() + "=" + cookie.getValue());
     }
 
     public void setCookie(String url, List<HttpCookie> listCookie)
     {
-        if (listCookie != null && !listCookie.isEmpty())
+        if (listCookie == null || listCookie.isEmpty())
         {
-            for (HttpCookie cookie : listCookie)
-            {
-                setCookie(url, cookie);
-            }
+            return;
+        }
+        for (HttpCookie item : listCookie)
+        {
+            setCookie(url, item);
         }
     }
 
