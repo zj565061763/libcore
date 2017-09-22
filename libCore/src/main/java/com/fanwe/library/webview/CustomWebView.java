@@ -33,11 +33,11 @@ public class CustomWebView extends WebView
     public static final int REQUEST_GET_CONTENT = 100;
     private static final String WEBVIEW_CACHE_DIR = "/webviewcache"; // web缓存目录
 
-    private ValueCallback<Uri> getContentValueCallback;
-    private List<String> listActionViewUrl = new ArrayList<>();
-    private List<String> listBrowsableUrl = new ArrayList<String>();
-    private File cacheDir;
-    private ProgressBar progressBar;
+    private ValueCallback<Uri> mContentValueCallback;
+    private List<String> mListActionViewUrl = new ArrayList<>();
+    private List<String> mListBrowsableUrl = new ArrayList<String>();
+    private File mCacheDir;
+    private ProgressBar mProgressBar;
 
     public CustomWebView(Context context)
     {
@@ -53,17 +53,18 @@ public class CustomWebView extends WebView
 
     public void setProgressBar(ProgressBar progressBar)
     {
-        this.progressBar = progressBar;
+        this.mProgressBar = progressBar;
     }
 
     public void addActionViewUrl(String url)
     {
-        if (url != null)
+        if (url == null)
         {
-            if (!listActionViewUrl.contains(url))
-            {
-                listActionViewUrl.add(url);
-            }
+            return;
+        }
+        if (!mListActionViewUrl.contains(url))
+        {
+            mListActionViewUrl.add(url);
         }
     }
 
@@ -78,9 +79,22 @@ public class CustomWebView extends WebView
         addActionViewUrl("mqqapi://");
     }
 
+    public void addBrowsableUrl(String url)
+    {
+        if (url == null)
+        {
+            return;
+        }
+        if (!mListBrowsableUrl.contains(url))
+        {
+            mListBrowsableUrl.add(url);
+        }
+    }
+
     private void initBrowsableUrl()
     {
-        listBrowsableUrl.add("intent://platformapi/startapp");
+        addBrowsableUrl("intent://platformapi/startapp");
+        addBrowsableUrl("intent://dl/business");
     }
 
     public boolean interceptActionViewUrl(String url)
@@ -88,7 +102,7 @@ public class CustomWebView extends WebView
         boolean result = false;
         if (url != null)
         {
-            for (String item : listActionViewUrl)
+            for (String item : mListActionViewUrl)
             {
                 if (url.startsWith(item))
                 {
@@ -106,7 +120,7 @@ public class CustomWebView extends WebView
         boolean result = false;
         if (url != null)
         {
-            for (String item : listBrowsableUrl)
+            for (String item : mListBrowsableUrl)
             {
                 if (url.startsWith(item))
                 {
@@ -149,10 +163,10 @@ public class CustomWebView extends WebView
     protected void init()
     {
         String cacheDirPath = getContext().getCacheDir().getAbsolutePath() + WEBVIEW_CACHE_DIR;
-        cacheDir = new File(cacheDirPath);
-        if (!cacheDir.exists())
+        mCacheDir = new File(cacheDirPath);
+        if (!mCacheDir.exists())
         {
-            cacheDir.mkdirs();
+            mCacheDir.mkdirs();
         }
 
         initActionViewUrl();
@@ -228,15 +242,15 @@ public class CustomWebView extends WebView
         @Override
         public void onProgressChanged(WebView view, int newProgress)
         {
-            if (progressBar != null)
+            if (mProgressBar != null)
             {
                 if (newProgress == 100)
                 {
-                    SDViewUtil.setGone(progressBar);
+                    SDViewUtil.setGone(mProgressBar);
                 } else
                 {
-                    SDViewUtil.setVisible(progressBar);
-                    progressBar.setProgress(newProgress);
+                    SDViewUtil.setVisible(mProgressBar);
+                    mProgressBar.setProgress(newProgress);
                 }
             }
             super.onProgressChanged(view, newProgress);
@@ -249,7 +263,7 @@ public class CustomWebView extends WebView
             if (context instanceof Activity)
             {
                 Activity activity = (Activity) context;
-                getContentValueCallback = uploadFile;
+                mContentValueCallback = uploadFile;
                 Intent intent = SDIntentUtil.getIntentGetContent();
                 activity.startActivityForResult(intent, REQUEST_GET_CONTENT);
             }
@@ -269,8 +283,8 @@ public class CustomWebView extends WebView
                         Uri value = data.getData();
                         if (value != null)
                         {
-                            getContentValueCallback.onReceiveValue(value);
-                            getContentValueCallback = null;
+                            mContentValueCallback.onReceiveValue(value);
+                            mContentValueCallback = null;
                         }
                     }
                     break;
@@ -295,16 +309,16 @@ public class CustomWebView extends WebView
         settings.setSavePassword(false);
 
         settings.setGeolocationEnabled(true);
-        settings.setGeolocationDatabasePath(cacheDir.getAbsolutePath());
+        settings.setGeolocationDatabasePath(mCacheDir.getAbsolutePath());
 
         // Database
         settings.setDatabaseEnabled(true);
-        settings.setDatabasePath(cacheDir.getAbsolutePath());
+        settings.setDatabasePath(mCacheDir.getAbsolutePath());
 
         // AppCache
         settings.setAppCacheEnabled(true);
         settings.setAppCacheMaxSize(1024 * 1024 * 8);
-        settings.setAppCachePath(cacheDir.getAbsolutePath());
+        settings.setAppCachePath(mCacheDir.getAbsolutePath());
 
         String us = settings.getUserAgentString();
         us = us + " fanwe_app_sdk" + " sdk_type/android" + " sdk_version_name/" + SDPackageUtil.getVersionName() + " sdk_version/" + SDPackageUtil.getVersionCode() + " sdk_guid/"
