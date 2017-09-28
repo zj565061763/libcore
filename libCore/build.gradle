@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.github.zj565061763'
 
 android {
     compileSdkVersion 25
@@ -9,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 20170928
-        versionName "1.0.91"
+        versionCode 20170929
+        versionName "1.0.0"
     }
 
     buildTypes {
@@ -34,24 +35,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:appcompat-v7:25.2.0'
 
-    compile 'com.fanwe.android:res:1.0.4'
     compile 'com.alibaba:fastjson:1.1.45.android'
-}
-
-publish {
-    userOrg = 'zj565061763'
-    groupId = 'com.fanwe.android'
-    artifactId = 'libCore'
-    publishVersion = '1.0.91'
-    desc = 'fnawe android library'
-    website = 'https://github.com/zj565061763/libcore'
-}
-
-tasks.withType(Javadoc) {
-    options {
-        encoding "UTF-8"
-        charSet 'UTF-8'
-        failOnError false
-    }
+    compile 'com.github.zj565061763:res:1.0.6'
 }
 
