@@ -1,2 +1,14 @@
 ## Gradle
-`compile 'com.fanwe.android:libCore:1.0.90'`
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+        compile 'com.github.zj565061763:libcore:1.0.91'
+}
+
+```
