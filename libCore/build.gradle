@@ -34,7 +34,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:appcompat-v7:25.2.0'
 
-    compile 'com.fanwe.android:looper:1.0.3'
     compile 'com.fanwe.android:res:1.0.4'
     compile 'com.alibaba:fastjson:1.1.45.android'
 }
