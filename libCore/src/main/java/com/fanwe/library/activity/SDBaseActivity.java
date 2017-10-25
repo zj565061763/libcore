@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 
 import com.fanwe.library.common.SDActivityManager;
 import com.fanwe.library.common.SDFragmentManager;
+import com.fanwe.library.event.SDEvent;
+import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.holder.ISDObjectsHolder;
 import com.fanwe.library.holder.SDObjectsHolder;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
@@ -29,11 +31,10 @@ import com.fanwe.library.utils.SDPackageUtil;
 import com.fanwe.library.utils.SDViewUtil;
 import com.fanwe.library.view.ISDViewContainer;
 import com.fanwe.library.view.SDAppView;
-import com.sunday.eventbus.SDBaseEvent;
-import com.sunday.eventbus.SDEventManager;
-import com.sunday.eventbus.SDEventObserver;
 
 import java.util.Iterator;
+
+import de.greenrobot.event.EventBus;
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
         SDEventObserver,
@@ -108,7 +109,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         SDActivityManager.getInstance().onCreate(this);
-        SDEventManager.register(this);
+        EventBus.getDefault().register(this);
         afterOnCreater(savedInstanceState);
 
         notifyOnCreate(savedInstanceState);
@@ -255,7 +256,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         super.onDestroy();
         SDActivityManager.getInstance().onDestroy(this);
-        SDEventManager.unregister(this);
+        EventBus.getDefault().unregister(this);
         dismissProgressDialog();
 
         notifyOnDestroy();
@@ -649,7 +650,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     //------------notify callback end------------------
 
     @Override
-    public void onEventMainThread(SDBaseEvent event)
+    public void onEventMainThread(SDEvent event)
     {
 
     }

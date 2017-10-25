@@ -15,16 +15,17 @@ import android.widget.LinearLayout;
 
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
+import com.fanwe.library.event.SDEvent;
+import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDViewVisibilityCallback;
 import com.fanwe.library.utils.SDCollectionUtil;
 import com.fanwe.library.utils.SDViewUtil;
-import com.sunday.eventbus.SDBaseEvent;
-import com.sunday.eventbus.SDEventManager;
-import com.sunday.eventbus.SDEventObserver;
 
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public abstract class SDBaseFragment extends Fragment implements SDEventObserver, OnClickListener, SDActivityDispatchTouchEventCallback,
         SDActivityDispatchKeyEventCallback
@@ -90,7 +91,7 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        SDEventManager.register(this);
+        EventBus.getDefault().register(this);
         SDBaseActivity activity = getSDBaseActivity();
         if (activity != null)
         {
@@ -207,7 +208,7 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     @Override
     public void onDestroy()
     {
-        SDEventManager.unregister(this);
+        EventBus.getDefault().unregister(this);
         SDBaseActivity activity = getSDBaseActivity();
         if (activity != null)
         {
@@ -356,9 +357,8 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     }
 
     @Override
-    public void onEventMainThread(SDBaseEvent sdBaseEvent)
+    public void onEventMainThread(SDEvent event)
     {
-
     }
 
     @Override

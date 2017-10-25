@@ -14,14 +14,14 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.fanwe.library.activity.SDBaseActivity;
+import com.fanwe.library.event.SDEvent;
+import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDViewVisibilityCallback;
 import com.fanwe.library.utils.SDViewUtil;
 import com.fanwe.library.utils.SDViewVisibilityHandler;
-import com.sunday.eventbus.SDBaseEvent;
-import com.sunday.eventbus.SDEventObserver;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -369,7 +369,7 @@ public class SDAppView extends FrameLayout implements
     }
 
     @Override
-    public void onEventMainThread(SDBaseEvent event)
+    public void onEventMainThread(SDEvent event)
     {
     }
 
