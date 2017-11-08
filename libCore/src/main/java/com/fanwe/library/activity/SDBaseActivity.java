@@ -221,9 +221,11 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         {
             sIsBackground = false;
 
+            onResumeFromBackground();
+
             EOnResumeFromBackground event = new EOnResumeFromBackground();
             EventBus.getDefault().post(event);
-            
+
             sBackgroundTime = 0;
         }
 
@@ -250,12 +252,22 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
                 sIsBackground = true;
                 sBackgroundTime = System.currentTimeMillis();
 
+                onBackground();
+
                 EOnBackground event = new EOnBackground();
                 EventBus.getDefault().post(event);
             }
         }
 
         notifyOnStop();
+    }
+
+    protected void onBackground()
+    {
+    }
+
+    protected void onResumeFromBackground()
+    {
     }
 
     @Override
