@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 
 import com.fanwe.library.common.SDActivityManager;
 import com.fanwe.library.common.SDFragmentManager;
+import com.fanwe.library.event.EOnBackground;
+import com.fanwe.library.event.EOnResumeFromBackground;
 import com.fanwe.library.event.SDEvent;
 import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.holder.ISDObjectsHolder;
@@ -218,7 +220,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         if (sIsBackground)
         {
             sIsBackground = false;
-            onResumeFromBackground();
+
+            EOnResumeFromBackground event = new EOnResumeFromBackground();
+            EventBus.getDefault().post(event);
+            
             sBackgroundTime = 0;
         }
 
@@ -244,7 +249,9 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             {
                 sIsBackground = true;
                 sBackgroundTime = System.currentTimeMillis();
-                onBackground();
+
+                EOnBackground event = new EOnBackground();
+                EventBus.getDefault().post(event);
             }
         }
 
@@ -268,22 +275,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         SDActivityManager.getInstance().onDestroy(this);
         super.finish();
-    }
-
-    /**
-     * app进入后台时候回调
-     */
-    protected void onBackground()
-    {
-
-    }
-
-    /**
-     * app从后台回到前台回调
-     */
-    protected void onResumeFromBackground()
-    {
-
     }
 
     @Override
