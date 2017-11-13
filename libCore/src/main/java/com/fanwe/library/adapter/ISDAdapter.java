@@ -36,6 +36,13 @@ public interface ISDAdapter<T>
     boolean isPositionLegal(int position);
 
     /**
+     * 调用改变数据的方法之后是否自动通知adapter刷新，默认-true
+     *
+     * @param auto
+     */
+    void setAutoNotifyDataSetChanged(boolean auto);
+
+    /**
      * 获得某个位置对应的数据
      *
      * @param position

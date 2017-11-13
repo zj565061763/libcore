@@ -28,6 +28,8 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     private List<T> mListModel = new ArrayList<>();
     private List<Object> mDefaultPayloads = new ArrayList<>();
 
+    private boolean mAutoNotifyDataSetChanged = true;
+
     private SDSelectManager<T> mSelectManager;
 
     private SDItemClickCallback<T> mItemClickCallback;
@@ -237,6 +239,12 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     }
 
     @Override
+    public void setAutoNotifyDataSetChanged(boolean auto)
+    {
+        mAutoNotifyDataSetChanged = auto;
+    }
+
+    @Override
     public T getData(int position)
     {
         if (isPositionLegal(position))
@@ -266,7 +274,10 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     public void updateData(List<T> list)
     {
         setData(list);
-        notifyDataSetChanged();
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -296,7 +307,10 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
         {
             mListModel.add(model);
             getSelectManager().synchronizeSelected(model);
-            notifyItemInserted(mListModel.size() - 1);
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyItemInserted(mListModel.size() - 1);
+            }
         }
     }
 
@@ -310,7 +324,10 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
 
             mListModel.addAll(list);
             getSelectManager().synchronizeSelected(list);
-            notifyItemRangeInserted(positionStart, itemCount);
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyItemRangeInserted(positionStart, itemCount);
+            }
         }
     }
 
@@ -332,7 +349,10 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
         {
             getSelectManager().setSelected(position, false);
             model = mListModel.remove(position);
-            notifyItemRemoved(position);
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyItemRemoved(position);
+            }
         }
         return model;
     }
@@ -344,7 +364,10 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
         {
             mListModel.add(position, model);
             getSelectManager().synchronizeSelected(model);
-            notifyItemInserted(position);
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyItemInserted(position);
+            }
         }
     }
 
@@ -358,7 +381,10 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
 
             mListModel.addAll(position, list);
             getSelectManager().synchronizeSelected(list);
-            notifyItemRangeInserted(positionStart, itemCount);
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyItemRangeInserted(positionStart, itemCount);
+            }
         }
     }
 
@@ -378,7 +404,10 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     {
         if (isPositionLegal(position))
         {
-            notifyItemChanged(position, mDefaultPayloads);
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyItemChanged(position, mDefaultPayloads);
+            }
         }
     }
 

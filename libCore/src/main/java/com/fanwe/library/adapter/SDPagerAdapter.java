@@ -16,6 +16,8 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
     private List<T> mListModel = new ArrayList<T>();
     private Activity mActivity;
 
+    private boolean mAutoNotifyDataSetChanged = true;
+
     private SparseArray<View> mArrCacheView = new SparseArray<>();
     private boolean mAutoCacheView = false;
 
@@ -154,6 +156,12 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
     }
 
     @Override
+    public void setAutoNotifyDataSetChanged(boolean auto)
+    {
+        mAutoNotifyDataSetChanged = auto;
+    }
+
+    @Override
     public T getData(int position)
     {
         if (isPositionLegal(position))
@@ -187,7 +195,10 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
     public void updateData(List<T> listModel)
     {
         setData(listModel);
-        this.notifyDataSetChanged();
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -214,7 +225,10 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
         if (model != null)
         {
             mListModel.add(model);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -224,7 +238,10 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
         if (list != null && !list.isEmpty())
         {
             mListModel.addAll(list);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -245,7 +262,10 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
         if (isPositionLegal(position))
         {
             model = mListModel.remove(position);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
         return model;
     }
@@ -256,7 +276,10 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
         if (model != null)
         {
             mListModel.add(position, model);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -266,7 +289,10 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
         if (list != null && !list.isEmpty())
         {
             mListModel.addAll(position, list);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -276,7 +302,7 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
         if (model != null && isPositionLegal(position))
         {
             mListModel.set(position, model);
-            notifyDataSetChanged();
+            updateData(position);
         }
     }
 
@@ -285,8 +311,10 @@ public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapt
     {
         if (isPositionLegal(position))
         {
-            // 全部刷新？
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 

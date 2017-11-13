@@ -32,6 +32,8 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
      */
     private Map<View, Integer> mMapViewPosition = new WeakHashMap<>();
 
+    private boolean mAutoNotifyDataSetChanged = true;
+
     private SDSelectManager<T> mSelectManager;
 
     private SDItemClickCallback<T> mItemClickCallback;
@@ -259,6 +261,12 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     }
 
     @Override
+    public void setAutoNotifyDataSetChanged(boolean auto)
+    {
+        mAutoNotifyDataSetChanged = auto;
+    }
+
+    @Override
     public T getData(int position)
     {
         if (isPositionLegal(position))
@@ -297,7 +305,10 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     public void updateData(List<T> listModel)
     {
         setData(listModel);
-        notifyDataSetChanged();
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -327,7 +338,10 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         {
             mListModel.add(model);
             getSelectManager().synchronizeSelected(model);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -338,7 +352,10 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         {
             mListModel.addAll(list);
             getSelectManager().synchronizeSelected(list);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -356,7 +373,10 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         {
             model = mListModel.remove(position);
             getSelectManager().setSelected(position, false);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
         return model;
     }
@@ -368,7 +388,10 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         {
             mListModel.add(position, model);
             getSelectManager().synchronizeSelected(model);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -379,7 +402,10 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
         {
             mListModel.addAll(position, list);
             getSelectManager().synchronizeSelected(list);
-            notifyDataSetChanged();
+            if (mAutoNotifyDataSetChanged)
+            {
+                notifyDataSetChanged();
+            }
         }
     }
 
@@ -397,12 +423,15 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     @Override
     public void updateData(int position)
     {
-        List<View> listItem = getItemView(position);
-        if (listItem != null && !listItem.isEmpty())
+        if (mAutoNotifyDataSetChanged)
         {
-            for (View itemView : listItem)
+            List<View> listItem = getItemView(position);
+            if (listItem != null && !listItem.isEmpty())
             {
-                onUpdateView(position, itemView, (ViewGroup) itemView.getParent(), getItem(position));
+                for (View itemView : listItem)
+                {
+                    onUpdateView(position, itemView, (ViewGroup) itemView.getParent(), getItem(position));
+                }
             }
         }
     }
