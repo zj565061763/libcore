@@ -1,6 +1,5 @@
 package com.fanwe.library.view;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +18,6 @@ import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
-import com.fanwe.library.listener.SDViewVisibilityCallback;
 import com.fanwe.library.utils.SDViewUtil;
 import com.fanwe.library.utils.SDViewVisibilityHandler;
 
@@ -188,37 +186,6 @@ public class SDAppView extends FrameLayout implements
         return this;
     }
 
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void addVisibilityCallback(SDViewVisibilityCallback callback)
-    {
-        getVisibilityHandler().addVisibilityCallback(callback);
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void removeVisibilityCallback(SDViewVisibilityCallback callback)
-    {
-        getVisibilityHandler().removeVisibilityCallback(callback);
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void clearVisibilityCallback()
-    {
-        getVisibilityHandler().clearVisibilityCallback();
-    }
-
-    /**
-     * @return
-     * @see SDViewVisibilityHandler
-     */
     public final SDViewVisibilityHandler getVisibilityHandler()
     {
         if (mVisibilityHandler == null)
@@ -250,26 +217,6 @@ public class SDAppView extends FrameLayout implements
         {
             return null;
         }
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public SDAppView setVisibleAnimator(Animator animator)
-    {
-        getVisibilityHandler().setVisibleAnimator(animator);
-        return this;
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public SDAppView setInvisibleAnimator(Animator animator)
-    {
-        getVisibilityHandler().setInvisibleAnimator(animator);
-        return this;
     }
 
     /**
@@ -311,60 +258,6 @@ public class SDAppView extends FrameLayout implements
     public void removeSelf()
     {
         SDViewUtil.removeView(this);
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void setVisible()
-    {
-        getVisibilityHandler().setVisible(false);
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void setVisible(boolean anim)
-    {
-        getVisibilityHandler().setVisible(anim);
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void setGone()
-    {
-        getVisibilityHandler().setGone(false);
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void setGone(boolean anim)
-    {
-        getVisibilityHandler().setGone(anim);
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void setInvisible()
-    {
-        getVisibilityHandler().setInvisible(false);
-    }
-
-    /**
-     * 用getVisibilityHandler()处理
-     */
-    @Deprecated
-    public void setInvisible(boolean anim)
-    {
-        getVisibilityHandler().setInvisible(anim);
     }
 
     @Override
