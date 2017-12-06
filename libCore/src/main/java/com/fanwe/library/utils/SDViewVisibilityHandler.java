@@ -66,7 +66,9 @@ public class SDViewVisibilityHandler
         if (mView != null)
         {
             mVisibility = mView.getVisibility();
-            mView.getViewTreeObserver().addOnPreDrawListener(preDrawListener);
+
+            mView.getViewTreeObserver().removeOnPreDrawListener(mInternalOnPreDrawListener);
+            mView.getViewTreeObserver().addOnPreDrawListener(mInternalOnPreDrawListener);
         }
     }
 
@@ -77,8 +79,7 @@ public class SDViewVisibilityHandler
     {
         if (mView != null)
         {
-            mView.getViewTreeObserver().removeOnPreDrawListener(preDrawListener);
-            mView = null;
+            mView.getViewTreeObserver().removeOnPreDrawListener(mInternalOnPreDrawListener);
         }
         reset();
     }
@@ -88,7 +89,7 @@ public class SDViewVisibilityHandler
         mIsGoneMode = true;
     }
 
-    private ViewTreeObserver.OnPreDrawListener preDrawListener = new ViewTreeObserver.OnPreDrawListener()
+    private ViewTreeObserver.OnPreDrawListener mInternalOnPreDrawListener = new ViewTreeObserver.OnPreDrawListener()
     {
         @Override
         public boolean onPreDraw()
