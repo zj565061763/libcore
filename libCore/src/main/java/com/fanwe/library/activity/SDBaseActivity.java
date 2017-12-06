@@ -30,8 +30,6 @@ import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDIterateCallback;
 import com.fanwe.library.utils.SDPackageUtil;
-import com.fanwe.library.utils.SDViewUtil;
-import com.fanwe.library.view.ISDViewContainer;
 import com.fanwe.library.view.SDAppView;
 
 import java.util.Iterator;
@@ -40,8 +38,7 @@ import de.greenrobot.event.EventBus;
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
         SDEventObserver,
-        OnClickListener,
-        ISDViewContainer
+        OnClickListener
 {
     private SDFragmentManager mFragmentManager;
 
@@ -443,56 +440,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             {
             }
         }
-    }
-
-    @Override
-    public void addView(View view)
-    {
-        SDViewUtil.addView((ViewGroup) findViewById(android.R.id.content), view);
-    }
-
-    @Override
-    public void addView(int parentId, View view)
-    {
-        SDViewUtil.addView((ViewGroup) findViewById(parentId), view);
-    }
-
-    @Override
-    public void removeView(View view)
-    {
-        SDViewUtil.removeView(view);
-    }
-
-    @Override
-    public View removeView(int viewId)
-    {
-        View view = findViewById(viewId);
-        SDViewUtil.removeView(view);
-        return view;
-    }
-
-    @Override
-    public void replaceView(int parentId, View child)
-    {
-        SDViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void replaceView(ViewGroup parent, View child)
-    {
-        SDViewUtil.replaceView(parent, child);
-    }
-
-    @Override
-    public void toggleView(int parentId, View child)
-    {
-        SDViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void toggleView(ViewGroup parent, View child)
-    {
-        SDViewUtil.toggleView(parent, child);
     }
 
     public void registerAppView(SDAppView view)

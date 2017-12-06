@@ -37,8 +37,7 @@ public class SDAppView extends FrameLayout implements
         SDEventObserver,
         SDActivityDispatchKeyEventCallback,
         SDActivityDispatchTouchEventCallback,
-        SDActivityLifecycleCallback,
-        ISDViewContainer
+        SDActivityLifecycleCallback
 {
 
     private SDViewVisibilityHandler mVisibilityHandler;
@@ -120,7 +119,7 @@ public class SDAppView extends FrameLayout implements
      *
      * @param needRegisterEventBus
      */
-    public void setNeedRegisterEventBus(boolean needRegisterEventBus)
+    public final void setNeedRegisterEventBus(boolean needRegisterEventBus)
     {
         mNeedRegisterEventBus = needRegisterEventBus;
     }
@@ -130,7 +129,7 @@ public class SDAppView extends FrameLayout implements
      *
      * @param needRegisterActivityEvent
      */
-    public void setNeedRegisterActivityEvent(boolean needRegisterActivityEvent)
+    public final void setNeedRegisterActivityEvent(boolean needRegisterActivityEvent)
     {
         mNeedRegisterActivityEvent = needRegisterActivityEvent;
     }
@@ -672,43 +671,5 @@ public class SDAppView extends FrameLayout implements
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data)
     {
 
-    }
-
-    @Override
-    public void addView(int parentId, View view)
-    {
-        SDViewUtil.addView((ViewGroup) findViewById(parentId), view);
-    }
-
-    @Override
-    public View removeView(int viewId)
-    {
-        View view = findViewById(viewId);
-        removeView(view);
-        return view;
-    }
-
-    @Override
-    public void replaceView(int parentId, View child)
-    {
-        SDViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void replaceView(ViewGroup parent, View child)
-    {
-        SDViewUtil.replaceView(parent, child);
-    }
-
-    @Override
-    public void toggleView(int parentId, View child)
-    {
-        SDViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void toggleView(ViewGroup parent, View child)
-    {
-        SDViewUtil.toggleView(parent, child);
     }
 }
