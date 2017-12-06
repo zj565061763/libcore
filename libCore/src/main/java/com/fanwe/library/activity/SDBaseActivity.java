@@ -592,6 +592,13 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     //------------notify callback end------------------
 
+    public void addContentView(View view)
+    {
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        addContentView(view, params);
+    }
+
     @Override
     public void addView(int parentId, View child)
     {
