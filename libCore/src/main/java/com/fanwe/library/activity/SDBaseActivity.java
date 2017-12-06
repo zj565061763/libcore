@@ -142,16 +142,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
      */
     protected abstract void init(Bundle savedInstanceState);
 
-    /**
-     * 用findViewById(id)
-     */
-    @Deprecated
-    public <V extends View> V find(int id)
-    {
-        View view = findViewById(id);
-        return (V) view;
-    }
-
     @Override
     public void setContentView(int layoutResID)
     {

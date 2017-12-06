@@ -243,16 +243,6 @@ public class SDAppView extends FrameLayout implements
     }
 
     /**
-     * 用findViewById(id)替代
-     */
-    @Deprecated
-    public <V extends View> V find(int id)
-    {
-        View view = findViewById(id);
-        return (V) view;
-    }
-
-    /**
      * 把自己从父布局移除
      */
     public void removeSelf()

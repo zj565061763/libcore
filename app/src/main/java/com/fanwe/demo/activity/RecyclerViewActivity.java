@@ -27,7 +27,7 @@ public class RecyclerViewActivity extends SDBaseActivity
     protected void init(Bundle savedInstanceState)
     {
         setContentView(R.layout.act_recyclerview);
-        rv_content = find(R.id.rv_content);
+        rv_content = findViewById(R.id.rv_content);
         rv_content.setGridVertical(3);
 
         SDDrawable drawable = new SDDrawable().color(SDResourcesUtil.getColor(R.color.red)).size(5);

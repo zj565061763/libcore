@@ -19,6 +19,6 @@ public class SDPageViewActivity extends SDBaseActivity
     {
         setContentView(R.layout.act_sdpageview);
 
-        mPageView = find(R.id.view_page);
+        mPageView = findViewById(R.id.view_page);
     }
 }

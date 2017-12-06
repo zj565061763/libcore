@@ -23,7 +23,7 @@ public class ListViewActivity extends SDBaseActivity
     protected void init(Bundle savedInstanceState)
     {
         setContentView(R.layout.act_listview);
-        lv_content = find(R.id.lv_content);
+        lv_content = findViewById(R.id.lv_content);
 
 
         mAdapter = new ListViewAdapter(DataModel.getListModel(50), this);

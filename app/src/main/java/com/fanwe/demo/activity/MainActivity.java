@@ -31,11 +31,11 @@ public class MainActivity extends SDBaseActivity
     {
         setContentView(R.layout.act_main);
 
-        btn_recyclerview = find(R.id.btn_recyclerview);
-        btn_listview = find(R.id.btn_listview);
-        btn_flexbox = find(R.id.btn_flexbox);
-        btn_selectmanager = find(R.id.btn_selectmanager);
-        btn_sdgridviewpageractivity = find(R.id.btn_sdgridviewpageractivity);
+        btn_recyclerview = findViewById(R.id.btn_recyclerview);
+        btn_listview = findViewById(R.id.btn_listview);
+        btn_flexbox = findViewById(R.id.btn_flexbox);
+        btn_selectmanager = findViewById(R.id.btn_selectmanager);
+        btn_sdgridviewpageractivity = findViewById(R.id.btn_sdgridviewpageractivity);
 
         btn_recyclerview.setOnClickListener(new View.OnClickListener()
         {
