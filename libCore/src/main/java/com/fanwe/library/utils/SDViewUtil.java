@@ -984,7 +984,6 @@ public class SDViewUtil
         return location;
     }
 
-
     /**
      * 把view从它的父布局移除
      *
@@ -992,26 +991,15 @@ public class SDViewUtil
      */
     public static void removeView(View view)
     {
-        try
+        if (view == null)
         {
-            if (view == null)
-            {
-                return;
-            }
-            ViewParent viewParent = view.getParent();
-            if (viewParent == null)
-            {
-                return;
-            }
-            if (!(viewParent instanceof ViewGroup))
-            {
-                return;
-            }
+            return;
+        }
+        final ViewParent viewParent = view.getParent();
+        if (viewParent instanceof ViewGroup)
+        {
             ViewGroup parent = (ViewGroup) viewParent;
             parent.removeView(view);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
         }
     }
 
