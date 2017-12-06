@@ -30,6 +30,8 @@ import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDIterateCallback;
 import com.fanwe.library.utils.SDPackageUtil;
+import com.fanwe.library.utils.SDViewUtil;
+import com.fanwe.library.view.ISDViewContainer;
 import com.fanwe.library.view.SDAppView;
 
 import java.util.Iterator;
@@ -38,7 +40,8 @@ import de.greenrobot.event.EventBus;
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
         SDEventObserver,
-        OnClickListener
+        OnClickListener,
+        ISDViewContainer
 {
     private SDFragmentManager mFragmentManager;
 
@@ -588,6 +591,24 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     }
 
     //------------notify callback end------------------
+
+    @Override
+    public void addView(int parentId, View child)
+    {
+        SDViewUtil.addView((ViewGroup) findViewById(parentId), child);
+    }
+
+    @Override
+    public void replaceView(int parentId, View child)
+    {
+        SDViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
+    }
+
+    @Override
+    public void toggleView(int parentId, View child)
+    {
+        SDViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
+    }
 
     @Override
     public void onEventMainThread(SDEvent event)

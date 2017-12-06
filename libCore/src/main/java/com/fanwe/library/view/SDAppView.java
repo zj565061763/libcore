@@ -35,7 +35,8 @@ public class SDAppView extends FrameLayout implements
         SDEventObserver,
         SDActivityDispatchKeyEventCallback,
         SDActivityDispatchTouchEventCallback,
-        SDActivityLifecycleCallback
+        SDActivityLifecycleCallback,
+        ISDViewContainer
 {
 
     private SDViewVisibilityHandler mVisibilityHandler;
@@ -549,5 +550,23 @@ public class SDAppView extends FrameLayout implements
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data)
     {
 
+    }
+
+    @Override
+    public void addView(int parentId, View child)
+    {
+        SDViewUtil.addView((ViewGroup) findViewById(parentId), child);
+    }
+
+    @Override
+    public void replaceView(int parentId, View child)
+    {
+        SDViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
+    }
+
+    @Override
+    public void toggleView(int parentId, View child)
+    {
+        SDViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
     }
 }
