@@ -154,10 +154,10 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
     private Drawable getBackgroundItem()
     {
         SDDrawable none = new SDDrawable();
-        none.color(getResources().getColor(R.color.res_bg_title_bar));
+        none.color(getResources().getColor(R.color.res_bg_title_bar_item));
 
         SDDrawable pressed = new SDDrawable();
-        pressed.color(getResources().getColor(R.color.res_bg_title_bar_pressed));
+        pressed.color(getResources().getColor(R.color.res_bg_title_bar_item_press));
 
         return SDDrawable.getStateListDrawable(none, null, null, pressed);
     }

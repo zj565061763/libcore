@@ -373,13 +373,15 @@ public class SDSelectManager<T>
     }
 
     /**
-     * 选中全部(多选模式)
+     * 全选或者全部取消
+     *
+     * @param select true-全选，false-全部取消
      */
-    public void selectAll()
+    public void selectAll(boolean select)
     {
         for (int i = 0; i < mListItem.size(); i++)
         {
-            setSelected(i, true);
+            setSelected(i, select);
         }
     }
 
