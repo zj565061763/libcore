@@ -32,7 +32,7 @@ public class SDNetworkReceiver extends BroadcastReceiver
         String action = intent.getAction();
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action) || FANWE_ANDROID_NET_CHANGE_ACTION.equals(action))
         {
-            final NetworkType type = getNetworkType(context);
+            final int type = getNetworkType(context);
             sCallbackHolder.foreach(new SDIterateCallback<SDNetworkCallback>()
             {
                 @Override
@@ -173,45 +173,20 @@ public class SDNetworkReceiver extends BroadcastReceiver
      * 获得网络类型
      *
      * @param context
-     * @return
+     * @return {@link ConnectivityManager}
      */
-    public static NetworkType getNetworkType(Context context)
+    public static int getNetworkType(Context context)
     {
         ConnectivityManager manager = getConnectivityManager(context);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         if (networkInfo == null)
         {
-            return NetworkType.None;
+            return -1;
         } else
         {
             int type = networkInfo.getType();
-            if (type == ConnectivityManager.TYPE_MOBILE)
-            {
-                return NetworkType.Mobile;
-            } else if (type == ConnectivityManager.TYPE_WIFI)
-            {
-                return NetworkType.Wifi;
-            } else
-            {
-                return NetworkType.None;
-            }
+            return type;
         }
-    }
-
-    public enum NetworkType
-    {
-        /**
-         * wifi网络
-         */
-        Wifi,
-        /**
-         * 移动数据网络
-         */
-        Mobile,
-        /**
-         * 无网络
-         */
-        None
     }
 
     public interface SDNetworkCallback
@@ -219,9 +194,9 @@ public class SDNetworkReceiver extends BroadcastReceiver
         /**
          * 网络变化监听
          *
-         * @param type
+         * @param type {@link ConnectivityManager}
          */
-        void onNetworkChanged(NetworkType type);
+        void onNetworkChanged(int type);
     }
 
 }
