@@ -16,9 +16,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.fanwe.lib.utils.enctypt.FBase64Util;
 import com.fanwe.library.common.SDCookieManager;
 import com.fanwe.library.handler.js.BaseJsHandler;
-import com.fanwe.library.utils.SDBase64;
 import com.fanwe.library.utils.SDIntentUtil;
 import com.fanwe.library.utils.SDPackageUtil;
 import com.fanwe.library.utils.SDViewUtil;
@@ -413,7 +413,7 @@ public class CustomWebView extends WebView
             String data = params.build();
             if (!TextUtils.isEmpty(data))
             {
-                postData = SDBase64.encodeToByte(data);
+                postData = FBase64Util.encodeToByte(data);
             }
         }
         postUrl(url, postData);
