@@ -3,7 +3,6 @@ package com.fanwe.library;
 import android.content.Context;
 
 import com.fanwe.library.common.SDCookieManager;
-import com.fanwe.library.config.SDConfig;
 
 public class SDLibrary
 {
@@ -24,7 +23,6 @@ public class SDLibrary
     {
         mContext = context.getApplicationContext();
 
-        SDConfig.init(context);
         SDCookieManager.getInstance().init(context);
     }
 
