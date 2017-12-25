@@ -6,16 +6,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fanwe.library.holder.ISDObjectsHolder;
-import com.fanwe.library.holder.SDObjectsHolder;
-import com.fanwe.library.listener.SDIterateCallback;
-
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 @Deprecated
 public abstract class SDSelectViewAuto extends SDSelectView
 {
-    private ISDObjectsHolder<View> mListAutoView = new SDObjectsHolder<>();
+    private List<View> mListAutoView = new ArrayList<>();
 
     public SDSelectViewAuto(Context context, AttributeSet attrs)
     {
@@ -35,7 +33,10 @@ public abstract class SDSelectViewAuto extends SDSelectView
         }
         for (View item : views)
         {
-            mListAutoView.add(item);
+            if (!mListAutoView.contains(item))
+            {
+                mListAutoView.add(item);
+            }
         }
     }
 
@@ -86,28 +87,22 @@ public abstract class SDSelectViewAuto extends SDSelectView
 
     private void normalAutoViews()
     {
-        mListAutoView.foreach(new SDIterateCallback<View>()
+        Iterator<View> it = mListAutoView.iterator();
+        while (it.hasNext())
         {
-            @Override
-            public boolean next(int i, View item, Iterator<View> it)
-            {
-                normalAutoView(item);
-                return false;
-            }
-        });
+            View item = it.next();
+            normalAutoView(item);
+        }
     }
 
     private void selectAutoViews()
     {
-        mListAutoView.foreach(new SDIterateCallback<View>()
+        Iterator<View> it = mListAutoView.iterator();
+        while (it.hasNext())
         {
-            @Override
-            public boolean next(int i, View item, Iterator<View> it)
-            {
-                selectAutoView(item);
-                return false;
-            }
-        });
+            View item = it.next();
+            selectAutoView(item);
+        }
     }
 
     private void normalAutoView(View view)
