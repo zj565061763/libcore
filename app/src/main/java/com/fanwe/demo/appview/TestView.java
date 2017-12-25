@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.fanwe.demo.R;
-import com.fanwe.library.listener.SDViewVisibilityCallback;
+import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.utils.LogUtil;
 import com.fanwe.library.view.SDAppView;
 
@@ -34,7 +34,7 @@ public class TestView extends SDAppView
         super.onBaseInit();
         setContentView(R.layout.view_test);
 
-        getVisibilityHandler().addVisibilityCallback(new SDViewVisibilityCallback()
+        getVisibilityHandler().addVisibilityCallback(new FViewVisibilityHandler.VisibilityCallback()
         {
             @Override
             public void onViewVisibilityChanged(View view, int visibility)

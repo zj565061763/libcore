@@ -8,12 +8,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.holder.ISDObjectsHolder;
 import com.fanwe.library.holder.SDObjectsHolder;
 import com.fanwe.library.listener.SDIterateCallback;
-import com.fanwe.library.listener.SDViewVisibilityCallback;
 import com.fanwe.library.utils.SDViewUtil;
-import com.fanwe.library.utils.SDViewVisibilityHandler;
 
 import java.util.Iterator;
 
@@ -41,8 +40,8 @@ public class SDReplaceableLayout extends FrameLayout
     }
 
     private View mContentView;
-    private SDViewVisibilityHandler mVisibilityhandler = new SDViewVisibilityHandler(null);
-    private ISDObjectsHolder<SDReplaceableLayoutCallback> mCallbackHolder = new SDObjectsHolder<>();
+    private FViewVisibilityHandler mVisibilityhandler = new FViewVisibilityHandler(null);
+    private ISDObjectsHolder<Callback> mCallbackHolder = new SDObjectsHolder<>();
 
     private void init()
     {
@@ -54,7 +53,7 @@ public class SDReplaceableLayout extends FrameLayout
      *
      * @param callback
      */
-    public void addCallback(SDReplaceableLayoutCallback callback)
+    public void addCallback(Callback callback)
     {
         mCallbackHolder.add(callback);
     }
@@ -64,7 +63,7 @@ public class SDReplaceableLayout extends FrameLayout
      *
      * @param callback
      */
-    public void removeCallback(SDReplaceableLayoutCallback callback)
+    public void removeCallback(Callback callback)
     {
         mCallbackHolder.remove(callback);
     }
@@ -195,7 +194,7 @@ public class SDReplaceableLayout extends FrameLayout
     /**
      * 可见状态变化回调
      */
-    private SDViewVisibilityCallback mDefaultVisibilityCallback = new SDViewVisibilityCallback()
+    private FViewVisibilityHandler.VisibilityCallback mDefaultVisibilityCallback = new FViewVisibilityHandler.VisibilityCallback()
     {
         @Override
         public void onViewVisibilityChanged(View view, int visibility)
@@ -208,10 +207,10 @@ public class SDReplaceableLayout extends FrameLayout
 
     private void notifyContentReplaced(final View view)
     {
-        mCallbackHolder.foreach(new SDIterateCallback<SDReplaceableLayoutCallback>()
+        mCallbackHolder.foreach(new SDIterateCallback<Callback>()
         {
             @Override
-            public boolean next(int i, SDReplaceableLayoutCallback item, Iterator<SDReplaceableLayoutCallback> it)
+            public boolean next(int i, Callback item, Iterator<Callback> it)
             {
                 item.onContentReplaced(view);
                 return false;
@@ -221,10 +220,10 @@ public class SDReplaceableLayout extends FrameLayout
 
     private void notifyContentRemoved(final View view)
     {
-        mCallbackHolder.foreach(new SDIterateCallback<SDReplaceableLayoutCallback>()
+        mCallbackHolder.foreach(new SDIterateCallback<Callback>()
         {
             @Override
-            public boolean next(int i, SDReplaceableLayoutCallback item, Iterator<SDReplaceableLayoutCallback> it)
+            public boolean next(int i, Callback item, Iterator<Callback> it)
             {
                 item.onContentRemoved(view);
                 return false;
@@ -234,10 +233,10 @@ public class SDReplaceableLayout extends FrameLayout
 
     private void notifyContentVisibilityChanged(final View view, final int visibility)
     {
-        mCallbackHolder.foreach(new SDIterateCallback<SDReplaceableLayoutCallback>()
+        mCallbackHolder.foreach(new SDIterateCallback<Callback>()
         {
             @Override
-            public boolean next(int i, SDReplaceableLayoutCallback item, Iterator<SDReplaceableLayoutCallback> it)
+            public boolean next(int i, Callback item, Iterator<Callback> it)
             {
                 item.onContentVisibilityChanged(view, visibility);
                 return false;
@@ -247,7 +246,7 @@ public class SDReplaceableLayout extends FrameLayout
 
     //----------notify end----------
 
-    public interface SDReplaceableLayoutCallback
+    public interface Callback
     {
         /**
          * 内容view被替换到容器

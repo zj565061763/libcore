@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.fanwe.lib.utils.FViewUtil;
+import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.event.SDEvent;
 import com.fanwe.library.event.SDEventObserver;
@@ -19,7 +21,6 @@ import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.utils.SDViewUtil;
-import com.fanwe.library.utils.SDViewVisibilityHandler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,7 +40,7 @@ public class SDAppView extends FrameLayout implements
         ISDViewContainer
 {
 
-    private SDViewVisibilityHandler mVisibilityHandler;
+    private FViewVisibilityHandler mVisibilityHandler;
 
     /**
      * 是否需要注册EventBus事件
@@ -187,11 +188,11 @@ public class SDAppView extends FrameLayout implements
         return this;
     }
 
-    public final SDViewVisibilityHandler getVisibilityHandler()
+    public final FViewVisibilityHandler getVisibilityHandler()
     {
         if (mVisibilityHandler == null)
         {
-            mVisibilityHandler = new SDViewVisibilityHandler(this);
+            mVisibilityHandler = new FViewVisibilityHandler(this);
         }
         return mVisibilityHandler;
     }
@@ -248,7 +249,7 @@ public class SDAppView extends FrameLayout implements
      */
     public void removeSelf()
     {
-        SDViewUtil.removeView(this);
+        FViewUtil.removeView(this);
     }
 
     @Override
@@ -344,12 +345,12 @@ public class SDAppView extends FrameLayout implements
     @Override
     public boolean dispatchTouchEvent(Activity activity, MotionEvent ev)
     {
-        if (SDViewUtil.isVisible(this) && getParent() != null)
+        if (FViewUtil.isVisible(this) && getParent() != null)
         {
             switch (ev.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
-                    if (SDViewUtil.isViewUnder(this, ev))
+                    if (FViewUtil.isViewUnder(this, ev))
                     {
                         return onTouchDownInside(ev);
                     } else
@@ -376,7 +377,7 @@ public class SDAppView extends FrameLayout implements
     @Override
     public boolean dispatchKeyEvent(Activity activity, KeyEvent event)
     {
-        if (SDViewUtil.isVisible(this) && getParent() != null)
+        if (FViewUtil.isVisible(this) && getParent() != null)
         {
             switch (event.getAction())
             {
