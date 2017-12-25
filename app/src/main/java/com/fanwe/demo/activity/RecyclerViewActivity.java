@@ -6,8 +6,8 @@ import android.view.View;
 import com.fanwe.demo.R;
 import com.fanwe.demo.adapter.RecyclerViewAdapter;
 import com.fanwe.demo.model.DataModel;
+import com.fanwe.lib.utils.extend.FDrawable;
 import com.fanwe.library.activity.SDBaseActivity;
-import com.fanwe.library.drawable.SDDrawable;
 import com.fanwe.library.listener.SDItemClickCallback;
 import com.fanwe.library.utils.LogUtil;
 import com.fanwe.library.view.SDRecyclerView;
@@ -29,7 +29,7 @@ public class RecyclerViewActivity extends SDBaseActivity
         rv_content = findViewById(R.id.rv_content);
         rv_content.setGridVertical(3);
 
-        SDDrawable drawable = new SDDrawable().color(getResources().getColor(R.color.red)).size(5);
+        FDrawable drawable = new FDrawable().color(getResources().getColor(R.color.red)).size(5);
         rv_content.addDividerHorizontal(drawable);
         rv_content.addDividerVertical(drawable);
 

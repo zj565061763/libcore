@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
-import com.fanwe.library.drawable.SDDrawable;
 import com.fanwe.library.utils.SDCollectionUtil;
 
 import java.util.ArrayList;
@@ -153,13 +152,7 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
 
     private Drawable getBackgroundItem()
     {
-        SDDrawable none = new SDDrawable();
-        none.color(getResources().getColor(R.color.res_bg_title_bar_item));
-
-        SDDrawable pressed = new SDDrawable();
-        pressed.color(getResources().getColor(R.color.res_bg_title_bar_item_press));
-
-        return SDDrawable.getStateListDrawable(none, null, null, pressed);
+        return getContext().getResources().getDrawable(R.drawable.res_sel_title_bar_item);
     }
 
     public SDTitleSimple initRightItem(int count)
