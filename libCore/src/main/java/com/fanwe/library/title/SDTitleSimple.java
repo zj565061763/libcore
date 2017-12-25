@@ -9,9 +9,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
 
+import com.fanwe.lib.utils.FCollectionUtil;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
-import com.fanwe.library.utils.SDCollectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,7 +221,7 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
 
     public SDTitleItem getItemRight(int index)
     {
-        return SDCollectionUtil.get(mListRightItem, index);
+        return FCollectionUtil.get(mListRightItem, index);
     }
 
     @Override

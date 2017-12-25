@@ -1,8 +1,7 @@
 package com.fanwe.demo.model;
 
+import com.fanwe.lib.utils.FIterateUtil;
 import com.fanwe.library.common.SDSelectManager;
-import com.fanwe.library.listener.SDSimpleIterateCallback;
-import com.fanwe.library.utils.SDCollectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class DataModel implements SDSelectManager.Selectable
     public static List<DataModel> getListModel(int count)
     {
         final List<DataModel> listModel = new ArrayList<>();
-        SDCollectionUtil.foreach(count, new SDSimpleIterateCallback()
+        FIterateUtil.foreach(count, new FIterateUtil.SimpleIterateCallback()
         {
             @Override
             public boolean next(int i)
@@ -43,6 +42,7 @@ public class DataModel implements SDSelectManager.Selectable
                 return false;
             }
         });
+
         return listModel;
     }
 
