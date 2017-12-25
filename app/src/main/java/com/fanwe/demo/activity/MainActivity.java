@@ -10,8 +10,8 @@ import android.widget.Toast;
 import com.fanwe.demo.R;
 import com.fanwe.demo.appview.TestView;
 import com.fanwe.lib.utils.FViewUtil;
+import com.fanwe.lib.utils.extend.FDurationTrigger;
 import com.fanwe.library.activity.SDBaseActivity;
-import com.fanwe.library.utils.SDDurationTrigger;
 
 public class MainActivity extends SDBaseActivity
 {
@@ -24,7 +24,7 @@ public class MainActivity extends SDBaseActivity
     Button btn;
     TestView testView;
 
-    SDDurationTrigger mDurationTrigger = new SDDurationTrigger();
+    private FDurationTrigger mDurationTrigger = new FDurationTrigger();
 
     @Override
     protected void init(Bundle savedInstanceState)
