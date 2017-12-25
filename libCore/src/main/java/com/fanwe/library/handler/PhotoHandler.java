@@ -7,11 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
-import com.fanwe.library.utils.UriFileUtils;
-import com.fanwe.library.utils.SDFileUtil;
+import com.fanwe.lib.utils.FFileUtil;
 import com.fanwe.library.utils.SDIntentUtil;
 import com.fanwe.library.utils.SDOtherUtil;
 import com.fanwe.library.utils.SDToast;
+import com.fanwe.library.utils.UriFileUtils;
 
 import java.io.File;
 
@@ -80,7 +80,7 @@ public class PhotoHandler extends OnActivityResultHandler
             }
         } else
         {
-            File takePhotoFile = SDFileUtil.createDefaultFileUnderDir(takePhotoDir, ".jpg");
+            File takePhotoFile = FFileUtil.newFileUnderDir(takePhotoDir, ".jpg");
             getPhotoFromCamera(takePhotoFile);
         }
     }

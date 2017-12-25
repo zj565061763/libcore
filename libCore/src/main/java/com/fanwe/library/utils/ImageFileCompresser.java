@@ -1,5 +1,7 @@
 package com.fanwe.library.utils;
 
+import com.fanwe.lib.utils.FFileUtil;
+import com.fanwe.lib.utils.FIOUtil;
 import com.fanwe.library.SDLibrary;
 import com.fanwe.library.common.SDHandlerManager;
 
@@ -17,7 +19,7 @@ public class ImageFileCompresser
 
     public ImageFileCompresser()
     {
-        mCompressedFileDir = SDFileUtil.getCacheDir(SDLibrary.getInstance().getContext(), COMPRESSED_IMAGE_FILE_DIR_NAME);
+        mCompressedFileDir = FFileUtil.getCacheDir(COMPRESSED_IMAGE_FILE_DIR_NAME, SDLibrary.getInstance().getContext());
     }
 
     private ImageFileCompresserListener mListener;
@@ -73,7 +75,7 @@ public class ImageFileCompresser
                             SDImageUtil.compressImageFileToNewFileSize(imageFile, fileCompressed, mMaxLength);
                         } else
                         {
-                            SDFileUtil.copy(imageFile.getAbsolutePath(), fileCompressed.getAbsolutePath());
+                            FIOUtil.copy(imageFile, fileCompressed);
                         }
                         notifySuccess(fileCompressed);
                     } else
@@ -115,7 +117,7 @@ public class ImageFileCompresser
     {
         if (mCompressedFileDir != null)
         {
-            SDFileUtil.deleteFileOrDir(mCompressedFileDir);
+            FFileUtil.deleteFileOrDir(mCompressedFileDir);
         }
     }
 

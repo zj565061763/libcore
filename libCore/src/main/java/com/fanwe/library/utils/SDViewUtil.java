@@ -32,6 +32,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.SDLibrary;
 import com.fanwe.library.adapter.SDAdapter;
 
@@ -39,6 +40,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用{@link FViewUtil}替代
+ */
+@Deprecated
 public class SDViewUtil
 {
     /**
@@ -49,6 +54,7 @@ public class SDViewUtil
      */
     public static void setBackgroundDrawable(View view, Drawable drawable)
     {
+
         if (view == null)
         {
             return;

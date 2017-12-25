@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 
+import com.fanwe.lib.utils.FPackageUtil;
 import com.fanwe.library.SDLibrary;
 
 import java.io.File;
@@ -18,10 +19,9 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * package包工具类
- *
- * @author zhengjun
+ * 用{@link FPackageUtil}替代
  */
+@Deprecated
 public class SDPackageUtil
 {
 

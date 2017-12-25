@@ -5,11 +5,13 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.fanwe.lib.utils.FToast;
 import com.fanwe.library.SDLibrary;
 
 /**
- * toast显示类，可以在子线程直接调用
+ * 用{@link FToast}替代
  */
+@Deprecated
 public class SDToast
 {
     public static final Handler S_HANDLER = new Handler(Looper.getMainLooper());
