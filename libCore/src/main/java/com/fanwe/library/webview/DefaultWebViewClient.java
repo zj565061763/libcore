@@ -12,7 +12,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.fanwe.library.receiver.SDNetworkReceiver;
+import com.fanwe.lib.receiver.FNetworkReceiver;
 import com.fanwe.library.utils.SDToast;
 
 public class DefaultWebViewClient extends WebViewClient
@@ -33,7 +33,7 @@ public class DefaultWebViewClient extends WebViewClient
             return listener.shouldOverrideUrlLoading(view, url);
         } else
         {
-            if (!SDNetworkReceiver.isNetworkConnected(view.getContext()))
+            if (!FNetworkReceiver.isNetworkConnected(view.getContext()))
             {
                 SDToast.showToast("亲!您的网络状况不太好!");
                 return true;
