@@ -33,6 +33,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
 
     compile 'com.github.zj565061763:res:1.0.11'
+    compile 'com.github.zj565061763:utils:2'
+    compile 'com.github.zj565061763:utils-extend:1'
 
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.code.gson:gson:2.8.2'

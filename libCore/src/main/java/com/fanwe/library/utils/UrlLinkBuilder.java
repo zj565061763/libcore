@@ -5,6 +5,7 @@ import android.text.TextUtils;
 /**
  * url链接拼装工具
  */
+@Deprecated
 public class UrlLinkBuilder
 {
     private String url;

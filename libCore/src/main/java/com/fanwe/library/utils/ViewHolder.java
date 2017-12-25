@@ -3,6 +3,12 @@ package com.fanwe.library.utils;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.fanwe.lib.utils.FViewHolder;
+
+/**
+ * 用{@link FViewHolder}替代
+ */
+@Deprecated
 public class ViewHolder
 {
 
