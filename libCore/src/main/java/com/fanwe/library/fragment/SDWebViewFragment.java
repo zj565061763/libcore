@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
-import com.fanwe.library.utils.SDViewUtil;
 import com.fanwe.library.webview.CustomWebView;
 
 import java.util.HashMap;
@@ -45,10 +45,10 @@ public class SDWebViewFragment extends SDBaseFragment
         {
             if (progressBarEnable)
             {
-                SDViewUtil.setVisible(progressBar);
+                FViewUtil.setVisible(progressBar);
             } else
             {
-                SDViewUtil.setGone(progressBar);
+                FViewUtil.setGone(progressBar);
             }
         }
     }
@@ -58,7 +58,7 @@ public class SDWebViewFragment extends SDBaseFragment
         this.webViewHeight = webViewHeight;
         if (webView != null)
         {
-            SDViewUtil.setHeight(webView, webViewHeight);
+            FViewUtil.setHeight(webView, webViewHeight);
         }
     }
 

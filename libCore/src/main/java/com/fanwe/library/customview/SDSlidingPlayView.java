@@ -14,11 +14,12 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fanwe.lib.utils.FResUtil;
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
 import com.fanwe.library.customview.SDViewPager.MeasureMode;
 import com.fanwe.library.utils.SDTimer;
 import com.fanwe.library.utils.SDTimer.SDTimerListener;
-import com.fanwe.library.utils.SDViewUtil;
 
 @Deprecated
 public class SDSlidingPlayView extends LinearLayout
@@ -92,13 +93,13 @@ public class SDSlidingPlayView extends LinearLayout
     public void setContentMatchParent()
     {
         vpg_content.setMeasureMode(MeasureMode.NORMAL);
-        SDViewUtil.setHeightMatchParent(vpg_content);
+        FViewUtil.setHeightMatchParent(vpg_content);
     }
 
     public void setContentWrapContent()
     {
         vpg_content.setMeasureMode(MeasureMode.MAX_CHILD);
-        SDViewUtil.setHeightWrapContent(vpg_content);
+        FViewUtil.setHeightWrapContent(vpg_content);
     }
 
     public SDSlidingPlayView(Context context)
@@ -118,7 +119,7 @@ public class SDSlidingPlayView extends LinearLayout
         vpg_content = (SDViewPager) findViewById(R.id.vpg_content);
         ll_blur = (LinearLayout) findViewById(R.id.ll_blur);
         ll_bot = (LinearLayout) findViewById(R.id.ll_bot);
-        SDViewUtil.setHeight(ll_blur, SDViewUtil.dp2px(20));
+        FViewUtil.setHeight(ll_blur, FResUtil.dp2px(20, getContext()));
 
         vpg_content.setMeasureMode(MeasureMode.MAX_CHILD);
         vpg_content.addOnPageChangeListener(defaultOnPageChangeListener);

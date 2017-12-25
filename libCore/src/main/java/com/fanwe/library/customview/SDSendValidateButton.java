@@ -7,10 +7,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 
+import com.fanwe.lib.utils.FResUtil;
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
 import com.fanwe.library.utils.SDTimer;
 import com.fanwe.library.utils.SDTimer.SDTimerListener;
-import com.fanwe.library.utils.SDViewUtil;
 
 public class SDSendValidateButton extends Button
 {
@@ -140,10 +141,10 @@ public class SDSendValidateButton extends Button
 
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setColor(Color.TRANSPARENT);
-        gradientDrawable.setStroke(SDViewUtil.dp2px(1), mTextColorEnable);
-        gradientDrawable.setCornerRadius(SDViewUtil.dp2px(5));
+        gradientDrawable.setStroke(FResUtil.dp2px(1, getContext()), mTextColorEnable);
+        gradientDrawable.setCornerRadius(FResUtil.dp2px(5, getContext()));
 
-        SDViewUtil.setBackgroundDrawable(this, gradientDrawable);
+        FViewUtil.setBackgroundDrawable(this, gradientDrawable);
 
         updateViewState(true);
         this.setOnClickListener(new OnClickListener()
@@ -196,7 +197,7 @@ public class SDSendValidateButton extends Button
             }
             if (mBackgroundEnableResId != 0)
             {
-                SDViewUtil.setBackgroundResource(this, mBackgroundEnableResId);
+                FViewUtil.setBackgroundResource(this, mBackgroundEnableResId);
             }
         } else
         {
@@ -207,7 +208,7 @@ public class SDSendValidateButton extends Button
             }
             if (mBackgroundDisableResId != 0)
             {
-                SDViewUtil.setBackgroundResource(this, mBackgroundDisableResId);
+                FViewUtil.setBackgroundResource(this, mBackgroundDisableResId);
             }
         }
     }

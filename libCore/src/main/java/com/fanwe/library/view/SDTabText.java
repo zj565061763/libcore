@@ -4,9 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
 import com.fanwe.library.utils.SDViewBinder;
-import com.fanwe.library.utils.SDViewUtil;
 import com.fanwe.library.view.select.SDSelectViewAuto;
 
 @Deprecated
@@ -47,7 +47,7 @@ public class SDTabText extends SDSelectViewAuto
 
     public void setTextSizeTitleSp(int textSizeSp)
     {
-        SDViewUtil.setTextSizeSp(mTv_title, textSizeSp);
+        FViewUtil.setTextSizeSp(mTv_title, textSizeSp);
     }
 
     public void setTextTitle(CharSequence content)

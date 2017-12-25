@@ -2,12 +2,13 @@ package com.fanwe.library.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-import com.fanwe.library.utils.SDViewUtil;
+import com.fanwe.lib.utils.FViewUtil;
 
-public class SDFitImageView extends ImageView
+public class SDFitImageView extends AppCompatImageView
 {
     public SDFitImageView(Context context)
     {
@@ -35,6 +36,7 @@ public class SDFitImageView extends ImageView
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        SDViewUtil.scaleHeight(this, getDrawable());
+        Drawable drawable = getDrawable();
+        FViewUtil.scaleHeight(this, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
     }
 }

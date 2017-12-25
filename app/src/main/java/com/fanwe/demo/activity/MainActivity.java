@@ -9,9 +9,9 @@ import android.widget.Toast;
 
 import com.fanwe.demo.R;
 import com.fanwe.demo.appview.TestView;
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.utils.SDDurationTrigger;
-import com.fanwe.library.utils.SDViewUtil;
 
 public class MainActivity extends SDBaseActivity
 {
@@ -92,7 +92,7 @@ public class MainActivity extends SDBaseActivity
         testView.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         testView.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        SDViewUtil.addView((ViewGroup) findViewById(R.id.fl_container_test), testView);
+        FViewUtil.addView((ViewGroup) findViewById(R.id.fl_container_test), testView);
         testView.setOnClickListener(new View.OnClickListener()
         {
             @Override

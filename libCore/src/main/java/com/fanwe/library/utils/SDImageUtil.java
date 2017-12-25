@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import com.fanwe.lib.utils.FIOUtil;
+import com.fanwe.lib.utils.FViewUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -239,7 +240,7 @@ public class SDImageUtil
                     int originalHeight = options.outHeight;
                     if (targetWidth < originalWidth)
                     {
-                        int targetHeight = SDViewUtil.getScaleHeight(originalWidth, originalHeight, targetWidth);
+                        int targetHeight = FViewUtil.getScaleHeight(originalWidth, originalHeight, targetWidth);
 
                         BitmapSize maxSize = new BitmapSize(targetWidth, targetHeight);
                         Bitmap bmpSampled = BitmapDecoder.decodeSampledBitmapFromFile(oldFile.getAbsolutePath(), maxSize, null);

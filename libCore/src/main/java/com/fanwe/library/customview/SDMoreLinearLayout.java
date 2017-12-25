@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.fanwe.library.utils.SDViewUtil;
+import com.fanwe.lib.utils.FViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,7 @@ public class SDMoreLinearLayout extends SDGridLinearLayout
         {
             for (View view : mListView)
             {
-                SDViewUtil.setVisible(view);
+                FViewUtil.setVisible(view);
             }
             mIsOpen = true;
             notifyOpen();
@@ -92,7 +92,7 @@ public class SDMoreLinearLayout extends SDGridLinearLayout
         {
             for (View view : mListView)
             {
-                SDViewUtil.setGone(view);
+                FViewUtil.setGone(view);
             }
             mIsOpen = false;
             notifyClose();
@@ -195,10 +195,10 @@ public class SDMoreLinearLayout extends SDGridLinearLayout
             mListView.add(itemView);
             if (mIsOpen)
             {
-                SDViewUtil.setVisible(itemView);
+                FViewUtil.setVisible(itemView);
             } else
             {
-                SDViewUtil.setGone(itemView);
+                FViewUtil.setGone(itemView);
             }
         }
         super.wrapperItemView(i, itemView);
@@ -206,9 +206,9 @@ public class SDMoreLinearLayout extends SDGridLinearLayout
 
     public interface OnOpenCloseListener
     {
-        public void onOpen(List<View> listView, View viewMore);
+        void onOpen(List<View> listView, View viewMore);
 
-        public void onClose(List<View> listView, View viewMore);
+        void onClose(List<View> listView, View viewMore);
     }
 
 }

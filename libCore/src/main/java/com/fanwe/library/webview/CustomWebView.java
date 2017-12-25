@@ -21,10 +21,10 @@ import android.widget.ProgressBar;
 import com.fanwe.lib.utils.FDeviceUtil;
 import com.fanwe.lib.utils.FPackageUtil;
 import com.fanwe.lib.utils.FResUtil;
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.common.SDCookieManager;
 import com.fanwe.library.handler.js.BaseJsHandler;
 import com.fanwe.library.utils.SDIntentUtil;
-import com.fanwe.library.utils.SDViewUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -249,10 +249,10 @@ public class CustomWebView extends WebView
             {
                 if (newProgress == 100)
                 {
-                    SDViewUtil.setGone(mProgressBar);
+                    FViewUtil.setGone(mProgressBar);
                 } else
                 {
-                    SDViewUtil.setVisible(mProgressBar);
+                    FViewUtil.setVisible(mProgressBar);
                     mProgressBar.setProgress(newProgress);
                 }
             }

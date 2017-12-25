@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.fanwe.lib.utils.FPackageUtil;
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.common.SDActivityManager;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.event.EOnBackground;
@@ -30,7 +31,6 @@ import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDIterateCallback;
-import com.fanwe.library.utils.SDViewUtil;
 import com.fanwe.library.view.ISDViewContainer;
 import com.fanwe.library.view.SDAppView;
 
@@ -602,19 +602,19 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public void addView(int parentId, View child)
     {
-        SDViewUtil.addView((ViewGroup) findViewById(parentId), child);
+        FViewUtil.addView((ViewGroup) findViewById(parentId), child);
     }
 
     @Override
     public void replaceView(int parentId, View child)
     {
-        SDViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
+        FViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
     }
 
     @Override
     public void toggleView(int parentId, View child)
     {
-        SDViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
+        FViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
     }
 
     @Override

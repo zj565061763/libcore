@@ -9,8 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.gesture.SDGestureHandler;
-import com.fanwe.library.utils.SDViewUtil;
 
 /**
  * Created by Administrator on 2017/5/26.
@@ -108,7 +108,7 @@ public class SDPageView extends FrameLayout
     {
         if (mHorizontalView != null)
         {
-            return SDViewUtil.getWidth(mHorizontalView);
+            return FViewUtil.getWidth(mHorizontalView);
         } else
         {
             return 0;

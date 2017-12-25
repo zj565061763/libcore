@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import com.fanwe.demo.R;
 import com.fanwe.demo.model.DataModel;
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.adapter.SDSimpleAdapter;
-import com.fanwe.library.utils.SDViewUtil;
 
 import java.util.List;
 
@@ -37,10 +37,10 @@ public class ListViewAdapter extends SDSimpleAdapter<DataModel>
 
         if (model.isSelected())
         {
-            SDViewUtil.setBackgroundColorResId(convertView, R.color.red);
+            FViewUtil.setBackgroundColorResId(convertView, R.color.red, getActivity());
         } else
         {
-            SDViewUtil.setBackgroundColorResId(convertView, R.color.green);
+            FViewUtil.setBackgroundColorResId(convertView, R.color.green, getActivity());
         }
 
         convertView.setOnClickListener(this);

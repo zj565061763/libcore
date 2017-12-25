@@ -8,11 +8,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.holder.ISDObjectsHolder;
 import com.fanwe.library.holder.SDObjectsHolder;
 import com.fanwe.library.listener.SDIterateCallback;
-import com.fanwe.library.utils.SDViewUtil;
 
 import java.util.Iterator;
 
@@ -91,7 +91,7 @@ public class SDReplaceableLayout extends FrameLayout
         {
             return;
         }
-        SDViewUtil.replaceView(this, child);
+        FViewUtil.replaceView(this, child);
         mContentView = child;
         mVisibilityhandler.setView(child);
         notifyContentReplaced(child);

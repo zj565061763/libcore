@@ -9,10 +9,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
 import com.fanwe.library.drawable.SDDrawable;
 import com.fanwe.library.utils.SDCollectionUtil;
-import com.fanwe.library.utils.SDViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,11 +128,11 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
             width = mWidthLeft;
         }
 
-        int maxMiddleWidth = ((SDViewUtil.getWidth(this) / 2) - width) * 2;
+        int maxMiddleWidth = ((FViewUtil.getWidth(this) / 2) - width) * 2;
 
         if (mWidthMiddle > maxMiddleWidth)
         {
-            SDViewUtil.setWidth(mLlMiddle, maxMiddleWidth);
+            FViewUtil.setWidth(mLlMiddle, maxMiddleWidth);
         } else
         {
 
@@ -147,7 +147,7 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
 
     public SDTitleSimple setHeightTitle(int height)
     {
-        SDViewUtil.setHeight(mView, height);
+        FViewUtil.setHeight(mView, height);
         return this;
     }
 
@@ -185,10 +185,10 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
         item.setOnClickListener(this);
         if (mBackgroundItemResource != 0)
         {
-            SDViewUtil.setBackgroundResource(item, mBackgroundItemResource);
+            FViewUtil.setBackgroundResource(item, mBackgroundItemResource);
         } else
         {
-            SDViewUtil.setBackgroundDrawable(item, getBackgroundItem());
+            FViewUtil.setBackgroundDrawable(item, getBackgroundItem());
         }
         LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         mLlRight.addView(item, params);
@@ -206,10 +206,10 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
     {
         if (mBackgroundItemResource != 0)
         {
-            SDViewUtil.setBackgroundResource(mTitleLeft, mBackgroundItemResource);
+            FViewUtil.setBackgroundResource(mTitleLeft, mBackgroundItemResource);
             for (SDTitleItem item : mListRightItem)
             {
-                SDViewUtil.setBackgroundResource(item, mBackgroundItemResource);
+                FViewUtil.setBackgroundResource(item, mBackgroundItemResource);
             }
         } else
         {
@@ -219,10 +219,10 @@ public class SDTitleSimple extends LinearLayout implements OnClickListener
 
     private void setDefaultItemBackground()
     {
-        SDViewUtil.setBackgroundDrawable(mTitleLeft, getBackgroundItem());
+        FViewUtil.setBackgroundDrawable(mTitleLeft, getBackgroundItem());
         for (SDTitleItem item : mListRightItem)
         {
-            SDViewUtil.setBackgroundDrawable(item, getBackgroundItem());
+            FViewUtil.setBackgroundDrawable(item, getBackgroundItem());
         }
     }
 

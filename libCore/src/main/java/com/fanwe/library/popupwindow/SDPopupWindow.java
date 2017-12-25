@@ -2,11 +2,12 @@ package com.fanwe.library.popupwindow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.SDLibrary;
-import com.fanwe.library.utils.SDViewUtil;
 
 public class SDPopupWindow extends PopupWindow implements View.OnClickListener
 {
@@ -37,7 +38,7 @@ public class SDPopupWindow extends PopupWindow implements View.OnClickListener
 
     private void baseInit()
     {
-        SDViewUtil.wrapperPopupWindow(this);
+        FViewUtil.wrapperPopupWindow(this);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class SDPopupWindow extends PopupWindow implements View.OnClickListener
 
     public void setContentView(int resId)
     {
-        View contentView = SDViewUtil.inflate(resId, null);
+        View contentView = LayoutInflater.from(SDLibrary.getInstance().getContext()).inflate(resId, null);
         setContentView(contentView);
     }
 }

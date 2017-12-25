@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.event.SDEvent;
@@ -21,7 +22,6 @@ import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDViewVisibilityCallback;
 import com.fanwe.library.utils.SDCollectionUtil;
-import com.fanwe.library.utils.SDViewUtil;
 
 import java.util.List;
 
@@ -239,19 +239,19 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
 
     public void hideFragmentView()
     {
-        SDViewUtil.setGone(getView());
+        FViewUtil.setGone(getView());
         notifyVisibleState();
     }
 
     public void showFragmentView()
     {
-        SDViewUtil.setVisible(getView());
+        FViewUtil.setVisible(getView());
         notifyVisibleState();
     }
 
     public void invisibleFragmentView()
     {
-        SDViewUtil.setInvisible(getView());
+        FViewUtil.setInvisible(getView());
         notifyVisibleState();
     }
 

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.fanwe.library.utils.SDViewUtil;
+import com.fanwe.lib.utils.FViewUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -176,7 +176,7 @@ public abstract class SDSelectView extends LinearLayout
         Drawable drawable = getViewConfig(view).getBackgroundNormal();
         if (drawable != null)
         {
-            SDViewUtil.setBackgroundDrawable(view, drawable);
+            FViewUtil.setBackgroundDrawable(view, drawable);
         }
         return this;
     }
@@ -186,7 +186,7 @@ public abstract class SDSelectView extends LinearLayout
         Drawable drawable = getViewConfig(view).getBackgroundSelected();
         if (drawable != null)
         {
-            SDViewUtil.setBackgroundDrawable(view, drawable);
+            FViewUtil.setBackgroundDrawable(view, drawable);
         }
         return this;
     }

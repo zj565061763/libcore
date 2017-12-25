@@ -20,7 +20,6 @@ import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
-import com.fanwe.library.utils.SDViewUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -556,18 +555,18 @@ public class SDAppView extends FrameLayout implements
     @Override
     public void addView(int parentId, View child)
     {
-        SDViewUtil.addView((ViewGroup) findViewById(parentId), child);
+        FViewUtil.addView((ViewGroup) findViewById(parentId), child);
     }
 
     @Override
     public void replaceView(int parentId, View child)
     {
-        SDViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
+        FViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
     }
 
     @Override
     public void toggleView(int parentId, View child)
     {
-        SDViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
+        FViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
     }
 }

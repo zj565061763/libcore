@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.fanwe.lib.utils.FViewUtil;
+
 public class SDViewBinder
 {
 
@@ -70,11 +72,11 @@ public class SDViewBinder
     {
         if (TextUtils.isEmpty(content))
         {
-            SDViewUtil.setGone(textView);
+            FViewUtil.setGone(textView);
         } else
         {
             textView.setText(content);
-            SDViewUtil.setVisible(textView);
+            FViewUtil.setVisible(textView);
         }
     }
 
@@ -88,11 +90,11 @@ public class SDViewBinder
     {
         if (resId <= 0)
         {
-            SDViewUtil.setGone(imageView);
+            FViewUtil.setGone(imageView);
         } else
         {
             imageView.setImageResource(resId);
-            SDViewUtil.setVisible(imageView);
+            FViewUtil.setVisible(imageView);
         }
     }
 }

@@ -3,7 +3,7 @@ package com.fanwe.library.model;
 import android.graphics.Rect;
 import android.view.View;
 
-import com.fanwe.library.utils.SDViewUtil;
+import com.fanwe.lib.utils.FViewUtil;
 
 public class ViewRecter implements Recter
 {
@@ -24,7 +24,7 @@ public class ViewRecter implements Recter
     @Override
     public Rect getRect()
     {
-        return SDViewUtil.getGlobalVisibleRect(view);
+        return FViewUtil.getGlobalVisibleRect(view);
     }
 
     @Override

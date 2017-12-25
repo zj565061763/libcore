@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fanwe.library.utils.SDViewUtil;
+import com.fanwe.lib.utils.FResUtil;
 
 /**
  * Created by Administrator on 2017/6/27.
@@ -36,7 +36,7 @@ public class TestViewGroup extends ViewGroup
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height*2, MeasureSpec.EXACTLY);
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height * 2, MeasureSpec.EXACTLY);
         measureChildren(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -44,7 +44,7 @@ public class TestViewGroup extends ViewGroup
     protected void onLayout(boolean changed, int l, int t, int r, int b)
     {
         View child = getChildAt(0);
-        int dis = SDViewUtil.dp2px(50);
+        int dis = FResUtil.dp2px(50, getContext());
         int height = getHeight();
 
         child.layout(0, -dis, getWidth(), height + dis);

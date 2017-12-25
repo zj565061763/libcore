@@ -18,11 +18,11 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
 import com.fanwe.library.title.SDTitleItem;
 import com.fanwe.library.title.SDTitleSimple;
 import com.fanwe.library.utils.SDIntentUtil;
-import com.fanwe.library.utils.SDViewUtil;
 import com.fanwe.library.webview.CustomWebView;
 
 import java.util.HashMap;
@@ -203,10 +203,10 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
             switch (mWebviewHeightMode)
             {
                 case WRAP_CONTENT:
-                    SDViewUtil.setHeight(mWeb, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    FViewUtil.setHeight(mWeb, ViewGroup.LayoutParams.WRAP_CONTENT);
                     break;
                 case MATCH_PARENT:
-                    SDViewUtil.setHeight(mWeb, ViewGroup.LayoutParams.MATCH_PARENT);
+                    FViewUtil.setHeight(mWeb, ViewGroup.LayoutParams.MATCH_PARENT);
                     break;
 
                 default:
@@ -222,10 +222,10 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
             switch (mProgressMode)
             {
                 case HORIZONTAL:
-                    SDViewUtil.setVisible(mPgbHorizontal);
+                    FViewUtil.setVisible(mPgbHorizontal);
                     break;
                 case NONE:
-                    SDViewUtil.setGone(mPgbHorizontal);
+                    FViewUtil.setGone(mPgbHorizontal);
                     break;
 
                 default:
@@ -344,10 +344,10 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
                 case HORIZONTAL:
                     if (newProgress == 100)
                     {
-                        SDViewUtil.setGone(mPgbHorizontal);
+                        FViewUtil.setGone(mPgbHorizontal);
                     } else
                     {
-                        SDViewUtil.setVisible(mPgbHorizontal);
+                        FViewUtil.setVisible(mPgbHorizontal);
                         mPgbHorizontal.setProgress(newProgress);
                     }
                     break;
@@ -436,10 +436,10 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
         {
             if (isShowTitle)
             {
-                SDViewUtil.setVisible(mTitle);
+                FViewUtil.setVisible(mTitle);
             } else
             {
-                SDViewUtil.setGone(mTitle);
+                FViewUtil.setGone(mTitle);
             }
         }
     }
@@ -455,7 +455,7 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
 
         mTvClose = new TextView(getActivity());
         mTvClose.setText("关闭");
-        SDViewUtil.setTextSizeSp(mTvClose, 17);
+        FViewUtil.setTextSizeSp(mTvClose, 17);
         mTvClose.setGravity(Gravity.CENTER);
         mTvClose.setTextColor(Color.parseColor("#ffffff"));
         mTvClose.setOnClickListener(new OnClickListener()
