@@ -10,11 +10,10 @@ import android.widget.FrameLayout;
 
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
-import com.fanwe.library.holder.ISDObjectsHolder;
-import com.fanwe.library.holder.SDObjectsHolder;
-import com.fanwe.library.listener.SDIterateCallback;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * 可替换view的容器
@@ -41,7 +40,7 @@ public class SDReplaceableLayout extends FrameLayout
 
     private View mContentView;
     private FViewVisibilityHandler mVisibilityhandler = new FViewVisibilityHandler(null);
-    private ISDObjectsHolder<Callback> mCallbackHolder = new SDObjectsHolder<>();
+    private List<Callback> mListCallback = new ArrayList<>();
 
     private void init()
     {
@@ -55,7 +54,11 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public void addCallback(Callback callback)
     {
-        mCallbackHolder.add(callback);
+        if (callback == null || mListCallback.contains(callback))
+        {
+            return;
+        }
+        mListCallback.add(callback);
     }
 
     /**
@@ -65,7 +68,7 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public void removeCallback(Callback callback)
     {
-        mCallbackHolder.remove(callback);
+        mListCallback.remove(callback);
     }
 
     /**
@@ -73,7 +76,7 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public void clearCallback()
     {
-        mCallbackHolder.clear();
+        mListCallback.clear();
     }
 
     /**
@@ -205,43 +208,34 @@ public class SDReplaceableLayout extends FrameLayout
 
     //----------notify start----------
 
-    private void notifyContentReplaced(final View view)
+    private void notifyContentReplaced(View view)
     {
-        mCallbackHolder.foreach(new SDIterateCallback<Callback>()
+        Iterator<Callback> it = mListCallback.iterator();
+        while (it.hasNext())
         {
-            @Override
-            public boolean next(int i, Callback item, Iterator<Callback> it)
-            {
-                item.onContentReplaced(view);
-                return false;
-            }
-        });
+            Callback callback = it.next();
+            callback.onContentReplaced(view);
+        }
     }
 
     private void notifyContentRemoved(final View view)
     {
-        mCallbackHolder.foreach(new SDIterateCallback<Callback>()
+        Iterator<Callback> it = mListCallback.iterator();
+        while (it.hasNext())
         {
-            @Override
-            public boolean next(int i, Callback item, Iterator<Callback> it)
-            {
-                item.onContentRemoved(view);
-                return false;
-            }
-        });
+            Callback callback = it.next();
+            callback.onContentRemoved(view);
+        }
     }
 
     private void notifyContentVisibilityChanged(final View view, final int visibility)
     {
-        mCallbackHolder.foreach(new SDIterateCallback<Callback>()
+        Iterator<Callback> it = mListCallback.iterator();
+        while (it.hasNext())
         {
-            @Override
-            public boolean next(int i, Callback item, Iterator<Callback> it)
-            {
-                item.onContentVisibilityChanged(view, visibility);
-                return false;
-            }
-        });
+            Callback callback = it.next();
+            callback.onContentVisibilityChanged(view, visibility);
+        }
     }
 
     //----------notify end----------
