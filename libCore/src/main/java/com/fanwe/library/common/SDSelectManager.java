@@ -1,9 +1,5 @@
 package com.fanwe.library.common;
 
-import com.fanwe.library.holder.ISDObjectsHolder;
-import com.fanwe.library.holder.SDObjectsHolder;
-import com.fanwe.library.listener.SDIterateCallback;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -16,7 +12,6 @@ import java.util.Map.Entry;
  * 选择管理器
  *
  * @param <T>
- * @author Administrator
  */
 public class SDSelectManager<T>
 {
@@ -28,7 +23,7 @@ public class SDSelectManager<T>
     private boolean mIsEnable = true;
 
     private ReSelectCallback<T> mReSelectCallback;
-    private ISDObjectsHolder<SelectCallback<T>> mSelectCallbackHolder = new SDObjectsHolder<>();
+    private List<SelectCallback<T>> mListSelectCallback = new ArrayList<>();
 
     /**
      * 添加选择状态回调
@@ -37,7 +32,11 @@ public class SDSelectManager<T>
      */
     public void addSelectCallback(SelectCallback<T> selectCallback)
     {
-        mSelectCallbackHolder.add(selectCallback);
+        if (selectCallback == null || mListSelectCallback.contains(selectCallback))
+        {
+            return;
+        }
+        mListSelectCallback.add(selectCallback);
     }
 
     /**
@@ -47,7 +46,7 @@ public class SDSelectManager<T>
      */
     public void removeSelectCallback(SelectCallback<T> selectCallback)
     {
-        mSelectCallbackHolder.remove(selectCallback);
+        mListSelectCallback.remove(selectCallback);
     }
 
     public void setReSelectCallback(ReSelectCallback<T> reSelectCallback)
@@ -568,28 +567,22 @@ public class SDSelectManager<T>
 
     protected void notifyNormal(final int index, final T item)
     {
-        mSelectCallbackHolder.foreach(new SDIterateCallback<SelectCallback<T>>()
+        Iterator<SelectCallback<T>> it = mListSelectCallback.iterator();
+        while (it.hasNext())
         {
-            @Override
-            public boolean next(int i, SelectCallback<T> callback, Iterator<SelectCallback<T>> it)
-            {
-                callback.onNormal(index, item);
-                return false;
-            }
-        });
+            SelectCallback<T> callback = it.next();
+            callback.onNormal(index, item);
+        }
     }
 
     protected void notifySelected(final int index, final T item)
     {
-        mSelectCallbackHolder.foreach(new SDIterateCallback<SelectCallback<T>>()
+        Iterator<SelectCallback<T>> it = mListSelectCallback.iterator();
+        while (it.hasNext())
         {
-            @Override
-            public boolean next(int i, SelectCallback<T> callback, Iterator<SelectCallback<T>> it)
-            {
-                callback.onSelected(index, item);
-                return false;
-            }
-        });
+            SelectCallback<T> callback = it.next();
+            callback.onSelected(index, item);
+        }
     }
 
     /**
