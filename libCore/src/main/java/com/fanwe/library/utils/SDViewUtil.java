@@ -2,6 +2,7 @@ package com.fanwe.library.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
@@ -95,7 +96,7 @@ public class SDViewUtil
      */
     public static void setBackgroundColorResId(View view, int resId)
     {
-        view.setBackgroundColor(SDResourcesUtil.getColor(resId));
+        view.setBackgroundColor(SDLibrary.getInstance().getContext().getResources().getColor(resId));
     }
 
     /**
@@ -106,7 +107,7 @@ public class SDViewUtil
      */
     public static void setTextViewColorResId(TextView textView, int resId)
     {
-        textView.setTextColor(SDResourcesUtil.getColor(resId));
+        textView.setTextColor(SDLibrary.getInstance().getContext().getResources().getColor(resId));
     }
 
     /**
@@ -1475,11 +1476,13 @@ public class SDViewUtil
      */
     public static int getStatusBarHeight()
     {
+        Resources resources = SDLibrary.getInstance().getContext().getResources();
+
         int result = 0;
-        int resourceId = SDResourcesUtil.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0)
         {
-            result = SDResourcesUtil.getResources().getDimensionPixelSize(resourceId);
+            result = resources.getDimensionPixelSize(resourceId);
         }
         return result;
     }

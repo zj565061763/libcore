@@ -2,6 +2,7 @@ package com.fanwe.library.customview;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 
 import com.fanwe.library.R;
 import com.fanwe.library.customview.SDViewPager.MeasureMode;
-import com.fanwe.library.utils.SDResourcesUtil;
 import com.fanwe.library.utils.SDTimer;
 import com.fanwe.library.utils.SDTimer.SDTimerListener;
 import com.fanwe.library.utils.SDViewUtil;
@@ -128,7 +128,7 @@ public class SDSlidingPlayView extends LinearLayout
     private TextView createTextView()
     {
         TextView tvCount = new TextView(getContext());
-        tvCount.setTextColor(SDResourcesUtil.getColor(R.color.white));
+        tvCount.setTextColor(Color.WHITE);
         return tvCount;
     }
 
@@ -181,7 +181,7 @@ public class SDSlidingPlayView extends LinearLayout
                 break;
             case NUMBER:
                 tv_index = createTextView();
-                ll_blur.setBackgroundColor(SDResourcesUtil.getColor(R.color.res_blur_m));
+                ll_blur.setBackgroundColor(getResources().getColor(R.color.res_blur_m));
                 ll_blur.addView(tv_index);
                 break;
 

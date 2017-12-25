@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
@@ -17,10 +18,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.fanwe.lib.utils.FDeviceUtil;
+import com.fanwe.lib.utils.FPackageUtil;
+import com.fanwe.lib.utils.FResUtil;
 import com.fanwe.library.common.SDCookieManager;
 import com.fanwe.library.handler.js.BaseJsHandler;
 import com.fanwe.library.utils.SDIntentUtil;
-import com.fanwe.library.utils.SDPackageUtil;
 import com.fanwe.library.utils.SDViewUtil;
 
 import java.io.File;
@@ -320,9 +323,16 @@ public class CustomWebView extends WebView
         settings.setAppCacheMaxSize(1024 * 1024 * 8);
         settings.setAppCachePath(mCacheDir.getAbsolutePath());
 
+        PackageInfo packageInfo = FPackageUtil.getPackageInfo(getContext());
+
         String us = settings.getUserAgentString();
-        us = us + " fanwe_app_sdk" + " sdk_type/android" + " sdk_version_name/" + SDPackageUtil.getVersionName() + " sdk_version/" + SDPackageUtil.getVersionCode() + " sdk_guid/"
-                + SDPackageUtil.getDeviceId() + " screen_width/" + SDViewUtil.getScreenWidth() + " screen_height/" + SDViewUtil.getScreenHeight();
+        us = us + " fanwe_app_sdk" +
+                " sdk_type/android" +
+                " sdk_version_name/" + packageInfo.versionName +
+                " sdk_version/" + packageInfo.versionCode +
+                " sdk_guid/" + FDeviceUtil.getDeviceId(getContext()) +
+                " screen_width/" + FResUtil.getScreenWidth(getContext()) +
+                " screen_height/" + FResUtil.getScreenHeight(getContext());
         settings.setUserAgentString(us);
     }
 

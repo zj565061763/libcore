@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.fanwe.lib.utils.FPackageUtil;
 import com.fanwe.library.common.SDActivityManager;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.event.EOnBackground;
@@ -29,7 +30,6 @@ import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDIterateCallback;
-import com.fanwe.library.utils.SDPackageUtil;
 import com.fanwe.library.utils.SDViewUtil;
 import com.fanwe.library.view.ISDViewContainer;
 import com.fanwe.library.view.SDAppView;
@@ -237,7 +237,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         mIsResume = false;
         if (!sIsBackground)
         {
-            if (SDPackageUtil.isBackground())
+            if (FPackageUtil.isAppBackground(this))
             {
                 sIsBackground = true;
                 sBackgroundTime = System.currentTimeMillis();

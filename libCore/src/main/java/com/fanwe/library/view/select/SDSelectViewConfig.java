@@ -3,7 +3,7 @@ package com.fanwe.library.view.select;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.fanwe.library.utils.SDResourcesUtil;
+import com.fanwe.library.SDLibrary;
 
 @Deprecated
 public class SDSelectViewConfig implements Cloneable
@@ -87,7 +87,7 @@ public class SDSelectViewConfig implements Cloneable
     public SDSelectViewConfig setTextColorNormalResId(int textColorNormalResId)
     {
         this.textColorNormalResId = textColorNormalResId;
-        this.textColorNormal = SDResourcesUtil.getColor(textColorNormalResId);
+        this.textColorNormal = SDLibrary.getInstance().getContext().getResources().getColor(textColorNormalResId);
         return this;
     }
 
@@ -100,7 +100,7 @@ public class SDSelectViewConfig implements Cloneable
     public SDSelectViewConfig setTextColorSelectedResId(int textColorSelectedResId)
     {
         this.textColorSelectedResId = textColorSelectedResId;
-        this.textColorSelected = SDResourcesUtil.getColor(textColorSelectedResId);
+        this.textColorSelected = SDLibrary.getInstance().getContext().getResources().getColor(textColorSelectedResId);
         return this;
     }
 
@@ -179,7 +179,7 @@ public class SDSelectViewConfig implements Cloneable
     public SDSelectViewConfig setBackgroundNormalResId(int backgroundNormalResId)
     {
         this.backgroundNormalResId = backgroundNormalResId;
-        this.backgroundNormal = SDResourcesUtil.getDrawable(backgroundNormalResId);
+        this.backgroundNormal = SDLibrary.getInstance().getContext().getResources().getDrawable(backgroundNormalResId);
         return this;
     }
 
@@ -192,7 +192,7 @@ public class SDSelectViewConfig implements Cloneable
     public SDSelectViewConfig setBackgroundSelectedResId(int backgroundSelectedResId)
     {
         this.backgroundSelectedResId = backgroundSelectedResId;
-        this.backgroundSelected = SDResourcesUtil.getDrawable(backgroundSelectedResId);
+        this.backgroundSelected = SDLibrary.getInstance().getContext().getResources().getDrawable(backgroundSelectedResId);
         return this;
     }
 
@@ -218,7 +218,7 @@ public class SDSelectViewConfig implements Cloneable
     public SDSelectViewConfig setBackgroundColorNormalResId(int backgroundColorNormalResId)
     {
         this.backgroundColorNormalResId = backgroundColorNormalResId;
-        this.backgroundNormal = new ColorDrawable(SDResourcesUtil.getColor(backgroundColorNormalResId));
+        this.backgroundNormal = new ColorDrawable(SDLibrary.getInstance().getContext().getResources().getColor(backgroundColorNormalResId));
         return this;
     }
 
@@ -243,7 +243,7 @@ public class SDSelectViewConfig implements Cloneable
     public SDSelectViewConfig setBackgroundColorSelectedResId(int backgroundColorSelectedResId)
     {
         this.backgroundColorSelectedResId = backgroundColorSelectedResId;
-        this.backgroundSelected = new ColorDrawable(SDResourcesUtil.getColor(backgroundColorSelectedResId));
+        this.backgroundSelected = new ColorDrawable(SDLibrary.getInstance().getContext().getResources().getColor(backgroundColorSelectedResId));
         return this;
     }
 

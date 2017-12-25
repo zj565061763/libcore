@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 
+import com.fanwe.lib.utils.FPackageUtil;
+import com.fanwe.library.SDLibrary;
 import com.fanwe.library.model.StartAppPageJsonModel;
 import com.fanwe.library.utils.SDJsonUtil;
-import com.fanwe.library.utils.SDPackageUtil;
 import com.fanwe.library.utils.SDToast;
 
 /**
@@ -33,7 +34,7 @@ public class AppJsWHandler extends BaseJsHandler
         {
             StartAppPageJsonModel model = SDJsonUtil.json2Object(json, StartAppPageJsonModel.class);
 
-            String packename = SDPackageUtil.getPackageName();
+            String packename = SDLibrary.getInstance().getContext().getPackageName();
             String target = model.getAndroid_page();
 
             Intent intent = new Intent();
