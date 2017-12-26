@@ -22,7 +22,7 @@ import com.fanwe.lib.utils.FDeviceUtil;
 import com.fanwe.lib.utils.FPackageUtil;
 import com.fanwe.lib.utils.FResUtil;
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.library.common.SDCookieManager;
+import com.fanwe.lib.utils.extend.FCookieManager;
 import com.fanwe.library.handler.js.BaseJsHandler;
 import com.fanwe.library.utils.SDIntentUtil;
 
@@ -211,7 +211,7 @@ public class CustomWebView extends WebView
         @Override
         public void onPageFinished(WebView view, String url)
         {
-            SDCookieManager.getInstance().flush();
+            FCookieManager.getInstance().flush();
             super.onPageFinished(view, url);
         }
 
