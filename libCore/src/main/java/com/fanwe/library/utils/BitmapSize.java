@@ -3,6 +3,7 @@ package com.fanwe.library.utils;
 /**
  * Author: wyouflf Date: 13-11-7 Time: 下午1:20
  */
+@Deprecated
 public class BitmapSize
 {
 
