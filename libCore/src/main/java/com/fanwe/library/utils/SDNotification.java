@@ -13,6 +13,7 @@ import android.widget.RemoteViews;
 /**
  * 通知栏通知
  */
+@Deprecated
 public class SDNotification extends Notification.Builder
 {
     private Context context;
