@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+@Deprecated
 public class SDTimer
 {
 	private static final int MESSAGE_WHAT = 0;

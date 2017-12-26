@@ -13,6 +13,7 @@ import com.fanwe.library.R;
 import com.fanwe.library.utils.SDTimer;
 import com.fanwe.library.utils.SDTimer.SDTimerListener;
 
+@Deprecated
 public class SDSendValidateButton extends Button
 {
 
