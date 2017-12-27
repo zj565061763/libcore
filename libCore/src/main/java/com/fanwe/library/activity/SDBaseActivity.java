@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 
 import com.fanwe.lib.utils.FPackageUtil;
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.library.common.SDActivityManager;
+import com.fanwe.lib.utils.extend.FActivityStack;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.event.EOnBackground;
 import com.fanwe.library.event.EOnResumeFromBackground;
@@ -109,7 +109,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        SDActivityManager.getInstance().onCreate(this);
+        FActivityStack.getInstance().onCreate(this);
         EventBus.getDefault().register(this);
         afterOnCreater(savedInstanceState);
 
@@ -205,7 +205,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         super.onResume();
         mIsResume = true;
-        SDActivityManager.getInstance().onResume(this);
+        FActivityStack.getInstance().onResume(this);
         if (sIsBackground)
         {
             sIsBackground = false;
@@ -263,7 +263,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onDestroy()
     {
         super.onDestroy();
-        SDActivityManager.getInstance().onDestroy(this);
+        FActivityStack.getInstance().onDestroy(this);
         EventBus.getDefault().unregister(this);
         dismissProgressDialog();
 
@@ -274,7 +274,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public void finish()
     {
-        SDActivityManager.getInstance().onDestroy(this);
+        FActivityStack.getInstance().onDestroy(this);
         super.finish();
     }
 
