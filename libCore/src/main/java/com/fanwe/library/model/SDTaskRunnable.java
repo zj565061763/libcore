@@ -1,6 +1,6 @@
 package com.fanwe.library.model;
 
-import com.fanwe.library.common.SDHandlerManager;
+import com.fanwe.lib.utils.FHandlerManager;
 
 /**
  * Created by Administrator on 2016/7/18.
@@ -23,7 +23,7 @@ public abstract class SDTaskRunnable<T> implements Runnable
 
     private void notifyMainThread(final T result)
     {
-        SDHandlerManager.post(new Runnable()
+        FHandlerManager.getMainHandler().post(new Runnable()
         {
             @Override
             public void run()
@@ -35,7 +35,7 @@ public abstract class SDTaskRunnable<T> implements Runnable
 
     private void notifyError(final Exception e)
     {
-        SDHandlerManager.post(new Runnable()
+        FHandlerManager.getMainHandler().post(new Runnable()
         {
             @Override
             public void run()

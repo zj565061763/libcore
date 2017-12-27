@@ -1,9 +1,9 @@
 package com.fanwe.library.utils;
 
 import com.fanwe.lib.utils.FFileUtil;
+import com.fanwe.lib.utils.FHandlerManager;
 import com.fanwe.lib.utils.FIOUtil;
 import com.fanwe.library.SDLibrary;
-import com.fanwe.library.common.SDHandlerManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class ImageFileCompresser
         }
 
         // 开线程执行
-        SDHandlerManager.getBackgroundHandler().post(new Runnable()
+        FHandlerManager.getBackgroundHandler().post(new Runnable()
         {
             @Override
             public void run()
@@ -126,7 +126,7 @@ public class ImageFileCompresser
     {
         if (mListener != null)
         {
-            SDHandlerManager.getMainHandler().post(new Runnable()
+            FHandlerManager.getMainHandler().post(new Runnable()
             {
 
                 @Override
@@ -142,7 +142,7 @@ public class ImageFileCompresser
     {
         if (mListener != null)
         {
-            SDHandlerManager.getMainHandler().post(new Runnable()
+            FHandlerManager.getMainHandler().post(new Runnable()
             {
 
                 @Override
@@ -158,7 +158,7 @@ public class ImageFileCompresser
     {
         if (mListener != null)
         {
-            SDHandlerManager.getMainHandler().post(new Runnable()
+            FHandlerManager.getMainHandler().post(new Runnable()
             {
 
                 @Override
@@ -174,7 +174,7 @@ public class ImageFileCompresser
     {
         if (mListener != null)
         {
-            SDHandlerManager.getMainHandler().post(new Runnable()
+            FHandlerManager.getMainHandler().post(new Runnable()
             {
 
                 @Override
