@@ -13,6 +13,7 @@ import java.util.Map.Entry;
  *
  * @param <T>
  */
+@Deprecated
 public class SDSelectManager<T>
 {
     private List<T> mListItem = new ArrayList<T>();

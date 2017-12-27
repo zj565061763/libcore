@@ -5,6 +5,7 @@ import android.app.Activity;
 import java.util.Iterator;
 import java.util.Stack;
 
+@Deprecated
 public class SDActivityManager
 {
     private static SDActivityManager sInstance;

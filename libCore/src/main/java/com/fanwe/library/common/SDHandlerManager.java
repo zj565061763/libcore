@@ -4,9 +4,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
-/**
- * Created by Administrator on 2016/7/14.
- */
+@Deprecated
 public class SDHandlerManager
 {
     private final static Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
