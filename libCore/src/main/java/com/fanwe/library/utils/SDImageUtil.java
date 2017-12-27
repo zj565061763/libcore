@@ -19,12 +19,16 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import com.fanwe.lib.utils.FIOUtil;
+import com.fanwe.lib.utils.FImageUtil;
 import com.fanwe.lib.utils.FViewUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
+/**
+ * 用{@link FImageUtil}替代
+ */
 @Deprecated
 public class SDImageUtil
 {

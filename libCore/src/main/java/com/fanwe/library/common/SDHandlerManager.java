@@ -4,6 +4,11 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
+import com.fanwe.lib.utils.FHandlerManager;
+
+/**
+ * 用{@link FHandlerManager}替代
+ */
 @Deprecated
 public class SDHandlerManager
 {
