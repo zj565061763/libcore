@@ -35,7 +35,7 @@ dependencies {
     compile 'com.github.zj565061763:selectmanager:1.0.0'
     compile 'com.github.zj565061763:receiver:1.0.1'
     compile 'com.github.zj565061763:utils:11'
-    compile 'com.github.zj565061763:utils-extend:9'
+    compile 'com.github.zj565061763:utils-extend:11'
 
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.code.gson:gson:2.8.2'
