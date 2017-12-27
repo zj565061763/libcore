@@ -53,10 +53,11 @@ public class SDActivityManager
 
     private void addActivity(Activity activity)
     {
-        if (!mStackActivity.contains(activity))
+        if (mStackActivity.contains(activity))
         {
-            mStackActivity.add(activity);
+            return;
         }
+        mStackActivity.add(activity);
     }
 
     private void removeActivity(Activity activity)
@@ -69,19 +70,18 @@ public class SDActivityManager
             }
         } catch (Exception e)
         {
-            e.printStackTrace();
         }
     }
 
-    public Activity getActivity(Class<?> cls)
+    public Activity getActivity(Class<?> clazz)
     {
         Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
-            Activity act = it.next();
-            if (act.getClass() == cls)
+            Activity item = it.next();
+            if (item.getClass() == clazz)
             {
-                return act;
+                return item;
             }
         }
         return null;
@@ -131,57 +131,18 @@ public class SDActivityManager
         }
     }
 
-    public boolean containActivity(Class<?> cls)
+    public boolean containActivity(Class<?> clazz)
     {
         Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
-            Activity act = it.next();
-            if (act.getClass() == cls)
+            Activity item = it.next();
+            if (item.getClass() == clazz)
             {
                 return true;
             }
         }
         return false;
-    }
-
-    public void finishAllClassActivityExcept(Activity activity)
-    {
-        Iterator<Activity> it = mStackActivity.iterator();
-        while (it.hasNext())
-        {
-            Activity act = it.next();
-            if (act.getClass() == activity.getClass() && act != activity)
-            {
-                it.remove();
-                act.finish();
-            }
-        }
-    }
-
-    public void finishAllActivity()
-    {
-        Iterator<Activity> it = mStackActivity.iterator();
-        while (it.hasNext())
-        {
-            Activity act = it.next();
-            it.remove();
-            act.finish();
-        }
-    }
-
-    public void finishAllActivityExcept(Class<?> cls)
-    {
-        Iterator<Activity> it = mStackActivity.iterator();
-        while (it.hasNext())
-        {
-            Activity act = it.next();
-            if (act.getClass() != cls)
-            {
-                it.remove();
-                act.finish();
-            }
-        }
     }
 
     public void finishAllActivityExcept(Activity activity)
@@ -198,4 +159,42 @@ public class SDActivityManager
         }
     }
 
+    public void finishAllActivityExcept(Class<?> clazz)
+    {
+        Iterator<Activity> it = mStackActivity.iterator();
+        while (it.hasNext())
+        {
+            Activity item = it.next();
+            if (item.getClass() != clazz)
+            {
+                it.remove();
+                item.finish();
+            }
+        }
+    }
+
+    public void finishAllClassActivityExcept(Activity activity)
+    {
+        Iterator<Activity> it = mStackActivity.iterator();
+        while (it.hasNext())
+        {
+            Activity item = it.next();
+            if (item.getClass() == activity.getClass() && item != activity)
+            {
+                it.remove();
+                item.finish();
+            }
+        }
+    }
+
+    public void finishAllActivity()
+    {
+        Iterator<Activity> it = mStackActivity.iterator();
+        while (it.hasNext())
+        {
+            Activity item = it.next();
+            it.remove();
+            item.finish();
+        }
+    }
 }
