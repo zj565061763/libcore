@@ -9,6 +9,7 @@ import android.widget.PopupWindow;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.SDLibrary;
 
+@Deprecated
 public class SDPopupWindow extends PopupWindow implements View.OnClickListener
 {
 

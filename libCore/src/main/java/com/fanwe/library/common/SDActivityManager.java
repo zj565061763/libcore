@@ -8,11 +8,10 @@ import java.util.Stack;
 public class SDActivityManager
 {
     private static SDActivityManager sInstance;
-    private static Stack<Activity> stackActivity;
+    private Stack<Activity> mStackActivity = new Stack<>();
 
     private SDActivityManager()
     {
-        stackActivity = new Stack<>();
     }
 
     public static SDActivityManager getInstance()
@@ -54,9 +53,9 @@ public class SDActivityManager
 
     private void addActivity(Activity activity)
     {
-        if (!stackActivity.contains(activity))
+        if (!mStackActivity.contains(activity))
         {
-            stackActivity.add(activity);
+            mStackActivity.add(activity);
         }
     }
 
@@ -64,9 +63,9 @@ public class SDActivityManager
     {
         try
         {
-            if (stackActivity.contains(activity))
+            if (mStackActivity.contains(activity))
             {
-                stackActivity.remove(activity);
+                mStackActivity.remove(activity);
             }
         } catch (Exception e)
         {
@@ -76,7 +75,7 @@ public class SDActivityManager
 
     public Activity getActivity(Class<?> cls)
     {
-        Iterator<Activity> it = stackActivity.iterator();
+        Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
             Activity act = it.next();
@@ -90,52 +89,51 @@ public class SDActivityManager
 
     public Activity getLastActivity()
     {
-        Activity activity = null;
         try
         {
-            activity = stackActivity.lastElement();
+            return mStackActivity.lastElement();
         } catch (Exception e)
         {
+            return null;
         }
-        return activity;
     }
 
     public boolean isLastActivity(Activity activity)
     {
-        if (activity != null)
-        {
-            return getLastActivity() == activity;
-        } else
+        if (activity == null)
         {
             return false;
         }
+        return activity == getLastActivity();
     }
 
     public boolean isEmpty()
     {
-        return stackActivity.isEmpty();
+        return mStackActivity.isEmpty();
     }
 
     /**
-     * 结束指定类名的Activity
+     * 结束指定类的Activity
+     *
+     * @param clazz
      */
-    public void finishActivity(Class<?> cls)
+    public void finishActivity(Class<?> clazz)
     {
-        Iterator<Activity> it = stackActivity.iterator();
+        Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
-            Activity act = it.next();
-            if (act.getClass() == cls)
+            Activity item = it.next();
+            if (item.getClass() == clazz)
             {
                 it.remove();
-                act.finish();
+                item.finish();
             }
         }
     }
 
     public boolean containActivity(Class<?> cls)
     {
-        Iterator<Activity> it = stackActivity.iterator();
+        Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
             Activity act = it.next();
@@ -149,7 +147,7 @@ public class SDActivityManager
 
     public void finishAllClassActivityExcept(Activity activity)
     {
-        Iterator<Activity> it = stackActivity.iterator();
+        Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
             Activity act = it.next();
@@ -163,7 +161,7 @@ public class SDActivityManager
 
     public void finishAllActivity()
     {
-        Iterator<Activity> it = stackActivity.iterator();
+        Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
             Activity act = it.next();
@@ -174,7 +172,7 @@ public class SDActivityManager
 
     public void finishAllActivityExcept(Class<?> cls)
     {
-        Iterator<Activity> it = stackActivity.iterator();
+        Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
             Activity act = it.next();
@@ -188,7 +186,7 @@ public class SDActivityManager
 
     public void finishAllActivityExcept(Activity activity)
     {
-        Iterator<Activity> it = stackActivity.iterator();
+        Iterator<Activity> it = mStackActivity.iterator();
         while (it.hasNext())
         {
             Activity act = it.next();
