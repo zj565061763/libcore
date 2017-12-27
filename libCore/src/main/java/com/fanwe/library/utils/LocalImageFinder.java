@@ -10,14 +10,11 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
-import com.fanwe.library.model.ImageModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class LocalImageFinder
 {
-
     public static final Uri URI_ALL_IMAGE = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
     private FragmentActivity mActivity;
@@ -65,7 +62,7 @@ public class LocalImageFinder
 
     public List<ImageModel> getImageFromCursor(Cursor cursor)
     {
-        List<ImageModel> listImage = new ArrayList<ImageModel>();
+        List<ImageModel> listImage = new ArrayList<>();
 
         if (cursor != null)
         {
@@ -75,7 +72,7 @@ public class LocalImageFinder
                 String bucketId = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_ID));
                 String displayName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME));
                 String data = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
-                long date_added = cursor.getLong(cursor.getColumnIndex((MediaStore.MediaColumns.DATE_ADDED)));
+                long dateAdded = cursor.getLong(cursor.getColumnIndex((MediaStore.MediaColumns.DATE_ADDED)));
                 long size = cursor.getLong(cursor.getColumnIndex(MediaStore.MediaColumns.SIZE));
 
                 if (size < 1)
@@ -84,16 +81,35 @@ public class LocalImageFinder
                 }
 
                 ImageModel model = new ImageModel();
-                model.setId(id);
-                model.setBucketId(bucketId);
-                model.setDisplayName(displayName);
-                model.setAddDate(date_added);
-                model.setUri(data);
-                model.setSize(size);
+                model.id = id;
+                model.bucketId = bucketId;
+                model.displayName = displayName;
+                model.dateAdded = dateAdded;
+                model.uri = data;
+                model.size = size;
                 listImage.add(model);
             }
         }
         return listImage;
+    }
+
+    public static class ImageModel
+    {
+        public int id;
+        public String bucketId;
+        /**
+         * 照片添加日期
+         */
+        public long dateAdded;
+        /**
+         * 照片路径
+         */
+        public String uri;
+        /**
+         * 大小
+         */
+        public long size;
+        public String displayName;
     }
 
     public interface LocalImageFinderListener

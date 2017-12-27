@@ -1,7 +1,7 @@
 package com.fanwe.demo.model;
 
+import com.fanwe.lib.selectmanager.FSelectManager;
 import com.fanwe.lib.utils.FIterateUtil;
-import com.fanwe.library.common.SDSelectManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +10,9 @@ import java.util.List;
  * Created by Administrator on 2017/4/14.
  */
 
-public class DataModel implements SDSelectManager.Selectable
+public class DataModel extends FSelectManager.SelectableModel
 {
-
     private String name;
-
-    //add
-    private boolean selected;
 
     public String getName()
     {
@@ -44,17 +40,5 @@ public class DataModel implements SDSelectManager.Selectable
         });
 
         return listModel;
-    }
-
-    @Override
-    public boolean isSelected()
-    {
-        return selected;
-    }
-
-    @Override
-    public void setSelected(boolean selected)
-    {
-        this.selected = selected;
     }
 }

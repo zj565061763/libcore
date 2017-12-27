@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fanwe.lib.selectmanager.FSelectManager;
 import com.fanwe.library.adapter.viewholder.SDRecyclerViewHolder;
-import com.fanwe.library.common.SDSelectManager;
 import com.fanwe.library.listener.SDItemClickCallback;
 import com.fanwe.library.listener.SDItemLongClickCallback;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecyclerViewHolder<T>> implements
         ISDAdapter<T>,
         View.OnClickListener,
-        SDSelectManager.SelectCallback<T>
+        FSelectManager.Callback<T>
 {
 
     private Activity mActivity;
@@ -30,7 +30,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
 
     private boolean mAutoNotifyDataSetChanged = true;
 
-    private SDSelectManager<T> mSelectManager;
+    private FSelectManager<T> mSelectManager;
 
     private SDItemClickCallback<T> mItemClickCallback;
     private SDItemLongClickCallback<T> mItemLongClickCallback;
@@ -102,13 +102,13 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
      *
      * @return
      */
-    public SDSelectManager<T> getSelectManager()
+    public FSelectManager<T> getSelectManager()
     {
         if (mSelectManager == null)
         {
-            mSelectManager = new SDSelectManager<>();
-            mSelectManager.setMode(SDSelectManager.Mode.SINGLE);
-            mSelectManager.addSelectCallback(this);
+            mSelectManager = new FSelectManager<>();
+            mSelectManager.setMode(FSelectManager.Mode.SINGLE);
+            mSelectManager.addCallback(this);
         }
         return mSelectManager;
     }
@@ -189,9 +189,9 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     @Override
     public void onNormal(int position, T item)
     {
-        if (item instanceof SDSelectManager.Selectable)
+        if (item instanceof FSelectManager.Selectable)
         {
-            SDSelectManager.Selectable selectable = (SDSelectManager.Selectable) item;
+            FSelectManager.Selectable selectable = (FSelectManager.Selectable) item;
             selectable.setSelected(false);
         }
         updateData(position);
@@ -200,9 +200,9 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     @Override
     public void onSelected(int position, T item)
     {
-        if (item instanceof SDSelectManager.Selectable)
+        if (item instanceof FSelectManager.Selectable)
         {
-            SDSelectManager.Selectable selectable = (SDSelectManager.Selectable) item;
+            FSelectManager.Selectable selectable = (FSelectManager.Selectable) item;
             selectable.setSelected(true);
         }
         updateData(position);

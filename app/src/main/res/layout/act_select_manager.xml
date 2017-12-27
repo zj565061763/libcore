@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.fanwe.library.view.select.SDSelectViewGroup
-        android:id="@+id/svg_item"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -16,16 +15,17 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="tab0"
-                android:textColor="@drawable/selector_text_tab"/>
+                android:textColor="@drawable/selector_text_tab" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@drawable/selector_bg_tab_bottom"/>
+                android:background="@drawable/selector_bg_tab_bottom" />
         </LinearLayout>
 
         <LinearLayout
@@ -34,20 +34,19 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="tab1"
-                android:textColor="@drawable/selector_text_tab"/>
+                android:textColor="@drawable/selector_text_tab" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@drawable/selector_bg_tab_bottom"/>
+                android:background="@drawable/selector_bg_tab_bottom" />
         </LinearLayout>
 
-
-    </com.fanwe.library.view.select.SDSelectViewGroup>
-
+    </LinearLayout>
 
 </LinearLayout>
