@@ -2,6 +2,7 @@ package com.fanwe.library;
 
 import android.content.Context;
 
+import com.fanwe.lib.utils.FContext;
 import com.fanwe.lib.utils.extend.FCookieManager;
 
 public class SDLibrary
@@ -24,6 +25,7 @@ public class SDLibrary
         mContext = context.getApplicationContext();
 
         FCookieManager.getInstance().init(context);
+        FContext.set(context);
     }
 
     public static SDLibrary getInstance()
