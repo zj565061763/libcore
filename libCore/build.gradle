@@ -34,7 +34,7 @@ dependencies {
     compile 'com.github.zj565061763:res:1.0.11'
     compile 'com.github.zj565061763:selectmanager:1.0.0'
     compile 'com.github.zj565061763:receiver:1.0.1'
-    compile 'com.github.zj565061763:utils:14'
+    compile 'com.github.zj565061763:utils:15'
     compile 'com.github.zj565061763:utils-context:3'
     compile 'com.github.zj565061763:utils-extend:16'
 

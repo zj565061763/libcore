@@ -2,11 +2,16 @@ package com.fanwe.library.utils;
 
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fanwe.lib.utils.FViewUtil;
+import com.fanwe.lib.utils.FViewBinder;
 
+/**
+ * 用{@link FViewBinder}
+ */
+@Deprecated
 public class SDViewBinder
 {
     public static boolean setTextView(TextView textView, CharSequence content)
@@ -63,11 +68,11 @@ public class SDViewBinder
     {
         if (TextUtils.isEmpty(content))
         {
-            FViewUtil.setGone(textView);
+            textView.setVisibility(View.GONE);
         } else
         {
             textView.setText(content);
-            FViewUtil.setVisible(textView);
+            textView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -81,11 +86,11 @@ public class SDViewBinder
     {
         if (resId <= 0)
         {
-            FViewUtil.setGone(imageView);
+            imageView.setVisibility(View.GONE);
         } else
         {
             imageView.setImageResource(resId);
-            FViewUtil.setVisible(imageView);
+            imageView.setVisibility(View.VISIBLE);
         }
     }
 }
