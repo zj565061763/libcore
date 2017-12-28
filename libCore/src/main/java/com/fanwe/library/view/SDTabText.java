@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
-import com.fanwe.library.utils.SDViewBinder;
 import com.fanwe.library.view.select.SDSelectViewAuto;
 
 @Deprecated
@@ -52,7 +50,6 @@ public class SDTabText extends SDSelectViewAuto
 
     public void setTextTitle(CharSequence content)
     {
-        SDViewBinder.setTextView(mTv_title, content);
+        mTv_title.setText(content);
     }
-
 }

@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fanwe.lib.utils.FViewBinder;
 import com.fanwe.library.R;
-import com.fanwe.library.utils.SDViewBinder;
 
 public class SDTitleItem extends LinearLayout
 {
@@ -75,14 +75,14 @@ public class SDTitleItem extends LinearLayout
 
     public SDTitleItem setTextTop(String text)
     {
-        SDViewBinder.setTextViewVisibleOrGone(mTvTop, text);
+        FViewBinder.setTextViewVisibleOrGone(mTvTop, text);
         dealClickListener();
         return this;
     }
 
     public SDTitleItem setTextBot(String text)
     {
-        SDViewBinder.setTextViewVisibleOrGone(mTvBot, text);
+        FViewBinder.setTextViewVisibleOrGone(mTvBot, text);
         dealClickListener();
         return this;
     }

@@ -6,8 +6,8 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fanwe.lib.utils.FViewBinder;
 import com.fanwe.library.R;
-import com.fanwe.library.utils.SDViewBinder;
 import com.fanwe.library.view.select.SDSelectViewAuto;
 
 @Deprecated
@@ -52,12 +52,12 @@ public class SDTabMenu extends SDSelectViewAuto
 
     public void setTextTitleNumber(String content)
     {
-        SDViewBinder.setTextViewVisibleOrGone(mTvNumbr, content);
+        FViewBinder.setTextViewVisibleOrGone(mTvNumbr, content);
     }
 
     public void setTextTitle(String content)
     {
-        SDViewBinder.setTextViewVisibleOrGone(mTvTitle, content);
+        FViewBinder.setTextViewVisibleOrGone(mTvTitle, content);
     }
 
     public void setBackgroundTextTitleNumber(int resId)

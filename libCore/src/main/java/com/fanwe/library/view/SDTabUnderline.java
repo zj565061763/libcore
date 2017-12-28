@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fanwe.library.R;
-import com.fanwe.library.utils.SDViewBinder;
 import com.fanwe.library.view.select.SDSelectViewAuto;
 
 @Deprecated
@@ -54,7 +53,6 @@ public class SDTabUnderline extends SDSelectViewAuto
 
     public void setTextTitle(String title)
     {
-        SDViewBinder.setTextView(mTvTitle, title);
+        mTvTitle.setText(title);
     }
-
 }
