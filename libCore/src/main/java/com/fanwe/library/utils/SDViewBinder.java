@@ -3,17 +3,15 @@ package com.fanwe.library.utils;
 import android.text.Html;
 import android.text.TextUtils;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.fanwe.lib.utils.FViewUtil;
 
 public class SDViewBinder
 {
-
-    public static void setRatingBar(RatingBar ratingBar, float rating)
+    public static boolean setTextView(TextView textView, CharSequence content)
     {
-        ratingBar.setRating(rating);
+        return setTextView(textView, content, null);
     }
 
     /**
@@ -32,20 +30,13 @@ public class SDViewBinder
             return true;
         } else
         {
-            if (!TextUtils.isEmpty(emptyTip))
+            if (emptyTip == null)
             {
-                textView.setText(emptyTip);
-            } else
-            {
-                textView.setText("");
+                emptyTip = "";
             }
+            textView.setText(emptyTip);
             return false;
         }
-    }
-
-    public static boolean setTextView(TextView textView, CharSequence content)
-    {
-        return setTextView(textView, content, null);
     }
 
     public static boolean setTextViewHtml(TextView textView, CharSequence contentHtml)
