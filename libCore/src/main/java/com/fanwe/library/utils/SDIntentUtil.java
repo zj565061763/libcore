@@ -144,18 +144,6 @@ public class SDIntentUtil
         return false;
     }
 
-    public static Intent getIntentLocalMap(String latitude, String longitude, String name)
-    {
-        Intent intent = null;
-        if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude))
-        {
-            double lat = SDTypeParseUtil.getDouble(latitude);
-            double lon = SDTypeParseUtil.getDouble(longitude);
-            intent = getIntentLocalMap(lat, lon, name);
-        }
-        return intent;
-    }
-
     public static Intent getIntentLocalMap(double latitude, double longitude, String name)
     {
         String uriString = "geo:" + latitude + "," + longitude;
@@ -176,5 +164,4 @@ public class SDIntentUtil
         }
         return intent;
     }
-
 }
