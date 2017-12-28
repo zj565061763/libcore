@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.fanwe.lib.utils.FCollectionUtil;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
@@ -202,7 +201,7 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
 
     public boolean isEmpty(List<?> list)
     {
-        return FCollectionUtil.isEmpty(list);
+        return list == null || list.isEmpty();
     }
 
     @Override

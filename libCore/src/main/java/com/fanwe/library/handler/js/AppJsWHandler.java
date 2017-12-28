@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 
-import com.fanwe.lib.utils.FPackageUtil;
 import com.fanwe.library.SDLibrary;
 import com.fanwe.library.model.StartAppPageJsonModel;
 import com.fanwe.library.utils.SDJsonUtil;

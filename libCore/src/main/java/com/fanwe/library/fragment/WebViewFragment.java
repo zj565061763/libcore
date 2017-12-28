@@ -455,7 +455,7 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
 
         mTvClose = new TextView(getActivity());
         mTvClose.setText("关闭");
-        FViewUtil.setTextSizeSp(mTvClose, 17);
+        mTvClose.setTextSize(17);
         mTvClose.setGravity(Gravity.CENTER);
         mTvClose.setTextColor(Color.parseColor("#ffffff"));
         mTvClose.setOnClickListener(new OnClickListener()

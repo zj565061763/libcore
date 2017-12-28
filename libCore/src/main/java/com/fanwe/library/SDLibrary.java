@@ -2,7 +2,7 @@ package com.fanwe.library;
 
 import android.content.Context;
 
-import com.fanwe.lib.utils.FContext;
+import com.fanwe.lib.utils.context.FContext;
 import com.fanwe.lib.utils.extend.FCookieManager;
 
 public class SDLibrary

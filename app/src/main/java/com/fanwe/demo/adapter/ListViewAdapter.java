@@ -1,13 +1,13 @@
 package com.fanwe.demo.adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fanwe.demo.R;
 import com.fanwe.demo.model.DataModel;
-import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.adapter.SDSimpleAdapter;
 
 import java.util.List;
@@ -37,10 +37,10 @@ public class ListViewAdapter extends SDSimpleAdapter<DataModel>
 
         if (model.isSelected())
         {
-            FViewUtil.setBackgroundColorResId(convertView, R.color.red, getActivity());
+            convertView.setBackgroundColor(Color.RED);
         } else
         {
-            FViewUtil.setBackgroundColorResId(convertView, R.color.green, getActivity());
+            convertView.setBackgroundColor(Color.GREEN);
         }
 
         convertView.setOnClickListener(this);

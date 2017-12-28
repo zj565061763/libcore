@@ -7,8 +7,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 
-import com.fanwe.lib.utils.FResUtil;
 import com.fanwe.lib.utils.FViewUtil;
+import com.fanwe.lib.utils.context.FResUtil;
 import com.fanwe.library.R;
 import com.fanwe.library.utils.SDTimer;
 import com.fanwe.library.utils.SDTimer.SDTimerListener;
@@ -142,8 +142,8 @@ public class SDSendValidateButton extends Button
 
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setColor(Color.TRANSPARENT);
-        gradientDrawable.setStroke(FResUtil.dp2px(1, getContext()), mTextColorEnable);
-        gradientDrawable.setCornerRadius(FResUtil.dp2px(5, getContext()));
+        gradientDrawable.setStroke(FResUtil.dp2px(1), mTextColorEnable);
+        gradientDrawable.setCornerRadius(FResUtil.dp2px(5));
 
         FViewUtil.setBackgroundDrawable(this, gradientDrawable);
 

@@ -1,12 +1,12 @@
 package com.fanwe.demo.adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fanwe.demo.R;
 import com.fanwe.demo.model.DataModel;
-import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.adapter.SDSimpleRecyclerAdapter;
 import com.fanwe.library.adapter.viewholder.SDRecyclerViewHolder;
 
@@ -36,10 +36,10 @@ public class RecyclerViewAdapter extends SDSimpleRecyclerAdapter<DataModel>
 
         if (model.isSelected())
         {
-            FViewUtil.setBackgroundColorResId(holder.itemView, R.color.red, getActivity());
+            holder.itemView.setBackgroundColor(Color.RED);
         } else
         {
-            FViewUtil.setBackgroundColorResId(holder.itemView, R.color.green, getActivity());
+            holder.itemView.setBackgroundColor(Color.GREEN);
         }
     }
 }

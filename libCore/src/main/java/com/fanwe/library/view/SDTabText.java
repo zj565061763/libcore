@@ -47,7 +47,7 @@ public class SDTabText extends SDSelectViewAuto
 
     public void setTextSizeTitleSp(int textSizeSp)
     {
-        FViewUtil.setTextSizeSp(mTv_title, textSizeSp);
+        mTv_title.setTextSize(textSizeSp);
     }
 
     public void setTextTitle(CharSequence content)

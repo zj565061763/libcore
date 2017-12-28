@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.fanwe.lib.utils.FPackageUtil;
 import com.fanwe.lib.utils.FViewUtil;
+import com.fanwe.lib.utils.context.FPackageUtil;
 import com.fanwe.lib.utils.extend.FActivityStack;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.event.EOnBackground;
@@ -236,7 +236,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         mIsResume = false;
         if (!sIsBackground)
         {
-            if (FPackageUtil.isAppBackground(this))
+            if (FPackageUtil.isAppBackground())
             {
                 sIsBackground = true;
                 sBackgroundTime = System.currentTimeMillis();
