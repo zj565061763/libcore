@@ -344,7 +344,7 @@ public class SDAppView extends FrameLayout implements
     @Override
     public boolean dispatchTouchEvent(Activity activity, MotionEvent ev)
     {
-        if (FViewUtil.isVisible(this) && getParent() != null)
+        if (View.VISIBLE == getVisibility() && getParent() != null)
         {
             switch (ev.getAction())
             {
@@ -376,7 +376,7 @@ public class SDAppView extends FrameLayout implements
     @Override
     public boolean dispatchKeyEvent(Activity activity, KeyEvent event)
     {
-        if (FViewUtil.isVisible(this) && getParent() != null)
+        if (View.VISIBLE == getVisibility() && getParent() != null)
         {
             switch (event.getAction())
             {

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Base64;
+import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -18,7 +19,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.context.FDeviceUtil;
 import com.fanwe.lib.utils.context.FPackageUtil;
 import com.fanwe.lib.utils.context.FResUtil;
@@ -249,10 +249,10 @@ public class CustomWebView extends WebView
             {
                 if (newProgress == 100)
                 {
-                    FViewUtil.setGone(mProgressBar);
+                    mProgressBar.setVisibility(View.GONE);
                 } else
                 {
-                    FViewUtil.setVisible(mProgressBar);
+                    mProgressBar.setVisibility(View.VISIBLE);
                     mProgressBar.setProgress(newProgress);
                 }
             }

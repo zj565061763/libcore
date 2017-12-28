@@ -43,13 +43,7 @@ public class SDWebViewFragment extends SDBaseFragment
         this.progressBarEnable = progressBarEnable;
         if (progressBar != null)
         {
-            if (progressBarEnable)
-            {
-                FViewUtil.setVisible(progressBar);
-            } else
-            {
-                FViewUtil.setGone(progressBar);
-            }
+            progressBar.setVisibility(progressBarEnable ? View.VISIBLE : View.GONE);
         }
     }
 

@@ -1841,8 +1841,8 @@ public class SDViewUtil
     public static void showPopTop(PopupWindow pop, View view, int marginBottom)
     {
         int[] location = getLocationOnScreen(view);
-        int x = location[0] - SDViewUtil.getScreenWidth() / 2 + view.getWidth() / 2;
-        int y = SDViewUtil.getScreenHeight() - location[1] + marginBottom;
+        int x = location[0] - getScreenWidth() / 2 + view.getWidth() / 2;
+        int y = getScreenHeight() - location[1] + marginBottom;
         pop.showAtLocation(view, Gravity.BOTTOM, x, y);
     }
 

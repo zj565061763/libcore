@@ -238,19 +238,28 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
 
     public void hideFragmentView()
     {
-        FViewUtil.setGone(getView());
+        if (getView() != null)
+        {
+            getView().setVisibility(View.GONE);
+        }
         notifyVisibleState();
     }
 
     public void showFragmentView()
     {
-        FViewUtil.setVisible(getView());
+        if (getView() != null)
+        {
+            getView().setVisibility(View.VISIBLE);
+        }
         notifyVisibleState();
     }
 
     public void invisibleFragmentView()
     {
-        FViewUtil.setInvisible(getView());
+        if (getView() != null)
+        {
+            getView().setVisibility(View.INVISIBLE);
+        }
         notifyVisibleState();
     }
 

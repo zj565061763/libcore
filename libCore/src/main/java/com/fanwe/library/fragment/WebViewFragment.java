@@ -222,10 +222,10 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
             switch (mProgressMode)
             {
                 case HORIZONTAL:
-                    FViewUtil.setVisible(mPgbHorizontal);
+                    mPgbHorizontal.setVisibility(View.VISIBLE);
                     break;
                 case NONE:
-                    FViewUtil.setGone(mPgbHorizontal);
+                    mPgbHorizontal.setVisibility(View.GONE);
                     break;
 
                 default:
@@ -337,17 +337,17 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
     // WebChromeClient 方法回调
     protected void onProgressChanged(WebView view, int newProgress)
     {
-        if (mProgressMode != null)
+        if (mProgressMode != null && mPgbHorizontal != null)
         {
             switch (mProgressMode)
             {
                 case HORIZONTAL:
                     if (newProgress == 100)
                     {
-                        FViewUtil.setGone(mPgbHorizontal);
+                        mPgbHorizontal.setVisibility(View.GONE);
                     } else
                     {
-                        FViewUtil.setVisible(mPgbHorizontal);
+                        mPgbHorizontal.setVisibility(View.VISIBLE);
                         mPgbHorizontal.setProgress(newProgress);
                     }
                     break;
@@ -434,13 +434,7 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
     {
         if (mTitle != null)
         {
-            if (isShowTitle)
-            {
-                FViewUtil.setVisible(mTitle);
-            } else
-            {
-                FViewUtil.setGone(mTitle);
-            }
+            mTitle.setVisibility(isShowTitle ? View.VISIBLE : View.GONE);
         }
     }
 
