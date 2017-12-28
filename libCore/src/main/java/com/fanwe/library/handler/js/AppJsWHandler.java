@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 
+import com.fanwe.lib.utils.context.FToast;
 import com.fanwe.library.SDLibrary;
 import com.fanwe.library.model.StartAppPageJsonModel;
 import com.fanwe.library.utils.SDJsonUtil;
-import com.fanwe.library.utils.SDToast;
 
 /**
  * Created by Administrator on 2016/9/20.
@@ -44,7 +44,7 @@ public class AppJsWHandler extends BaseJsHandler
         } catch (Exception e)
         {
             e.printStackTrace();
-            SDToast.showToast("数据解析异常");
+            FToast.show("数据解析异常");
         }
     }
 

@@ -13,7 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.fanwe.lib.receiver.FNetworkReceiver;
-import com.fanwe.library.utils.SDToast;
+import com.fanwe.lib.utils.context.FToast;
 
 public class DefaultWebViewClient extends WebViewClient
 {
@@ -35,7 +35,7 @@ public class DefaultWebViewClient extends WebViewClient
         {
             if (!FNetworkReceiver.isNetworkConnected(view.getContext()))
             {
-                SDToast.showToast("亲!您的网络状况不太好!");
+                FToast.show("亲!您的网络状况不太好!");
                 return true;
             } else
             {

@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
 import com.fanwe.lib.utils.FFileUtil;
+import com.fanwe.lib.utils.context.FToast;
 import com.fanwe.library.utils.SDIntentUtil;
 import com.fanwe.library.utils.SDOtherUtil;
-import com.fanwe.library.utils.SDToast;
 import com.fanwe.library.utils.UriFileUtils;
 
 import java.io.File;
@@ -66,7 +66,7 @@ public class PhotoHandler extends OnActivityResultHandler
             startActivityForResult(intent, REQUEST_CODE_GET_PHOTO_FROM_ALBUM);
         } catch (android.content.ActivityNotFoundException e)
         {
-            SDToast.showToast("ActivityNotFoundException");
+            FToast.show("ActivityNotFoundException");
         }
     }
 

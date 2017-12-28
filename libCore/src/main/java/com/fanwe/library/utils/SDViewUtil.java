@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fanwe.lib.utils.FViewUtil;
+import com.fanwe.lib.utils.context.FToast;
 import com.fanwe.library.SDLibrary;
 import com.fanwe.library.adapter.SDAdapter;
 
@@ -1779,14 +1780,14 @@ public class SDViewUtil
                 {
                     if (!TextUtils.isEmpty(noData))
                     {
-                        SDToast.showToast(noData);
+                        FToast.show(noData);
                     }
                     listOriginalData.clear();
                 } else
                 {
                     if (!TextUtils.isEmpty(noMoreData))
                     {
-                        SDToast.showToast(noMoreData);
+                        FToast.show(noMoreData);
                     }
                 }
             }
