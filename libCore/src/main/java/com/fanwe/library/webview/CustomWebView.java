@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.context.FDeviceUtil;
 import com.fanwe.lib.utils.context.FPackageUtil;
-import com.fanwe.lib.utils.context.FResUtil;
+import com.fanwe.lib.utils.context.FResourcesUtil;
 import com.fanwe.lib.utils.extend.FCookieManager;
 import com.fanwe.library.handler.js.BaseJsHandler;
 import com.fanwe.library.utils.SDIntentUtil;
@@ -331,8 +331,8 @@ public class CustomWebView extends WebView
                 " sdk_version_name/" + packageInfo.versionName +
                 " sdk_version/" + packageInfo.versionCode +
                 " sdk_guid/" + FDeviceUtil.getDeviceId() +
-                " screen_width/" + FResUtil.getScreenWidth() +
-                " screen_height/" + FResUtil.getScreenHeight();
+                " screen_width/" + FResourcesUtil.getScreenWidth() +
+                " screen_height/" + FResourcesUtil.getScreenHeight();
         settings.setUserAgentString(us);
     }
 

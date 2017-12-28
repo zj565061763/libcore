@@ -5,7 +5,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fanwe.lib.utils.context.FResUtil;
+import com.fanwe.lib.utils.context.FResourcesUtil;
+
 
 /**
  * Created by Administrator on 2017/6/27.
@@ -44,7 +45,7 @@ public class TestViewGroup extends ViewGroup
     protected void onLayout(boolean changed, int l, int t, int r, int b)
     {
         View child = getChildAt(0);
-        int dis = FResUtil.dp2px(50);
+        int dis = FResourcesUtil.dp2px(50);
         int height = getHeight();
 
         child.layout(0, -dis, getWidth(), height + dis);

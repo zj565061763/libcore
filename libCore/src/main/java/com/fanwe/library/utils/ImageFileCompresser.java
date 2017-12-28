@@ -3,7 +3,7 @@ package com.fanwe.library.utils;
 import com.fanwe.lib.utils.FFileUtil;
 import com.fanwe.lib.utils.FHandlerManager;
 import com.fanwe.lib.utils.FIOUtil;
-import com.fanwe.lib.utils.extend.FBitmapCompressor;
+import com.fanwe.lib.utils.extend.FImageCompressor;
 import com.fanwe.library.SDLibrary;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 用{@link FBitmapCompressor}替代
+ * 用{@link FImageCompressor}替代
  */
 @Deprecated
 public class ImageFileCompresser
