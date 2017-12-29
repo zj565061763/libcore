@@ -1,10 +1,14 @@
 package com.fanwe.library.utils;
 
-
+import com.fanwe.lib.utils.json.FJson;
 import com.google.gson.Gson;
 
 import java.util.Map;
 
+/**
+ * 用{@link FJson}替代
+ */
+@Deprecated
 public class SDJsonUtil
 {
     private static final Gson GSON = new Gson();

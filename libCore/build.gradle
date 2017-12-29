@@ -37,9 +37,9 @@ dependencies {
     compile 'com.github.zj565061763:utils:20'
     compile 'com.github.zj565061763:utils-context:3'
     compile 'com.github.zj565061763:utils-extend:18'
+    compile 'com.github.zj565061763:json:1.0.0'
 
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.google.code.gson:gson:2.8.2'
 }
 
 // 指定编码

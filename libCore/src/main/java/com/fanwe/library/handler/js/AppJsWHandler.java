@@ -6,9 +6,9 @@ import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 
 import com.fanwe.lib.utils.context.FToast;
+import com.fanwe.lib.utils.json.FJson;
 import com.fanwe.library.SDLibrary;
 import com.fanwe.library.model.StartAppPageJsonModel;
-import com.fanwe.library.utils.SDJsonUtil;
 
 /**
  * Created by Administrator on 2016/9/20.
@@ -31,7 +31,7 @@ public class AppJsWHandler extends BaseJsHandler
     {
         try
         {
-            StartAppPageJsonModel model = SDJsonUtil.json2Object(json, StartAppPageJsonModel.class);
+            StartAppPageJsonModel model = FJson.jsonToObject(json, StartAppPageJsonModel.class);
 
             String packename = SDLibrary.getInstance().getContext().getPackageName();
             String target = model.getAndroid_page();
