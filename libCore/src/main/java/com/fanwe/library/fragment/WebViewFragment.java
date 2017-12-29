@@ -18,11 +18,11 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.fanwe.lib.utils.FIntentUtil;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.R;
 import com.fanwe.library.title.SDTitleItem;
 import com.fanwe.library.title.SDTitleSimple;
-import com.fanwe.library.utils.SDIntentUtil;
 import com.fanwe.library.webview.CustomWebView;
 
 import java.util.HashMap;
@@ -364,7 +364,7 @@ public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDT
     protected void openFileChooser(ValueCallback<Uri> uploadFile, String acceptType, String capture)
     {
         mUploadMsg = uploadFile;
-        Intent intent = SDIntentUtil.getIntentGetContent();
+        Intent intent = FIntentUtil.getIntentGetContent();
         startActivityForResult(intent, REQUEST_GET_CONTENT);
     }
 

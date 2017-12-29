@@ -8,8 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
 import com.fanwe.lib.utils.FFileUtil;
-import com.fanwe.lib.utils.context.FToast;
-import com.fanwe.library.utils.SDIntentUtil;
+import com.fanwe.lib.utils.FIntentUtil;
 import com.fanwe.library.utils.SDOtherUtil;
 import com.fanwe.library.utils.UriFileUtils;
 
@@ -58,15 +57,16 @@ public class PhotoHandler extends OnActivityResultHandler
         }
     }
 
-    public void getPhotoFromAlbum()
+    public boolean getPhotoFromAlbum()
     {
         try
         {
-            Intent intent = SDIntentUtil.getIntentSelectLocalImage2();
+            Intent intent = FIntentUtil.getIntentSelectImage();
             startActivityForResult(intent, REQUEST_CODE_GET_PHOTO_FROM_ALBUM);
+            return true;
         } catch (android.content.ActivityNotFoundException e)
         {
-            FToast.show("ActivityNotFoundException");
+            return false;
         }
     }
 
@@ -88,7 +88,7 @@ public class PhotoHandler extends OnActivityResultHandler
     public void getPhotoFromCamera(File saveFile)
     {
         takePhotoFile = saveFile;
-        Intent intent = SDIntentUtil.getIntentTakePhoto(saveFile);
+        Intent intent = FIntentUtil.getIntentTakePhoto(saveFile);
         startActivityForResult(intent, REQUEST_CODE_GET_PHOTO_FROM_CAMERA);
     }
 

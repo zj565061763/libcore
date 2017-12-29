@@ -19,12 +19,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.fanwe.lib.utils.FIntentUtil;
 import com.fanwe.lib.utils.context.FDeviceUtil;
 import com.fanwe.lib.utils.context.FPackageUtil;
 import com.fanwe.lib.utils.context.FResUtil;
 import com.fanwe.lib.utils.extend.FCookieManager;
 import com.fanwe.library.handler.js.BaseJsHandler;
-import com.fanwe.library.utils.SDIntentUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -267,7 +267,7 @@ public class CustomWebView extends WebView
             {
                 Activity activity = (Activity) context;
                 mContentValueCallback = uploadFile;
-                Intent intent = SDIntentUtil.getIntentGetContent();
+                Intent intent = FIntentUtil.getIntentGetContent();
                 activity.startActivityForResult(intent, REQUEST_GET_CONTENT);
             }
             super.openFileChooser(uploadFile, acceptType, capture);
