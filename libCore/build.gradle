@@ -36,7 +36,7 @@ dependencies {
     compile 'com.github.zj565061763:receiver:1.0.1'
     compile 'com.github.zj565061763:utils:17'
     compile 'com.github.zj565061763:utils-context:3'
-    compile 'com.github.zj565061763:utils-extend:16'
+    compile 'com.github.zj565061763:utils-extend:17'
 
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.code.gson:gson:2.8.2'
