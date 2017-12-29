@@ -9,11 +9,16 @@ import android.text.TextUtils;
 
 import com.fanwe.lib.utils.FFileUtil;
 import com.fanwe.lib.utils.FIntentUtil;
+import com.fanwe.lib.utils.extend.FImageGetter;
 import com.fanwe.library.utils.SDOtherUtil;
 import com.fanwe.library.utils.UriFileUtils;
 
 import java.io.File;
 
+/**
+ * 用{@link FImageGetter}替代
+ */
+@Deprecated
 public class PhotoHandler extends OnActivityResultHandler
 {
     public static final String TAKE_PHOTO_FILE_DIR_NAME = "take_photo";
