@@ -43,8 +43,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private ProgressDialog mProgressDialog;
 
-    private boolean mIsResume;
-
     private List<SDActivityLifecycleCallback> mListActivityLifecycleCallback = new ArrayList<>();
     private List<SDActivityDispatchTouchEventCallback> mListDispatchTouchEventCallback = new ArrayList<>();
     private List<SDActivityDispatchKeyEventCallback> mListDispatchKeyEventCallback = new ArrayList<>();
@@ -67,16 +65,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     public List<SDActivityDispatchKeyEventCallback> getListDispatchKeyEventCallback()
     {
         return mListDispatchKeyEventCallback;
-    }
-
-    /**
-     * activity是否处于resume状态
-     *
-     * @return
-     */
-    public boolean isResume()
-    {
-        return mIsResume;
     }
 
     @Override
@@ -176,7 +164,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onResume()
     {
         super.onResume();
-        mIsResume = true;
         notifyOnResume();
     }
 
@@ -184,7 +171,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onPause()
     {
         super.onPause();
-        mIsResume = false;
         notifyOnPause();
     }
 
@@ -192,7 +178,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onStop()
     {
         super.onStop();
-        mIsResume = false;
         notifyOnStop();
     }
 
@@ -204,7 +189,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         dismissProgressDialog();
         notifyOnDestroy();
     }
-
 
     @Override
     public void finish()
