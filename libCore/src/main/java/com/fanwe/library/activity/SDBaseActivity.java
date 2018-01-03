@@ -18,11 +18,8 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.lib.utils.context.FPackageUtil;
 import com.fanwe.lib.utils.extend.FActivityStack;
 import com.fanwe.library.common.SDFragmentManager;
-import com.fanwe.library.event.EOnBackground;
-import com.fanwe.library.event.EOnResumeFromBackground;
 import com.fanwe.library.event.SDEvent;
 import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
@@ -46,53 +43,30 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private ProgressDialog mProgressDialog;
 
-    private static boolean sIsBackground = false;
-    private static long sBackgroundTime;
-
     private boolean mIsResume;
 
-    private List<SDActivityLifecycleCallback> mActivityLifecycleCallbackHolder = new ArrayList<>();
-    private List<SDActivityDispatchTouchEventCallback> mDispatchTouchEventCallbackHolder = new ArrayList<>();
-    private List<SDActivityDispatchKeyEventCallback> mDispatchKeyEventCallbackHolder = new ArrayList<>();
-
-    /**
-     * app是否处于后台
-     *
-     * @return true-处于后台
-     */
-    public static boolean isBackground()
-    {
-        return sIsBackground;
-    }
+    private List<SDActivityLifecycleCallback> mListActivityLifecycleCallback = new ArrayList<>();
+    private List<SDActivityDispatchTouchEventCallback> mListDispatchTouchEventCallback = new ArrayList<>();
+    private List<SDActivityDispatchKeyEventCallback> mListDispatchKeyEventCallback = new ArrayList<>();
 
     public Activity getActivity()
     {
         return this;
     }
 
-    /**
-     * 获得app进入后台的时间点
-     *
-     * @return
-     */
-    public static long getBackgroundTime()
+    public List<SDActivityLifecycleCallback> getListActivityLifecycleCallback()
     {
-        return sBackgroundTime;
+        return mListActivityLifecycleCallback;
     }
 
-    public List<SDActivityLifecycleCallback> getActivityLifecycleCallbackHolder()
+    public List<SDActivityDispatchTouchEventCallback> getListDispatchTouchEventCallback()
     {
-        return mActivityLifecycleCallbackHolder;
+        return mListDispatchTouchEventCallback;
     }
 
-    public List<SDActivityDispatchTouchEventCallback> getDispatchTouchEventCallbackHolder()
+    public List<SDActivityDispatchKeyEventCallback> getListDispatchKeyEventCallback()
     {
-        return mDispatchTouchEventCallbackHolder;
-    }
-
-    public List<SDActivityDispatchKeyEventCallback> getDispatchKeyEventCallbackHolder()
-    {
-        return mDispatchKeyEventCallbackHolder;
+        return mListDispatchKeyEventCallback;
     }
 
     /**
@@ -206,18 +180,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         super.onResume();
         mIsResume = true;
         FActivityStack.getInstance().onResume(this);
-        if (sIsBackground)
-        {
-            sIsBackground = false;
-
-            onResumeFromBackground();
-
-            EOnResumeFromBackground event = new EOnResumeFromBackground();
-            EventBus.getDefault().post(event);
-
-            sBackgroundTime = 0;
-        }
-
         notifyOnResume();
     }
 
@@ -234,29 +196,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         super.onStop();
         mIsResume = false;
-        if (!sIsBackground)
-        {
-            if (FPackageUtil.isAppBackground())
-            {
-                sIsBackground = true;
-                sBackgroundTime = System.currentTimeMillis();
-
-                onBackground();
-
-                EOnBackground event = new EOnBackground();
-                EventBus.getDefault().post(event);
-            }
-        }
-
         notifyOnStop();
-    }
-
-    protected void onBackground()
-    {
-    }
-
-    protected void onResumeFromBackground()
-    {
     }
 
     @Override
@@ -335,10 +275,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public boolean dispatchTouchEvent(final MotionEvent ev)
     {
-        int size = mDispatchTouchEventCallbackHolder.size();
+        int size = mListDispatchTouchEventCallback.size();
         for (int i = size - 1; i >= 0; i--)
         {
-            SDActivityDispatchTouchEventCallback item = mDispatchTouchEventCallbackHolder.get(i);
+            SDActivityDispatchTouchEventCallback item = mListDispatchTouchEventCallback.get(i);
             if (item.dispatchTouchEvent(this, ev))
             {
                 return true;
@@ -351,10 +291,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event)
     {
-        int size = mDispatchKeyEventCallbackHolder.size();
+        int size = mListDispatchKeyEventCallback.size();
         for (int i = size - 1; i >= 0; i--)
         {
-            SDActivityDispatchKeyEventCallback item = mDispatchKeyEventCallbackHolder.get(i);
+            SDActivityDispatchKeyEventCallback item = mListDispatchKeyEventCallback.get(i);
             if (item.dispatchKeyEvent(this, event))
             {
                 return true;
@@ -428,9 +368,9 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         if (view != null)
         {
-            mDispatchKeyEventCallbackHolder.add(view);
-            mDispatchTouchEventCallbackHolder.add(view);
-            mActivityLifecycleCallbackHolder.add(view);
+            mListDispatchKeyEventCallback.add(view);
+            mListDispatchTouchEventCallback.add(view);
+            mListActivityLifecycleCallback.add(view);
         }
     }
 
@@ -438,9 +378,9 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         if (view != null)
         {
-            mDispatchKeyEventCallbackHolder.remove(view);
-            mDispatchTouchEventCallbackHolder.remove(view);
-            mActivityLifecycleCallbackHolder.remove(view);
+            mListDispatchKeyEventCallback.remove(view);
+            mListDispatchTouchEventCallback.remove(view);
+            mListActivityLifecycleCallback.remove(view);
         }
     }
 
@@ -464,7 +404,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnCreate(final Bundle savedInstanceState)
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();
@@ -474,7 +414,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnStart()
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();
@@ -484,7 +424,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnResume()
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();
@@ -494,7 +434,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnPause()
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();
@@ -504,7 +444,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnStop()
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();
@@ -514,7 +454,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnSaveInstanceState(final Bundle outState)
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();
@@ -524,7 +464,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnDestroy()
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();
@@ -534,7 +474,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnRestoreInstanceState(final Bundle savedInstanceState)
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();
@@ -544,7 +484,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnActivityResult(final int requestCode, final int resultCode, final Intent data)
     {
-        Iterator<SDActivityLifecycleCallback> it = mActivityLifecycleCallbackHolder.iterator();
+        Iterator<SDActivityLifecycleCallback> it = mListActivityLifecycleCallback.iterator();
         while (it.hasNext())
         {
             SDActivityLifecycleCallback item = it.next();

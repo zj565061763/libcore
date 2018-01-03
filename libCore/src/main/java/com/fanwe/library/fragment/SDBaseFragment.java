@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.event.SDEvent;
@@ -94,8 +93,8 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
         SDBaseActivity activity = getSDBaseActivity();
         if (activity != null)
         {
-            activity.getDispatchTouchEventCallbackHolder().add(this);
-            activity.getDispatchKeyEventCallbackHolder().add(this);
+            activity.getListDispatchTouchEventCallback().add(this);
+            activity.getListDispatchKeyEventCallback().add(this);
         }
         super.onCreate(savedInstanceState);
     }
@@ -211,8 +210,8 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
         SDBaseActivity activity = getSDBaseActivity();
         if (activity != null)
         {
-            activity.getDispatchTouchEventCallbackHolder().remove(this);
-            activity.getDispatchKeyEventCallbackHolder().remove(this);
+            activity.getListDispatchTouchEventCallback().remove(this);
+            activity.getListDispatchKeyEventCallback().remove(this);
         }
         super.onDestroy();
     }

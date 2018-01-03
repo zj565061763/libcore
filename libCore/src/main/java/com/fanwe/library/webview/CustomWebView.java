@@ -211,7 +211,7 @@ public class CustomWebView extends WebView
         @Override
         public void onPageFinished(WebView view, String url)
         {
-            FCookieManager.getInstance().flush();
+            FCookieManager.flush();
             super.onPageFinished(view, url);
         }
 

@@ -3,38 +3,41 @@ package com.fanwe.library;
 import android.content.Context;
 
 import com.fanwe.lib.utils.context.FContext;
+import com.fanwe.lib.utils.extend.FAppBackgroundListener;
 import com.fanwe.lib.utils.extend.FCookieManager;
 
 public class SDLibrary
 {
     private static SDLibrary sInstance;
-
     private Context mContext;
 
     private SDLibrary()
     {
     }
 
-    public Context getContext()
+    public static SDLibrary getInstance()
     {
-        return mContext;
+        if (sInstance == null)
+        {
+            synchronized (SDLibrary.class)
+            {
+                sInstance = new SDLibrary();
+            }
+        }
+        return sInstance;
     }
 
     public void init(Context context)
     {
         mContext = context.getApplicationContext();
 
-        FCookieManager.getInstance().init(context);
         FContext.set(context);
+        FCookieManager.init(context);
+        FAppBackgroundListener.getInstance().init(context);
     }
 
-    public static SDLibrary getInstance()
+    public Context getContext()
     {
-        if (sInstance == null)
-        {
-            sInstance = new SDLibrary();
-        }
-        return sInstance;
+        return mContext;
     }
-
 }
