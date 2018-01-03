@@ -3,18 +3,11 @@ package com.fanwe.library.utils;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.location.LocationManager;
-import android.media.AudioManager;
-import android.net.Uri;
 import android.text.TextUtils;
 
 import com.fanwe.library.SDLibrary;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
@@ -105,111 +98,6 @@ public class SDOtherUtil
             }
         }
         return sb.toString();
-    }
-
-    /**
-     * 把文件加到相册
-     *
-     * @param file
-     */
-    public static void scanFile(Context context, File file)
-    {
-        if (context != null && file != null && file.exists())
-        {
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri uri = Uri.fromFile(file);
-            intent.setData(uri);
-            context.sendBroadcast(intent);
-        }
-    }
-
-    /**
-     * 耳机是否已经插入
-     *
-     * @param context
-     * @return
-     */
-    public static boolean isHeadsetPlug(Context context)
-    {
-        AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        return manager.isWiredHeadsetOn();
-    }
-
-    public static long getTotalCpuTime()
-    {
-        try
-        {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("/proc/stat")), 1000);
-            String load = reader.readLine();
-            reader.close();
-
-            String[] cpuInfos = load.split(" ");
-
-            long cpu = Long.parseLong(cpuInfos[2])
-                    + Long.parseLong(cpuInfos[3]) + Long.parseLong(cpuInfos[4])
-                    + Long.parseLong(cpuInfos[6]) + Long.parseLong(cpuInfos[5])
-                    + Long.parseLong(cpuInfos[7]) + Long.parseLong(cpuInfos[8]);
-
-            return cpu;
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static long getAppCpuTime()
-    {
-        try
-        {
-            int pid = android.os.Process.myPid();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("/proc/" + pid + "/stat")), 1000);
-            String load = reader.readLine();
-            reader.close();
-
-            String[] cpuInfos = load.split(" ");
-            long cpu = Long.parseLong(cpuInfos[13])
-                    + Long.parseLong(cpuInfos[14]) + Long.parseLong(cpuInfos[15])
-                    + Long.parseLong(cpuInfos[16]);
-
-            return cpu;
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static int[] getCpuRate()
-    {
-        int[] arrCpu = new int[2];
-        try
-        {
-            String strLine;
-            Process p = Runtime.getRuntime().exec("top -n 1");
-            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            while ((strLine = br.readLine()) != null)
-            {
-                if (strLine.trim().length() < 1)
-                {
-                    continue;
-                } else
-                {
-                    String[] arrInfo = strLine.split("%");
-
-                    String appCpu = arrInfo[0].replace("User ", "");
-                    String systemCpu = arrInfo[1].replace(", System ", "");
-
-                    arrCpu[0] = Integer.valueOf(appCpu);
-                    arrCpu[1] = Integer.valueOf(systemCpu);
-                    break;
-                }
-            }
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return arrCpu;
     }
 
     /**

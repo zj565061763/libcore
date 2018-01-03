@@ -1,7 +1,9 @@
 package com.fanwe.library.handler;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,7 +12,6 @@ import android.text.TextUtils;
 import com.fanwe.lib.utils.FFileUtil;
 import com.fanwe.lib.utils.FIntentUtil;
 import com.fanwe.lib.utils.extend.FImageGetter;
-import com.fanwe.library.utils.SDOtherUtil;
 import com.fanwe.library.utils.UriFileUtils;
 
 import java.io.File;
@@ -109,7 +110,7 @@ public class PhotoHandler extends OnActivityResultHandler
                     {
                         if (takePhotoFile != null)
                         {
-                            SDOtherUtil.scanFile(mActivity, takePhotoFile);
+                            scanFile(mActivity, takePhotoFile);
                             listener.onResultFromCamera(takePhotoFile);
                         } else
                         {
@@ -139,6 +140,22 @@ public class PhotoHandler extends OnActivityResultHandler
 
             default:
                 break;
+        }
+    }
+
+    /**
+     * 把文件加到相册
+     *
+     * @param file
+     */
+    private static void scanFile(Context context, File file)
+    {
+        if (file != null && file.exists())
+        {
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri uri = Uri.fromFile(file);
+            intent.setData(uri);
+            context.sendBroadcast(intent);
         }
     }
 
