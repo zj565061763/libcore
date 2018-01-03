@@ -83,10 +83,8 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        FActivityStack.getInstance().onCreate(this);
         EventBus.getDefault().register(this);
         afterOnCreater(savedInstanceState);
-
         notifyOnCreate(savedInstanceState);
     }
 
@@ -179,7 +177,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         super.onResume();
         mIsResume = true;
-        FActivityStack.getInstance().onResume(this);
         notifyOnResume();
     }
 
@@ -203,10 +200,8 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onDestroy()
     {
         super.onDestroy();
-        FActivityStack.getInstance().onDestroy(this);
         EventBus.getDefault().unregister(this);
         dismissProgressDialog();
-
         notifyOnDestroy();
     }
 
@@ -214,7 +209,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public void finish()
     {
-        FActivityStack.getInstance().onDestroy(this);
+        FActivityStack.getInstance().removeActivity(this);
         super.finish();
     }
 
