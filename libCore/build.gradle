@@ -34,8 +34,8 @@ dependencies {
     compile 'com.github.zj565061763:res:1.0.11'
     compile 'com.github.zj565061763:selectmanager:1.0.0'
     compile 'com.github.zj565061763:receiver:1.0.2'
-    compile 'com.github.zj565061763:utils:22'
-    compile 'com.github.zj565061763:utils-extend:20'
+    compile 'com.github.zj565061763:utils:23'
+    compile 'com.github.zj565061763:utils-extend:21'
     compile 'com.github.zj565061763:json:1.0.0'
 
     compile 'de.greenrobot:eventbus:2.4.0'
