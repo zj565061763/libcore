@@ -19,12 +19,12 @@ import com.fanwe.library.event.SDEvent;
 import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
-import com.fanwe.library.listener.SDViewVisibilityCallback;
 
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
+@Deprecated
 public abstract class SDBaseFragment extends Fragment implements SDEventObserver, OnClickListener, SDActivityDispatchTouchEventCallback,
         SDActivityDispatchKeyEventCallback
 {
@@ -32,12 +32,6 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     private SDFragmentManager fragmentManager;
     private boolean isRemovedFromViewPager = false;
     private boolean isStopped;
-    private SDViewVisibilityCallback visibilityCallback;
-
-    public void setVisibilityCallback(SDViewVisibilityCallback visibilityCallback)
-    {
-        this.visibilityCallback = visibilityCallback;
-    }
 
     public boolean isRemovedFromViewPager()
     {
@@ -264,12 +258,7 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
 
     public void notifyVisibleState()
     {
-        View view = getView();
-        if (view != null && visibilityCallback != null)
-        {
-            int visibility = view.getVisibility();
-            visibilityCallback.onViewVisibilityChanged(view, visibility);
-        }
+
     }
 
     public boolean toggleFragmentView(List<?> list)

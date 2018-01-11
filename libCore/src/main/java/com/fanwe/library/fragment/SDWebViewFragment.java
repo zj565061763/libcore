@@ -19,6 +19,7 @@ import java.util.Map;
  *
  * @author js02
  */
+@Deprecated
 public class SDWebViewFragment extends SDBaseFragment
 {
     protected CustomWebView webView;

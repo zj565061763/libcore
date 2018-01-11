@@ -33,6 +33,7 @@ import java.util.Map;
  *
  * @author js02
  */
+@Deprecated
 public class WebViewFragment extends SDBaseFragment implements SDTitleSimple.SDTitleSimpleListener
 {
 

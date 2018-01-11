@@ -11,6 +11,7 @@ import com.fanwe.library.fragment.WebViewFragment.EnumProgressMode;
  *
  * @author js02
  */
+@Deprecated
 public class WebViewActivity extends SDBaseActivity
 {
     /**
