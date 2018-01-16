@@ -208,7 +208,7 @@ public class SDAppView extends FrameLayout implements
         }
     }
 
-    public SDBaseActivity getSDBaseActivity()
+    public SDBaseActivity getBaseActivity()
     {
         Activity activity = getActivity();
         if (activity instanceof SDBaseActivity)
@@ -429,11 +429,11 @@ public class SDAppView extends FrameLayout implements
     {
         if (mNeedRegisterActivityEvent)
         {
-            if (getSDBaseActivity() != null)
+            if (getBaseActivity() != null)
             {
                 if (!mHasRegisterActivityEvent)
                 {
-                    getSDBaseActivity().registerAppView(this);
+                    getBaseActivity().registerAppView(this);
                     mHasRegisterActivityEvent = true;
                 }
             }
@@ -445,11 +445,11 @@ public class SDAppView extends FrameLayout implements
      */
     public final void unregisterActivityEvent()
     {
-        if (getSDBaseActivity() != null)
+        if (getBaseActivity() != null)
         {
             if (mHasRegisterActivityEvent)
             {
-                getSDBaseActivity().unregisterAppView(this);
+                getBaseActivity().unregisterAppView(this);
                 mHasRegisterActivityEvent = false;
             }
         }
@@ -484,17 +484,17 @@ public class SDAppView extends FrameLayout implements
 
     public void showProgressDialog(String msg)
     {
-        if (getSDBaseActivity() != null)
+        if (getBaseActivity() != null)
         {
-            getSDBaseActivity().showProgressDialog(msg);
+            getBaseActivity().showProgressDialog(msg);
         }
     }
 
     public void dismissProgressDialog()
     {
-        if (getSDBaseActivity() != null)
+        if (getBaseActivity() != null)
         {
-            getSDBaseActivity().dismissProgressDialog();
+            getBaseActivity().dismissProgressDialog();
         }
     }
 

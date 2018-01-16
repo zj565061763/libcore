@@ -84,7 +84,7 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     public void onCreate(Bundle savedInstanceState)
     {
         EventBus.getDefault().register(this);
-        SDBaseActivity activity = getSDBaseActivity();
+        SDBaseActivity activity = getBaseActivity();
         if (activity != null)
         {
             activity.getListDispatchTouchEventCallback().add(this);
@@ -177,7 +177,7 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
         return new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
-    public SDBaseActivity getSDBaseActivity()
+    public SDBaseActivity getBaseActivity()
     {
         SDBaseActivity sdBaseActivity = null;
         if (getActivity() instanceof SDBaseActivity)
@@ -201,7 +201,7 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     public void onDestroy()
     {
         EventBus.getDefault().unregister(this);
-        SDBaseActivity activity = getSDBaseActivity();
+        SDBaseActivity activity = getBaseActivity();
         if (activity != null)
         {
             activity.getListDispatchTouchEventCallback().remove(this);
