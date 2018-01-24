@@ -2,9 +2,7 @@ package com.fanwe.library.model;
 
 import com.fanwe.lib.utils.FHandlerManager;
 
-/**
- * Created by Administrator on 2016/7/18.
- */
+@Deprecated
 public abstract class SDTaskRunnable<T> implements Runnable
 {
 
