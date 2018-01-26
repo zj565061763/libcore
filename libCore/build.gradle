@@ -37,6 +37,7 @@ dependencies {
     compile 'com.github.zj565061763:utils:e192934616'
     compile 'com.github.zj565061763:utils-extend:1.0.0'
     compile 'com.github.zj565061763:json:1.0.0'
+    compile 'com.github.zj565061763:title:1.0.0'
 
     compile 'de.greenrobot:eventbus:2.4.0'
 }

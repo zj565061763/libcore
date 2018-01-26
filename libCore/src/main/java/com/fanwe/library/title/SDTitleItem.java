@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.fanwe.lib.utils.FViewBinder;
 import com.fanwe.library.R;
 
+@Deprecated
 public class SDTitleItem extends LinearLayout
 {
     public View mView;

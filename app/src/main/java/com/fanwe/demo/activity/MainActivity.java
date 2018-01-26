@@ -5,15 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.fanwe.demo.R;
 import com.fanwe.demo.appview.TestView;
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.lib.utils.extend.FDurationTrigger;
-import com.fanwe.library.activity.SDBaseActivity;
+import com.fanwe.library.activity.FTitleActivity;
 
-public class MainActivity extends SDBaseActivity
+public class MainActivity extends FTitleActivity
 {
     Button btn_recyclerview;
     Button btn_listview;
@@ -23,8 +21,6 @@ public class MainActivity extends SDBaseActivity
 
     Button btn;
     TestView testView;
-
-    private FDurationTrigger mDurationTrigger = new FDurationTrigger();
 
     @Override
     protected void init(Bundle savedInstanceState)
@@ -78,12 +74,7 @@ public class MainActivity extends SDBaseActivity
         });
 
         testAppView();
-    }
-
-    @Override
-    protected int onCreateTitleViewResId()
-    {
-        return R.layout.view_title;
+        initTitle();
     }
 
     private void testAppView()
@@ -103,22 +94,9 @@ public class MainActivity extends SDBaseActivity
         });
     }
 
-    Toast mExitToast;
-
-    @Override
-    public void onBackPressed()
+    private void initTitle()
     {
-        if (mDurationTrigger.trigger())
-        {
-            super.onBackPressed();
-        } else
-        {
-            if (mExitToast != null)
-            {
-                mExitToast.cancel();
-            }
-            mExitToast = Toast.makeText(this, "再按" + mDurationTrigger.getLeftTriggerCount() + "次退出", Toast.LENGTH_SHORT);
-            mExitToast.show();
-        }
+        getTitleView().addItemLeft().setImageLeft(R.drawable.ic_arrow_left_white);
+        getTitleView().addItemMiddle().setTextTop("标题栏").setClickable(false);
     }
 }

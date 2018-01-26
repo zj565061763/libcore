@@ -139,6 +139,8 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             linAll.addView(titleView);
             linAll.addView(contentView);
             viewFinal = linAll;
+
+            onInitTitleView(titleView);
         }
         return viewFinal;
     }
@@ -151,6 +153,16 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected int onCreateTitleViewResId()
     {
         return 0;
+    }
+
+    /**
+     * 初始化标题栏view
+     *
+     * @param view
+     */
+    protected void onInitTitleView(View view)
+    {
+
     }
 
     @Override
