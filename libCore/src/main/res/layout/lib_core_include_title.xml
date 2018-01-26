@@ -7,7 +7,7 @@
     <com.fanwe.lib.title.FTitle
         android:id="@+id/view_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/res_height_title_bar" />
+        android:layout_height="@dimen/lib_title_height_title_bar" />
 
     <View
         android:id="@+id/view_title_stroke"
