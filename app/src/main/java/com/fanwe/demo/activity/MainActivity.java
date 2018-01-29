@@ -9,9 +9,9 @@ import android.widget.Button;
 import com.fanwe.demo.R;
 import com.fanwe.demo.appview.TestView;
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.library.activity.FTitleActivity;
+import com.fanwe.library.activity.SDBaseActivity;
 
-public class MainActivity extends FTitleActivity
+public class MainActivity extends SDBaseActivity
 {
     Button btn_recyclerview;
     Button btn_listview;
@@ -74,7 +74,6 @@ public class MainActivity extends FTitleActivity
         });
 
         testAppView();
-        initTitle();
     }
 
     private void testAppView()
@@ -92,11 +91,5 @@ public class MainActivity extends FTitleActivity
                 testView.removeSelf();
             }
         });
-    }
-
-    private void initTitle()
-    {
-        getTitleView().addItemLeft().setImageLeft(R.drawable.ic_arrow_left_white);
-        getTitleView().addItemMiddle().setTextTop("标题栏").setClickable(false);
     }
 }
