@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 
 import com.fanwe.lib.event.FEventObserver;
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.lib.utils.extend.FActivityStack;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.listener.SDActivityKeyEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
@@ -240,13 +239,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         FEventObserver.unregisterAll(this);
         dismissProgressDialog();
         notifyOnDestroy();
-    }
-
-    @Override
-    public void finish()
-    {
-        FActivityStack.getInstance().removeActivity(this);
-        super.finish();
     }
 
     @Override
