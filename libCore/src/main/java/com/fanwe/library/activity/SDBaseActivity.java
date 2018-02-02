@@ -17,11 +17,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.fanwe.lib.event.FEventObserver;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.extend.FActivityStack;
 import com.fanwe.library.common.SDFragmentManager;
-import com.fanwe.library.event.SDEvent;
-import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
@@ -32,10 +31,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
-        SDEventObserver,
         OnClickListener,
         ISDViewContainer
 {
@@ -71,7 +68,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         afterOnCreater(savedInstanceState);
         notifyOnCreate(savedInstanceState);
     }
@@ -197,7 +193,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onDestroy()
     {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        FEventObserver.unregisterAll(this);
         dismissProgressDialog();
         notifyOnDestroy();
     }
@@ -508,12 +504,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     public void toggleView(int parentId, View child)
     {
         FViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void onEventMainThread(SDEvent event)
-    {
-
     }
 
     @Override

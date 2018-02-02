@@ -12,11 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.fanwe.lib.event.FEventObserver;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.activity.SDBaseActivity;
-import com.fanwe.library.event.SDEvent;
-import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
@@ -25,14 +24,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
-
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
  */
 public class SDAppView extends FrameLayout implements
         View.OnClickListener,
-        SDEventObserver,
         SDActivityDispatchKeyEventCallback,
         SDActivityDispatchTouchEventCallback,
         SDActivityLifecycleCallback,
@@ -40,23 +36,6 @@ public class SDAppView extends FrameLayout implements
 {
 
     private FViewVisibilityHandler mVisibilityHandler;
-
-    /**
-     * 是否需要注册EventBus事件
-     */
-    private boolean mNeedRegisterEventBus = true;
-    /**
-     * 是否已经注册EventBus事件
-     */
-    private boolean mHasRegisterEventBus = false;
-    /**
-     * 是否需要注册Activity事件
-     */
-    private boolean mNeedRegisterActivityEvent = true;
-    /**
-     * 是否已经注册Activity事件
-     */
-    private boolean mHasRegisterActivityEvent = false;
     /**
      * 设置是否消费掉触摸事件，true-事件不会透过view继续往下传递
      */
@@ -114,77 +93,13 @@ public class SDAppView extends FrameLayout implements
     }
 
     /**
-     * 设置是否需要注册EventBus事件
-     *
-     * @param needRegisterEventBus
-     */
-    public final void setNeedRegisterEventBus(boolean needRegisterEventBus)
-    {
-        mNeedRegisterEventBus = needRegisterEventBus;
-    }
-
-    /**
-     * 设置是否需要注册Activity事件
-     *
-     * @param needRegisterActivityEvent
-     */
-    public final void setNeedRegisterActivityEvent(boolean needRegisterActivityEvent)
-    {
-        mNeedRegisterActivityEvent = needRegisterActivityEvent;
-    }
-
-    /**
-     * 设置宽度
-     *
-     * @param width
-     * @return
-     */
-    public SDAppView setWidth(int width)
-    {
-        ViewGroup.LayoutParams params = getLayoutParams();
-        if (params == null)
-        {
-            params = generateDefaultLayoutParams();
-        }
-        if (params.width != width)
-        {
-            params.width = width;
-            setLayoutParams(params);
-        }
-        return this;
-    }
-
-    /**
-     * 设置高度
-     *
-     * @param height
-     * @return
-     */
-    public SDAppView setHeight(int height)
-    {
-        ViewGroup.LayoutParams params = getLayoutParams();
-        if (params == null)
-        {
-            params = generateDefaultLayoutParams();
-        }
-        if (params.height != height)
-        {
-            params.height = height;
-            setLayoutParams(params);
-        }
-        return this;
-    }
-
-    /**
      * 设置是否消费掉触摸事件
      *
      * @param consumeTouchEvent true-消费掉事件，事件不会透过view继续往下传递
-     * @return
      */
-    public SDAppView setConsumeTouchEvent(boolean consumeTouchEvent)
+    public void setConsumeTouchEvent(boolean consumeTouchEvent)
     {
-        this.mConsumeTouchEvent = consumeTouchEvent;
-        return this;
+        mConsumeTouchEvent = consumeTouchEvent;
     }
 
     public final FViewVisibilityHandler getVisibilityHandler()
@@ -249,11 +164,6 @@ public class SDAppView extends FrameLayout implements
     public void removeSelf()
     {
         FViewUtil.removeView(this);
-    }
-
-    @Override
-    public void onEventMainThread(SDEvent event)
-    {
     }
 
     @Override
@@ -402,24 +312,21 @@ public class SDAppView extends FrameLayout implements
     @Override
     protected void onAttachedToWindow()
     {
-        registerEventBus();
-        registerActivityEvent();
         super.onAttachedToWindow();
+        registerActivityEvent();
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
+        super.onDetachedFromWindow();
         mHasOnLayout = false;
         if (mListLayoutRunnable != null)
         {
             mListLayoutRunnable.clear();
             mListLayoutRunnable = null;
         }
-
-        unregisterEventBus();
         unregisterActivityEvent();
-        super.onDetachedFromWindow();
     }
 
     /**
@@ -427,16 +334,9 @@ public class SDAppView extends FrameLayout implements
      */
     public final void registerActivityEvent()
     {
-        if (mNeedRegisterActivityEvent)
+        if (getBaseActivity() != null)
         {
-            if (getBaseActivity() != null)
-            {
-                if (!mHasRegisterActivityEvent)
-                {
-                    getBaseActivity().registerAppView(this);
-                    mHasRegisterActivityEvent = true;
-                }
-            }
+            getBaseActivity().registerAppView(this);
         }
     }
 
@@ -447,38 +347,7 @@ public class SDAppView extends FrameLayout implements
     {
         if (getBaseActivity() != null)
         {
-            if (mHasRegisterActivityEvent)
-            {
-                getBaseActivity().unregisterAppView(this);
-                mHasRegisterActivityEvent = false;
-            }
-        }
-    }
-
-    /**
-     * 注册EventBus
-     */
-    public final void registerEventBus()
-    {
-        if (mNeedRegisterEventBus)
-        {
-            if (!mHasRegisterEventBus)
-            {
-                EventBus.getDefault().register(this);
-                mHasRegisterEventBus = true;
-            }
-        }
-    }
-
-    /**
-     * 取消注册EventBus
-     */
-    public final void unregisterEventBus()
-    {
-        if (mHasRegisterEventBus)
-        {
-            EventBus.getDefault().unregister(this);
-            mHasRegisterEventBus = false;
+            getBaseActivity().unregisterAppView(this);
         }
     }
 
@@ -537,7 +406,7 @@ public class SDAppView extends FrameLayout implements
     @Override
     public void onActivityDestroyed(Activity activity)
     {
-        unregisterEventBus();
+        FEventObserver.unregisterAll(this);
     }
 
     @Override

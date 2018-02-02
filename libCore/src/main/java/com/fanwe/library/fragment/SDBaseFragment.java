@@ -13,19 +13,18 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
+import com.fanwe.lib.event.FEventObserver;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
-import com.fanwe.library.event.SDEvent;
-import com.fanwe.library.event.SDEventObserver;
 import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
 import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
 
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
-
 @Deprecated
-public abstract class SDBaseFragment extends Fragment implements SDEventObserver, OnClickListener, SDActivityDispatchTouchEventCallback,
+public abstract class SDBaseFragment extends Fragment implements
+        OnClickListener,
+        SDActivityDispatchTouchEventCallback,
         SDActivityDispatchKeyEventCallback
 {
 
@@ -83,7 +82,6 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        EventBus.getDefault().register(this);
         SDBaseActivity activity = getBaseActivity();
         if (activity != null)
         {
@@ -200,14 +198,14 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     @Override
     public void onDestroy()
     {
-        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+        FEventObserver.unregisterAll(this);
         SDBaseActivity activity = getBaseActivity();
         if (activity != null)
         {
             activity.getListDispatchTouchEventCallback().remove(this);
             activity.getListDispatchKeyEventCallback().remove(this);
         }
-        super.onDestroy();
     }
 
     /**
@@ -350,11 +348,6 @@ public abstract class SDBaseFragment extends Fragment implements SDEventObserver
     public void onClick(View v)
     {
 
-    }
-
-    @Override
-    public void onEventMainThread(SDEvent event)
-    {
     }
 
     @Override

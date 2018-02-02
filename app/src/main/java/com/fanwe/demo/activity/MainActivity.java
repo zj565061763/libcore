@@ -79,8 +79,7 @@ public class MainActivity extends SDBaseActivity
     private void testAppView()
     {
         testView = new TestView(this);
-        testView.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        testView.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        testView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         FViewUtil.addView((ViewGroup) findViewById(R.id.fl_container_test), testView);
         testView.setOnClickListener(new View.OnClickListener()
