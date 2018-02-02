@@ -34,16 +34,6 @@ public class SDAppView extends FrameLayout implements
         SDActivityLifecycleCallback,
         ISDViewContainer
 {
-
-    private FViewVisibilityHandler mVisibilityHandler;
-    /**
-     * 设置是否消费掉触摸事件，true-事件不会透过view继续往下传递
-     */
-    private boolean mConsumeTouchEvent = false;
-
-    private boolean mHasOnLayout = false;
-    private List<Runnable> mListLayoutRunnable;
-
     public SDAppView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
@@ -61,6 +51,15 @@ public class SDAppView extends FrameLayout implements
         super(context);
         baseInit();
     }
+
+    private FViewVisibilityHandler mVisibilityHandler;
+    /**
+     * 设置是否消费掉触摸事件，true-事件不会透过view继续往下传递
+     */
+    private boolean mConsumeTouchEvent = false;
+
+    private boolean mHasOnLayout = false;
+    private List<Runnable> mListLayoutRunnable;
 
     private void baseInit()
     {
@@ -89,7 +88,6 @@ public class SDAppView extends FrameLayout implements
      */
     protected void onBaseInit()
     {
-
     }
 
     /**
