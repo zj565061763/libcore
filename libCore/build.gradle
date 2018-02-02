@@ -36,7 +36,7 @@ dependencies {
     compile 'com.github.zj565061763:selectmanager:1.0.0'
     compile 'com.github.zj565061763:receiver:1.0.3'
     compile 'com.github.zj565061763:utils:e192934616'
-    compile 'com.github.zj565061763:utils-extend:53cf95c0e5'
+    compile 'com.github.zj565061763:utils-extend:8809698be1'
     compile 'com.github.zj565061763:json:1.0.0'
 }
 
