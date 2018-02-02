@@ -16,16 +16,16 @@ import android.widget.LinearLayout;
 import com.fanwe.lib.event.FEventObserver;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
-import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
-import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
+import com.fanwe.library.listener.SDActivityKeyEventCallback;
+import com.fanwe.library.listener.SDActivityTouchEventCallback;
 
 import java.util.List;
 
 @Deprecated
 public abstract class SDBaseFragment extends Fragment implements
         OnClickListener,
-        SDActivityDispatchTouchEventCallback,
-        SDActivityDispatchKeyEventCallback
+        SDActivityTouchEventCallback,
+        SDActivityKeyEventCallback
 {
 
     private SDFragmentManager fragmentManager;
@@ -85,8 +85,8 @@ public abstract class SDBaseFragment extends Fragment implements
         SDBaseActivity activity = getBaseActivity();
         if (activity != null)
         {
-            activity.getListDispatchTouchEventCallback().add(this);
-            activity.getListDispatchKeyEventCallback().add(this);
+            activity.getTouchEventCallbackHolder().add(this);
+            activity.getKeyEventCallbackHolder().add(this);
         }
         super.onCreate(savedInstanceState);
     }
@@ -203,8 +203,8 @@ public abstract class SDBaseFragment extends Fragment implements
         SDBaseActivity activity = getBaseActivity();
         if (activity != null)
         {
-            activity.getListDispatchTouchEventCallback().remove(this);
-            activity.getListDispatchKeyEventCallback().remove(this);
+            activity.getTouchEventCallbackHolder().remove(this);
+            activity.getKeyEventCallbackHolder().remove(this);
         }
     }
 

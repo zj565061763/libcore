@@ -16,8 +16,8 @@ import com.fanwe.lib.event.FEventObserver;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.activity.SDBaseActivity;
-import com.fanwe.library.listener.SDActivityDispatchKeyEventCallback;
-import com.fanwe.library.listener.SDActivityDispatchTouchEventCallback;
+import com.fanwe.library.listener.SDActivityKeyEventCallback;
+import com.fanwe.library.listener.SDActivityTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 
 import java.util.ArrayList;
@@ -29,8 +29,8 @@ import java.util.List;
  */
 public class SDAppView extends FrameLayout implements
         View.OnClickListener,
-        SDActivityDispatchKeyEventCallback,
-        SDActivityDispatchTouchEventCallback,
+        SDActivityKeyEventCallback,
+        SDActivityTouchEventCallback,
         SDActivityLifecycleCallback,
         ISDViewContainer
 {

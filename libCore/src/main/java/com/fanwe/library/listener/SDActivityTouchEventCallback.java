@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 /**
  * Created by Administrator on 2016/8/3.
  */
-public interface SDActivityDispatchTouchEventCallback
+public interface SDActivityTouchEventCallback
 {
     boolean dispatchTouchEvent(Activity activity, MotionEvent ev);
 }
