@@ -17,12 +17,12 @@ import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.listener.SDActivityKeyEventCallback;
-import com.fanwe.library.listener.SDActivityTouchEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
+import com.fanwe.library.listener.SDActivityTouchEventCallback;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
@@ -213,7 +213,7 @@ public class SDAppView extends FrameLayout implements
         {
             if (mListLayoutRunnable == null)
             {
-                mListLayoutRunnable = new ArrayList<>();
+                mListLayoutRunnable = new CopyOnWriteArrayList<>();
             }
             mListLayoutRunnable.add(r);
             return false;
