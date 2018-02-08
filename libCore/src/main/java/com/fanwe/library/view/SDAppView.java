@@ -109,14 +109,20 @@ public class SDAppView extends FrameLayout implements
      * @param container
      * @return
      */
-    public final SDAppView setContainer(ViewGroup container)
+    public final SDAppView setContainer(View container)
     {
         if (container == null)
         {
             mContainer = null;
         } else
         {
-            mContainer = new WeakReference<>(container);
+            if (container instanceof ViewGroup)
+            {
+                mContainer = new WeakReference<>((ViewGroup) container);
+            } else
+            {
+                throw new IllegalArgumentException("container must be instance of ViewGroup");
+            }
         }
         return this;
     }
