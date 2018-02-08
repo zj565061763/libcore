@@ -5,7 +5,6 @@ import android.content.Context;
 import com.fanwe.lib.utils.context.FContext;
 import com.fanwe.lib.utils.extend.FActivityStack;
 import com.fanwe.lib.utils.extend.FAppBackgroundListener;
-import com.fanwe.lib.utils.extend.FCookieManager;
 
 public class SDLibrary
 {
@@ -35,7 +34,6 @@ public class SDLibrary
         FContext.set(context);
         FActivityStack.getInstance().init(context);
         FAppBackgroundListener.getInstance().init(context);
-        FCookieManager.init(context);
     }
 
     public Context getContext()
