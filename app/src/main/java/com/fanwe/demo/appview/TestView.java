@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.fanwe.demo.R;
-import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.utils.LogUtil;
 import com.fanwe.library.view.SDAppView;
 
@@ -33,15 +31,6 @@ public class TestView extends SDAppView
     {
         super.onBaseInit();
         setContentView(R.layout.view_test);
-
-        getVisibilityHandler().addVisibilityCallback(new FViewVisibilityHandler.VisibilityCallback()
-        {
-            @Override
-            public void onViewVisibilityChanged(View view, int visibility)
-            {
-                LogUtil.i("onViewVisibilityChanged:" + visibility + "," + getClass().getSimpleName());
-            }
-        });
     }
 
     @Override

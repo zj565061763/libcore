@@ -87,7 +87,7 @@ public class MainActivity extends SDBaseActivity
             @Override
             public void onClick(View v)
             {
-                testView.removeSelf();
+                testView.attach(false);
             }
         });
     }
