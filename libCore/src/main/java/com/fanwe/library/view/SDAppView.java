@@ -107,8 +107,9 @@ public class SDAppView extends FrameLayout implements
      * 设置父容器
      *
      * @param container
+     * @return
      */
-    public final void setContainer(ViewGroup container)
+    public final SDAppView setContainer(ViewGroup container)
     {
         if (container == null)
         {
@@ -117,6 +118,7 @@ public class SDAppView extends FrameLayout implements
         {
             mContainer = new WeakReference<>(container);
         }
+        return this;
     }
 
     /**
