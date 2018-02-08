@@ -14,7 +14,6 @@ import android.widget.FrameLayout;
 
 import com.fanwe.lib.event.FEventObserver;
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.listener.SDActivityKeyEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
@@ -53,12 +52,10 @@ public class SDAppView extends FrameLayout implements
         baseInit();
     }
 
-    private FViewVisibilityHandler mVisibilityHandler;
     /**
      * 设置是否消费掉触摸事件，true-事件不会透过view继续往下传递
      */
     private boolean mConsumeTouchEvent = false;
-
     private WeakReference<ViewGroup> mContainer;
 
     private boolean mHasOnLayout = false;
@@ -137,15 +134,6 @@ public class SDAppView extends FrameLayout implements
         return mContainer == null ? null : mContainer.get();
     }
 
-    public final FViewVisibilityHandler getVisibilityHandler()
-    {
-        if (mVisibilityHandler == null)
-        {
-            mVisibilityHandler = new FViewVisibilityHandler(this);
-        }
-        return mVisibilityHandler;
-    }
-
     public Activity getActivity()
     {
         Context context = getContext();
@@ -196,7 +184,7 @@ public class SDAppView extends FrameLayout implements
     /**
      * 设置view的attach状态
      *
-     * @param attach true-将view添加到设置的容器{@link #setContainer(ViewGroup)}，false-将view从父容器移除
+     * @param attach true-将view添加到设置的容器{{@link #setContainer(View)}}，false-将view从父容器移除
      */
     public void attach(boolean attach)
     {

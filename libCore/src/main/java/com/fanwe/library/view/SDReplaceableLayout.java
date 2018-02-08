@@ -11,9 +11,8 @@ import android.widget.FrameLayout;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 可替换view的容器
@@ -39,12 +38,15 @@ public class SDReplaceableLayout extends FrameLayout
     }
 
     private View mContentView;
-    private FViewVisibilityHandler mVisibilityhandler = new FViewVisibilityHandler(null);
-    private List<Callback> mListCallback = new ArrayList<>();
+    private List<Callback> mListCallback = new CopyOnWriteArrayList<>();
 
     private void init()
     {
-        mVisibilityhandler.addVisibilityCallback(mDefaultVisibilityCallback);
+    }
+
+    private FViewVisibilityHandler getContentVisibilityhandler()
+    {
+        return FViewVisibilityHandler.get(mContentView);
     }
 
     /**
@@ -94,10 +96,9 @@ public class SDReplaceableLayout extends FrameLayout
         {
             return;
         }
-        FViewUtil.replaceView(this, child);
+
         mContentView = child;
-        mVisibilityhandler.setView(child);
-        notifyContentReplaced(child);
+        FViewUtil.replaceView(this, child);
     }
 
     /**
@@ -126,7 +127,11 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public void setContentVisible()
     {
-        mVisibilityhandler.setVisible(false);
+        if (getContent() == null)
+        {
+            return;
+        }
+        getContentVisibilityhandler().setVisible(false);
     }
 
     /**
@@ -134,7 +139,11 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public void setContentInvisible()
     {
-        mVisibilityhandler.setInvisible(false);
+        if (getContent() == null)
+        {
+            return;
+        }
+        getContentVisibilityhandler().setInvisible(false);
     }
 
     /**
@@ -142,7 +151,11 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public void setContentGone()
     {
-        mVisibilityhandler.setGone(false);
+        if (getContent() == null)
+        {
+            return;
+        }
+        getContentVisibilityhandler().setGone(false);
     }
 
     /**
@@ -150,7 +163,11 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public void toggleContentVisibleOrGone()
     {
-        mVisibilityhandler.toggleVisibleOrGone(false);
+        if (getContent() == null)
+        {
+            return;
+        }
+        getContentVisibilityhandler().toggleVisibleOrGone(false);
     }
 
     /**
@@ -158,17 +175,11 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public void toggleContentVisibleOrInvisible()
     {
-        mVisibilityhandler.toggleVisibleOrInvisible(false);
-    }
-
-    /**
-     * 是否有内容view
-     *
-     * @return
-     */
-    public boolean hasContent()
-    {
-        return mContentView != null;
+        if (getContent() == null)
+        {
+            return;
+        }
+        getContentVisibilityhandler().toggleVisibleOrInvisible(false);
     }
 
     /**
@@ -178,7 +189,22 @@ public class SDReplaceableLayout extends FrameLayout
      */
     public boolean isContentVisible()
     {
-        return mVisibilityhandler.isVisible();
+        if (getContent() == null)
+        {
+            return false;
+        }
+        return getContentVisibilityhandler().isVisible();
+    }
+
+    @Override
+    public void onViewAdded(View child)
+    {
+        super.onViewAdded(child);
+        if (child == mContentView)
+        {
+            getContentVisibilityhandler().addCallback(mInternalVisibilityCallback);
+            notifyContentReplaced(child);
+        }
     }
 
     @Override
@@ -188,16 +214,16 @@ public class SDReplaceableLayout extends FrameLayout
 
         if (child == mContentView)
         {
-            mVisibilityhandler.setView(null);
-            mContentView = null;
+            getContentVisibilityhandler().removeCallback(mInternalVisibilityCallback);
             notifyContentRemoved(child);
+            mContentView = null;
         }
     }
 
     /**
      * 可见状态变化回调
      */
-    private FViewVisibilityHandler.VisibilityCallback mDefaultVisibilityCallback = new FViewVisibilityHandler.VisibilityCallback()
+    private FViewVisibilityHandler.Callback mInternalVisibilityCallback = new FViewVisibilityHandler.Callback()
     {
         @Override
         public void onViewVisibilityChanged(View view, int visibility)
@@ -210,31 +236,25 @@ public class SDReplaceableLayout extends FrameLayout
 
     private void notifyContentReplaced(View view)
     {
-        Iterator<Callback> it = mListCallback.iterator();
-        while (it.hasNext())
+        for (Callback item : mListCallback)
         {
-            Callback callback = it.next();
-            callback.onContentReplaced(view);
+            item.onContentReplaced(view);
         }
     }
 
     private void notifyContentRemoved(final View view)
     {
-        Iterator<Callback> it = mListCallback.iterator();
-        while (it.hasNext())
+        for (Callback item : mListCallback)
         {
-            Callback callback = it.next();
-            callback.onContentRemoved(view);
+            item.onContentRemoved(view);
         }
     }
 
     private void notifyContentVisibilityChanged(final View view, final int visibility)
     {
-        Iterator<Callback> it = mListCallback.iterator();
-        while (it.hasNext())
+        for (Callback item : mListCallback)
         {
-            Callback callback = it.next();
-            callback.onContentVisibilityChanged(view, visibility);
+            item.onContentVisibilityChanged(view, visibility);
         }
     }
 
