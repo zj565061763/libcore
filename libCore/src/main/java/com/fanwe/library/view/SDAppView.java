@@ -20,7 +20,6 @@ import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDActivityTouchEventCallback;
 
 import java.lang.ref.WeakReference;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -225,12 +224,9 @@ public class SDAppView extends FrameLayout implements
             return;
         }
 
-        Iterator<Runnable> it = mListLayoutRunnable.iterator();
-        while (it.hasNext())
+        for (Runnable item : mListLayoutRunnable)
         {
-            Runnable r = it.next();
-            r.run();
-            it.remove();
+            item.run();
         }
         mListLayoutRunnable = null;
     }
