@@ -20,6 +20,7 @@ import com.fanwe.library.listener.SDActivityKeyEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDActivityTouchEventCallback;
 
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -57,6 +58,8 @@ public class SDAppView extends FrameLayout implements
      * 设置是否消费掉触摸事件，true-事件不会透过view继续往下传递
      */
     private boolean mConsumeTouchEvent = false;
+
+    private WeakReference<ViewGroup> mContainer;
 
     private boolean mHasOnLayout = false;
     private List<Runnable> mListLayoutRunnable;
@@ -98,6 +101,32 @@ public class SDAppView extends FrameLayout implements
     public void setConsumeTouchEvent(boolean consumeTouchEvent)
     {
         mConsumeTouchEvent = consumeTouchEvent;
+    }
+
+    /**
+     * 设置父容器
+     *
+     * @param container
+     */
+    public final void setContainer(ViewGroup container)
+    {
+        if (container == null)
+        {
+            mContainer = null;
+        } else
+        {
+            mContainer = new WeakReference<>(container);
+        }
+    }
+
+    /**
+     * 返回设置的父容器
+     *
+     * @return
+     */
+    public final ViewGroup getContainer()
+    {
+        return mContainer == null ? null : mContainer.get();
     }
 
     public final FViewVisibilityHandler getVisibilityHandler()
@@ -157,11 +186,27 @@ public class SDAppView extends FrameLayout implements
     }
 
     /**
-     * 把自己从父布局移除
+     * 设置view的attach状态
+     *
+     * @param attach true-将view添加到设置的容器{@link #setContainer(ViewGroup)}，false-将view从父容器移除
      */
-    public void removeSelf()
+    public void attach(boolean attach)
     {
-        FViewUtil.removeView(this);
+        if (attach)
+        {
+            ViewGroup container = getContainer();
+            if (container != null)
+            {
+                if (container != getParent())
+                {
+                    FViewUtil.removeView(this);
+                    container.addView(this);
+                }
+            }
+        } else
+        {
+            FViewUtil.removeView(this);
+        }
     }
 
     @Override
