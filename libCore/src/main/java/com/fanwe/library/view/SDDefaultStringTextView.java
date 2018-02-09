@@ -5,8 +5,9 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 /**
- * 显示默认字符串的TextView
+ * 用{@link FPlaceholderTextView}替代
  */
+@Deprecated
 public abstract class SDDefaultStringTextView extends TextView
 {
     public static final String BEFORE = "before";
