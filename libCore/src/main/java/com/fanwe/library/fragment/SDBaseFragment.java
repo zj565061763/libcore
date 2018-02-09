@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.fanwe.lib.event.FEventObserver;
+import com.fanwe.lib.eventbus.FEventObserver;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.listener.SDActivityKeyEventCallback;

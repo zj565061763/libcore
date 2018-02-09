@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.fanwe.lib.event.FEventObserver;
+import com.fanwe.lib.eventbus.FEventObserver;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.listener.SDActivityKeyEventCallback;
