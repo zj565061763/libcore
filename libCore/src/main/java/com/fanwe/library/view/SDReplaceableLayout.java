@@ -202,7 +202,7 @@ public class SDReplaceableLayout extends FrameLayout
         super.onViewAdded(child);
         if (child == mContentView)
         {
-            getContentVisibilityhandler().addCallback(mInternalVisibilityCallback);
+            getContentVisibilityhandler().addVisibilityChangeCallback(mContentVisibilityChangeCallback);
             notifyContentReplaced(child);
         }
     }
@@ -214,7 +214,7 @@ public class SDReplaceableLayout extends FrameLayout
 
         if (child == mContentView)
         {
-            getContentVisibilityhandler().removeCallback(mInternalVisibilityCallback);
+            getContentVisibilityhandler().removeVisibilityChangeCallback(mContentVisibilityChangeCallback);
             notifyContentRemoved(child);
             mContentView = null;
         }
@@ -223,7 +223,7 @@ public class SDReplaceableLayout extends FrameLayout
     /**
      * 可见状态变化回调
      */
-    private FViewVisibilityHandler.Callback mInternalVisibilityCallback = new FViewVisibilityHandler.Callback()
+    private FViewVisibilityHandler.VisibilityChangeCallback mContentVisibilityChangeCallback = new FViewVisibilityHandler.VisibilityChangeCallback()
     {
         @Override
         public void onViewVisibilityChanged(View view, int visibility)

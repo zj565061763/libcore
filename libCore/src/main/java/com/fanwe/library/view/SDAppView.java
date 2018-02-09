@@ -228,6 +228,7 @@ public class SDAppView extends FrameLayout implements
         {
             item.run();
         }
+        mListLayoutRunnable.clear();
         mListLayoutRunnable = null;
     }
 
@@ -259,20 +260,19 @@ public class SDAppView extends FrameLayout implements
      * 移除Runnable
      *
      * @param r
-     * @return
      */
-    public boolean removeLayoutRunnable(Runnable r)
+    public void removeLayoutRunnable(Runnable r)
     {
         if (mListLayoutRunnable == null || mListLayoutRunnable.isEmpty())
         {
-            return false;
+            return;
         }
-        boolean result = mListLayoutRunnable.remove(r);
+
+        mListLayoutRunnable.remove(r);
         if (mListLayoutRunnable.isEmpty())
         {
             mListLayoutRunnable = null;
         }
-        return result;
     }
 
     @Override
