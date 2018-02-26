@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.fanwe.lib.eventbus.FEventObserver;
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.listener.SDActivityKeyEventCallback;
@@ -199,7 +198,6 @@ public abstract class SDBaseFragment extends Fragment implements
     public void onDestroy()
     {
         super.onDestroy();
-        FEventObserver.unregisterAll(this);
         SDBaseActivity activity = getBaseActivity();
         if (activity != null)
         {
