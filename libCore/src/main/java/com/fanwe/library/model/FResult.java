@@ -17,6 +17,19 @@ public class FResult<T>
         mIsSuccessful = isSuccessful;
     }
 
+    public FResult(boolean isSuccessful, T data)
+    {
+        mIsSuccessful = isSuccessful;
+        mData = data;
+    }
+
+    public FResult(boolean isSuccessful, int code, String description)
+    {
+        mIsSuccessful = isSuccessful;
+        mCode = code;
+        mDescription = description;
+    }
+
     /**
      * 设置结果数据
      *
