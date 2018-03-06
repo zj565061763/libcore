@@ -1,7 +1,6 @@
 package com.fanwe.demo.model;
 
 import com.fanwe.lib.selectmanager.FSelectManager;
-import com.fanwe.lib.utils.FIterateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +26,13 @@ public class DataModel extends FSelectManager.SelectableModel
     public static List<DataModel> getListModel(int count)
     {
         final List<DataModel> listModel = new ArrayList<>();
-        FIterateUtil.foreach(count, new FIterateUtil.SimpleIterateCallback()
-        {
-            @Override
-            public boolean next(int i)
-            {
-                DataModel model = new DataModel();
-                model.setName(String.valueOf(i));
-                listModel.add(model);
-                return false;
-            }
-        });
 
+        for (int i = 0; i < count; i++)
+        {
+            DataModel model = new DataModel();
+            model.setName(String.valueOf(i));
+            listModel.add(model);
+        }
         return listModel;
     }
 }

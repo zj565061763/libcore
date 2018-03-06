@@ -2,10 +2,10 @@ package com.fanwe.library.utils;
 
 import android.text.TextUtils;
 
-import com.fanwe.lib.utils.FPrimitiveUtil;
+import com.fanwe.lib.utils.FStringUtil;
 
 /**
- * 用{@link FPrimitiveUtil}替代
+ * 用{@link FStringUtil}替代
  */
 @Deprecated
 public class SDTypeParseUtil

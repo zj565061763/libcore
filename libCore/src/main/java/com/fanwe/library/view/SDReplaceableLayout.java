@@ -1,15 +1,12 @@
 package com.fanwe.library.view;
 
 import android.content.Context;
-import android.support.annotation.AttrRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
+import com.fanwe.lib.utils.extend.FViewVisibilityListener;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,34 +16,29 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class SDReplaceableLayout extends FrameLayout
 {
-    public SDReplaceableLayout(@NonNull Context context)
+    public SDReplaceableLayout(Context context)
     {
         super(context);
         init();
     }
 
-    public SDReplaceableLayout(@NonNull Context context, @Nullable AttributeSet attrs)
+    public SDReplaceableLayout(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
     }
 
-    public SDReplaceableLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr)
+    public SDReplaceableLayout(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     private View mContentView;
-    private List<Callback> mListCallback = new CopyOnWriteArrayList<>();
+    private final List<Callback> mListCallback = new CopyOnWriteArrayList<>();
 
     private void init()
     {
-    }
-
-    private FViewVisibilityHandler getContentVisibilityhandler()
-    {
-        return FViewVisibilityHandler.get(mContentView);
     }
 
     /**
@@ -90,25 +82,14 @@ public class SDReplaceableLayout extends FrameLayout
     {
         if (child == null)
         {
-            return;
-        }
-        if (child.getParent() == this)
+            removeAllViews();
+        } else
         {
-            return;
-        }
-
-        mContentView = child;
-        FViewUtil.replaceView(this, child);
-    }
-
-    /**
-     * 移除内容view
-     */
-    public void removeContent()
-    {
-        if (mContentView != null)
-        {
-            removeView(mContentView);
+            mContentView = child;
+            if (child.getParent() != this)
+            {
+                FViewUtil.replaceView(this, child);
+            }
         }
     }
 
@@ -122,87 +103,14 @@ public class SDReplaceableLayout extends FrameLayout
         return mContentView;
     }
 
-    /**
-     * 显示内容view(View.VISIBLE)
-     */
-    public void setContentVisible()
-    {
-        if (getContent() == null)
-        {
-            return;
-        }
-        getContentVisibilityhandler().setVisible(false);
-    }
-
-    /**
-     * 隐藏内容view(View.INVISIBLE)
-     */
-    public void setContentInvisible()
-    {
-        if (getContent() == null)
-        {
-            return;
-        }
-        getContentVisibilityhandler().setInvisible(false);
-    }
-
-    /**
-     * 隐藏内容view(View.GONE)
-     */
-    public void setContentGone()
-    {
-        if (getContent() == null)
-        {
-            return;
-        }
-        getContentVisibilityhandler().setGone(false);
-    }
-
-    /**
-     * 切换内容view显示或者隐藏
-     */
-    public void toggleContentVisibleOrGone()
-    {
-        if (getContent() == null)
-        {
-            return;
-        }
-        getContentVisibilityhandler().toggleVisibleOrGone(false);
-    }
-
-    /**
-     * 切换内容view显示或者隐藏
-     */
-    public void toggleContentVisibleOrInvisible()
-    {
-        if (getContent() == null)
-        {
-            return;
-        }
-        getContentVisibilityhandler().toggleVisibleOrInvisible(false);
-    }
-
-    /**
-     * 内容是否可见
-     *
-     * @return
-     */
-    public boolean isContentVisible()
-    {
-        if (getContent() == null)
-        {
-            return false;
-        }
-        return getContentVisibilityhandler().isVisible();
-    }
-
     @Override
     public void onViewAdded(View child)
     {
         super.onViewAdded(child);
         if (child == mContentView)
         {
-            getContentVisibilityhandler().addVisibilityChangeCallback(mContentVisibilityChangeCallback);
+            mContentVisibilityListener.setView(child);
+            mContentVisibilityListener.notifyVisiblityChanged(); //默认设置View后通知一次可见状态
             notifyContentReplaced(child);
         }
     }
@@ -214,19 +122,16 @@ public class SDReplaceableLayout extends FrameLayout
 
         if (child == mContentView)
         {
-            getContentVisibilityhandler().removeVisibilityChangeCallback(mContentVisibilityChangeCallback);
+            mContentVisibilityListener.setView(null);
             notifyContentRemoved(child);
             mContentView = null;
         }
     }
 
-    /**
-     * 可见状态变化回调
-     */
-    private FViewVisibilityHandler.VisibilityChangeCallback mContentVisibilityChangeCallback = new FViewVisibilityHandler.VisibilityChangeCallback()
+    private FViewVisibilityListener mContentVisibilityListener = new FViewVisibilityListener()
     {
         @Override
-        public void onViewVisibilityChanged(View view, int visibility)
+        protected void onViewVisibilityChanged(View view, int visibility)
         {
             notifyContentVisibilityChanged(view, visibility);
         }
