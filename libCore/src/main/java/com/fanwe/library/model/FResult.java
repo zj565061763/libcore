@@ -30,6 +30,14 @@ public class FResult<T>
         mDescription = description;
     }
 
+    public FResult(FResult<T> result)
+    {
+        mIsSuccessful = result.isSuccessful();
+        mData = result.getData();
+        mCode = result.getCode();
+        mDescription = result.getDescription();
+    }
+
     /**
      * 设置结果数据
      *
