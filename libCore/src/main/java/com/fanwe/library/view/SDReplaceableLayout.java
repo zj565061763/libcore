@@ -110,8 +110,8 @@ public class SDReplaceableLayout extends FrameLayout
         if (child == mContentView)
         {
             mContentVisibilityListener.setView(child);
-            mContentVisibilityListener.notifyVisiblityChanged(); //默认设置View后通知一次可见状态
             notifyContentReplaced(child);
+            mContentVisibilityListener.notifyVisiblityChanged(); //默认设置View后通知一次可见状态
         }
     }
 
