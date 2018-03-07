@@ -104,7 +104,7 @@ public class SDAppView extends FrameLayout implements
      * @param container
      * @return
      */
-    public final SDAppView setContainer(View container)
+    public SDAppView setContainer(View container)
     {
         if (container == null)
         {
@@ -127,7 +127,7 @@ public class SDAppView extends FrameLayout implements
      *
      * @return
      */
-    public final ViewGroup getContainer()
+    public ViewGroup getContainer()
     {
         return mContainer == null ? null : mContainer.get();
     }
