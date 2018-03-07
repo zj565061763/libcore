@@ -37,6 +37,7 @@ dependencies {
     compile 'com.github.zj565061763:utils:b983250c13'
     compile 'com.github.zj565061763:utils-extend:cb6c07742b'
     compile 'com.github.zj565061763:json:1.0.0'
+    compile 'com.github.zj565061763:eventbus:1.0.15'
 }
 
 // 指定编码
