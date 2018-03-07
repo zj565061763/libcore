@@ -5,12 +5,14 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.fanwe.lib.eventbus.FEventBus;
+import com.fanwe.lib.receiver.FNetworkReceiver;
 import com.fanwe.lib.utils.context.FContext;
 import com.fanwe.lib.utils.extend.FActivityStack;
 import com.fanwe.lib.utils.extend.FAppBackgroundListener;
 import com.fanwe.library.event.EAppBackground;
 import com.fanwe.library.event.EAppResumeFromBackground;
-import com.fanwe.library.event.EOnCallStateChanged;
+import com.fanwe.library.event.ECallStateChanged;
+import com.fanwe.library.event.ENetworkChanged;
 
 public class SDLibrary implements FAppBackgroundListener.Callback
 {
@@ -55,6 +57,7 @@ public class SDLibrary implements FAppBackgroundListener.Callback
     private void initInternal()
     {
         FAppBackgroundListener.getInstance().addCallback(this);
+        mNetworkReceiver.register(getContext());
 
         TelephonyManager tm = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
         tm.listen(new PhoneStateListener()
@@ -62,7 +65,7 @@ public class SDLibrary implements FAppBackgroundListener.Callback
             @Override
             public void onCallStateChanged(int state, String incomingNumber)
             {
-                EOnCallStateChanged event = new EOnCallStateChanged();
+                ECallStateChanged event = new ECallStateChanged();
                 event.state = state;
                 event.incomingNumber = incomingNumber;
                 FEventBus.getDefault().post(event);
@@ -83,4 +86,15 @@ public class SDLibrary implements FAppBackgroundListener.Callback
         EAppResumeFromBackground event = new EAppResumeFromBackground();
         FEventBus.getDefault().post(event);
     }
+
+    private FNetworkReceiver mNetworkReceiver = new FNetworkReceiver()
+    {
+        @Override
+        protected void onNetworkChanged(int type)
+        {
+            ENetworkChanged event = new ENetworkChanged();
+            event.type = type;
+            FEventBus.getDefault().post(event);
+        }
+    };
 }

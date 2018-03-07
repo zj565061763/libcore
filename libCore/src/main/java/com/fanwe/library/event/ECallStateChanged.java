@@ -5,7 +5,7 @@ import android.telephony.TelephonyManager;
 /**
  * 电话状态变更事件
  */
-public class EOnCallStateChanged
+public class ECallStateChanged
 {
     /**
      * @see TelephonyManager#CALL_STATE_IDLE
