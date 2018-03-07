@@ -14,7 +14,7 @@ import com.fanwe.library.event.EAppResumeFromBackground;
 import com.fanwe.library.event.ECallStateChanged;
 import com.fanwe.library.event.ENetworkChanged;
 
-public class SDLibrary implements FAppBackgroundListener.Callback
+public class SDLibrary
 {
     private static SDLibrary sInstance;
     private Context mContext;
@@ -56,8 +56,33 @@ public class SDLibrary implements FAppBackgroundListener.Callback
 
     private void initInternal()
     {
-        FAppBackgroundListener.getInstance().addCallback(this);
-        mNetworkReceiver.register(getContext());
+        FAppBackgroundListener.getInstance().addCallback(new FAppBackgroundListener.Callback()
+        {
+            @Override
+            public void onBackground()
+            {
+                EAppBackground event = new EAppBackground();
+                FEventBus.getDefault().post(event);
+            }
+
+            @Override
+            public void onResumeFromBackground()
+            {
+                EAppResumeFromBackground event = new EAppResumeFromBackground();
+                FEventBus.getDefault().post(event);
+            }
+        });
+
+        new FNetworkReceiver()
+        {
+            @Override
+            protected void onNetworkChanged(int type)
+            {
+                ENetworkChanged event = new ENetworkChanged();
+                event.type = type;
+                FEventBus.getDefault().post(event);
+            }
+        }.register(getContext());
 
         TelephonyManager tm = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
         tm.listen(new PhoneStateListener()
@@ -72,29 +97,4 @@ public class SDLibrary implements FAppBackgroundListener.Callback
             }
         }, PhoneStateListener.LISTEN_CALL_STATE);
     }
-
-    @Override
-    public void onBackground()
-    {
-        EAppBackground event = new EAppBackground();
-        FEventBus.getDefault().post(event);
-    }
-
-    @Override
-    public void onResumeFromBackground()
-    {
-        EAppResumeFromBackground event = new EAppResumeFromBackground();
-        FEventBus.getDefault().post(event);
-    }
-
-    private FNetworkReceiver mNetworkReceiver = new FNetworkReceiver()
-    {
-        @Override
-        protected void onNetworkChanged(int type)
-        {
-            ENetworkChanged event = new ENetworkChanged();
-            event.type = type;
-            FEventBus.getDefault().post(event);
-        }
-    };
 }
