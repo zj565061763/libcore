@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.fanwe.lib.holder.objects.FObjectsHolder;
+import com.fanwe.lib.holder.objects.FStrongObjectsHolder;
+import com.fanwe.lib.holder.objects.ForeachCallback;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.listener.SDActivityKeyEventCallback;
@@ -24,9 +27,6 @@ import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDActivityTouchEventCallback;
 import com.fanwe.library.view.ISDViewContainer;
 import com.fanwe.library.view.SDAppView;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
@@ -37,71 +37,38 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private ProgressDialog mProgressDialog;
 
-    private List<SDActivityLifecycleCallback> mLifecycleCallbackHolder;
-    private List<SDActivityTouchEventCallback> mTouchEventCallbackHolder;
-    private List<SDActivityKeyEventCallback> mKeyEventCallbackHolder;
+    private FObjectsHolder<SDActivityLifecycleCallback> mLifecycleCallbackHolder;
+    private FObjectsHolder<SDActivityTouchEventCallback> mTouchEventCallbackHolder;
+    private FObjectsHolder<SDActivityKeyEventCallback> mKeyEventCallbackHolder;
 
     public Activity getActivity()
     {
         return this;
     }
 
-    public final List<SDActivityLifecycleCallback> getLifecycleCallbackHolder()
+    public final FObjectsHolder<SDActivityLifecycleCallback> getLifecycleCallbackHolder()
     {
         if (mLifecycleCallbackHolder == null)
         {
-            mLifecycleCallbackHolder = new CopyOnWriteArrayList<SDActivityLifecycleCallback>()
-            {
-                @Override
-                public boolean add(SDActivityLifecycleCallback o)
-                {
-                    if (contains(o))
-                    {
-                        return false;
-                    }
-                    return super.add(o);
-                }
-            };
+            mLifecycleCallbackHolder = new FStrongObjectsHolder<>();
         }
         return mLifecycleCallbackHolder;
     }
 
-    public final List<SDActivityTouchEventCallback> getTouchEventCallbackHolder()
+    public final FObjectsHolder<SDActivityTouchEventCallback> getTouchEventCallbackHolder()
     {
         if (mTouchEventCallbackHolder == null)
         {
-            mTouchEventCallbackHolder = new CopyOnWriteArrayList<SDActivityTouchEventCallback>()
-            {
-                @Override
-                public boolean add(SDActivityTouchEventCallback o)
-                {
-                    if (contains(o))
-                    {
-                        return false;
-                    }
-                    return super.add(o);
-                }
-            };
+            mTouchEventCallbackHolder = new FStrongObjectsHolder<>();
         }
         return mTouchEventCallbackHolder;
     }
 
-    public final List<SDActivityKeyEventCallback> getKeyEventCallbackHolder()
+    public final FObjectsHolder<SDActivityKeyEventCallback> getKeyEventCallbackHolder()
     {
         if (mKeyEventCallbackHolder == null)
         {
-            mKeyEventCallbackHolder = new CopyOnWriteArrayList<SDActivityKeyEventCallback>()
-            {
-                @Override
-                public boolean add(SDActivityKeyEventCallback o)
-                {
-                    if (contains(o))
-                    {
-                        return false;
-                    }
-                    return super.add(o);
-                }
-            };
+            mKeyEventCallbackHolder = new FStrongObjectsHolder<>();
         }
         return mKeyEventCallbackHolder;
     }
@@ -296,14 +263,22 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public boolean dispatchTouchEvent(final MotionEvent ev)
     {
-        final int size = getTouchEventCallbackHolder().size();
-        for (int i = size - 1; i >= 0; i--)
+        final Object data = getTouchEventCallbackHolder().foreachReverse(new ForeachCallback<SDActivityTouchEventCallback>()
         {
-            SDActivityTouchEventCallback item = getTouchEventCallbackHolder().get(i);
-            if (item.dispatchTouchEvent(this, ev))
+            @Override
+            protected void next(SDActivityTouchEventCallback item)
             {
-                return true;
+                if (item.dispatchTouchEvent(SDBaseActivity.this, ev))
+                {
+                    setData(true);
+                    breakForeach();
+                }
             }
+        });
+        if (data != null)
+        {
+            // 不为null的话直接返回true，不做data为true的判断，上面已经写死了
+            return true;
         }
 
         return super.dispatchTouchEvent(ev);
@@ -312,14 +287,22 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event)
     {
-        final int size = getKeyEventCallbackHolder().size();
-        for (int i = size - 1; i >= 0; i--)
+        final Object data = getKeyEventCallbackHolder().foreachReverse(new ForeachCallback<SDActivityKeyEventCallback>()
         {
-            SDActivityKeyEventCallback item = getKeyEventCallbackHolder().get(i);
-            if (item.dispatchKeyEvent(this, event))
+            @Override
+            protected void next(SDActivityKeyEventCallback item)
             {
-                return true;
+                if (item.dispatchKeyEvent(SDBaseActivity.this, event))
+                {
+                    setData(true);
+                    breakForeach();
+                }
             }
+        });
+        if (data != null)
+        {
+            // 不为null的话直接返回true，不做data为true的判断，上面已经写死了
+            return true;
         }
 
         return super.dispatchKeyEvent(event);
@@ -422,74 +405,110 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnCreate(final Bundle savedInstanceState)
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivityCreated(this, savedInstanceState);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivityCreated(SDBaseActivity.this, savedInstanceState);
+            }
+        });
     }
 
     private void notifyOnStart()
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivityStarted(this);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivityStarted(SDBaseActivity.this);
+            }
+        });
     }
 
     private void notifyOnResume()
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivityResumed(this);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivityResumed(SDBaseActivity.this);
+            }
+        });
     }
 
     private void notifyOnPause()
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivityPaused(this);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivityPaused(SDBaseActivity.this);
+            }
+        });
     }
 
     private void notifyOnStop()
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivityStopped(this);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivityStopped(SDBaseActivity.this);
+            }
+        });
     }
 
     private void notifyOnDestroy()
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivityDestroyed(this);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivityDestroyed(SDBaseActivity.this);
+            }
+        });
     }
 
     private void notifyOnSaveInstanceState(final Bundle outState)
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivitySaveInstanceState(this, outState);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivitySaveInstanceState(SDBaseActivity.this, outState);
+            }
+        });
     }
 
     private void notifyOnRestoreInstanceState(final Bundle savedInstanceState)
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivityRestoreInstanceState(this, savedInstanceState);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivityRestoreInstanceState(SDBaseActivity.this, savedInstanceState);
+            }
+        });
     }
 
     private void notifyOnActivityResult(final int requestCode, final int resultCode, final Intent data)
     {
-        for (SDActivityLifecycleCallback item : getLifecycleCallbackHolder())
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
         {
-            item.onActivityResult(this, requestCode, resultCode, data);
-        }
+            @Override
+            protected void next(SDActivityLifecycleCallback item)
+            {
+                item.onActivityResult(SDBaseActivity.this, requestCode, resultCode, data);
+            }
+        });
     }
 
     //------------notify callback end------------------
