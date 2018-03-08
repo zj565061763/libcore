@@ -379,9 +379,12 @@ public class SDAppView extends FrameLayout implements
      */
     public final void registerActivityEvent()
     {
-        if (getBaseActivity() != null)
+        final SDBaseActivity activity = getBaseActivity();
+        if (activity != null)
         {
-            getBaseActivity().registerAppView(this);
+            activity.getLifecycleCallbackHolder().add(this);
+            activity.getTouchEventCallbackHolder().add(this);
+            activity.getKeyEventCallbackHolder().add(this);
         }
     }
 
@@ -390,9 +393,12 @@ public class SDAppView extends FrameLayout implements
      */
     public final void unregisterActivityEvent()
     {
-        if (getBaseActivity() != null)
+        final SDBaseActivity activity = getBaseActivity();
+        if (activity != null)
         {
-            getBaseActivity().unregisterAppView(this);
+            activity.getLifecycleCallbackHolder().remove(this);
+            activity.getTouchEventCallbackHolder().remove(this);
+            activity.getKeyEventCallbackHolder().remove(this);
         }
     }
 

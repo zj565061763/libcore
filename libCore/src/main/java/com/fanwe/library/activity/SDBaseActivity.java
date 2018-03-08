@@ -26,7 +26,6 @@ import com.fanwe.library.listener.SDActivityKeyEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDActivityTouchEventCallback;
 import com.fanwe.library.view.ISDViewContainer;
-import com.fanwe.library.view.SDAppView;
 
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
@@ -366,23 +365,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             {
             }
         }
-    }
-
-    public void registerAppView(SDAppView view)
-    {
-        if (view != null)
-        {
-            getLifecycleCallbackHolder().add(view);
-            getTouchEventCallbackHolder().add(view);
-            getKeyEventCallbackHolder().add(view);
-        }
-    }
-
-    public void unregisterAppView(SDAppView view)
-    {
-        getLifecycleCallbackHolder().remove(view);
-        getTouchEventCallbackHolder().remove(view);
-        getKeyEventCallbackHolder().remove(view);
     }
 
     /**
