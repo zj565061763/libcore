@@ -105,8 +105,9 @@ public class SDAppView extends FrameLayout implements
      * 设置父容器
      *
      * @param container
+     * @return
      */
-    public void setContainer(View container)
+    public SDAppView setContainer(View container)
     {
         if (container == null)
         {
@@ -121,6 +122,7 @@ public class SDAppView extends FrameLayout implements
                 throw new IllegalArgumentException("container must be instance of ViewGroup");
             }
         }
+        return this;
     }
 
     /**
@@ -211,6 +213,17 @@ public class SDAppView extends FrameLayout implements
             }
             detach();
             container.addView(this);
+        } else
+        {
+            final int count = container.getChildCount();
+            for (int i = 0; i < count; i++)
+            {
+                final View child = container.getChildAt(i);
+                if (child != this)
+                {
+                    container.removeView(child);
+                }
+            }
         }
     }
 
