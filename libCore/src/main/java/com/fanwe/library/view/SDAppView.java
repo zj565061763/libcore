@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 import com.fanwe.lib.utils.FViewUtil;
@@ -104,9 +105,8 @@ public class SDAppView extends FrameLayout implements
      * 设置父容器
      *
      * @param container
-     * @return
      */
-    public SDAppView setContainer(View container)
+    public void setContainer(View container)
     {
         if (container == null)
         {
@@ -121,7 +121,6 @@ public class SDAppView extends FrameLayout implements
                 throw new IllegalArgumentException("container must be instance of ViewGroup");
             }
         }
-        return this;
     }
 
     /**
@@ -134,7 +133,7 @@ public class SDAppView extends FrameLayout implements
         return mContainer == null ? null : mContainer.get();
     }
 
-    public FViewVisibilityHandler getVisibilityHandler()
+    public final FViewVisibilityHandler getVisibilityHandler()
     {
         if (mVisibilityHandler == null)
         {
@@ -191,26 +190,39 @@ public class SDAppView extends FrameLayout implements
     }
 
     /**
-     * 设置view的attach状态
+     * 把View添加到设置的容器{@link #setContainer(View)}
      *
-     * @param attach true-将view添加到设置的容器{{@link #setContainer(View)}}，false-将view从父容器移除
+     * @param replace true-在添加之前会先移除容器的所有子View
      */
-    public void attach(boolean attach)
+    public final void attachToContainer(boolean replace)
     {
-        if (attach)
+        final ViewGroup container = getContainer();
+        if (container == null)
         {
-            ViewGroup container = getContainer();
-            if (container != null)
+            return;
+        }
+
+        final ViewParent parent = getParent();
+        if (parent != container)
+        {
+            if (replace)
             {
-                if (container != getParent())
-                {
-                    FViewUtil.removeView(this);
-                    container.addView(this);
-                }
+                container.removeAllViews();
             }
-        } else
+            detach();
+            container.addView(this);
+        }
+    }
+
+    /**
+     * 把当前View从父容器上移除
+     */
+    public final void detach()
+    {
+        final ViewParent parent = getParent();
+        if (parent instanceof ViewGroup)
         {
-            FViewUtil.removeView(this);
+            ((ViewGroup) parent).removeView(this);
         }
     }
 
@@ -223,23 +235,17 @@ public class SDAppView extends FrameLayout implements
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
         super.onLayout(changed, left, top, right, bottom);
+
         mHasOnLayout = true;
-        runLayoutRunnableIfNeed();
-    }
-
-    private void runLayoutRunnableIfNeed()
-    {
-        if (mListLayoutRunnable == null || mListLayoutRunnable.isEmpty())
+        if (mListLayoutRunnable != null)
         {
-            return;
+            for (Runnable item : mListLayoutRunnable)
+            {
+                item.run();
+            }
+            mListLayoutRunnable.clear();
+            mListLayoutRunnable = null;
         }
-
-        for (Runnable item : mListLayoutRunnable)
-        {
-            item.run();
-        }
-        mListLayoutRunnable.clear();
-        mListLayoutRunnable = null;
     }
 
     /**
@@ -249,7 +255,7 @@ public class SDAppView extends FrameLayout implements
      * @param r
      * @return true-直接执行
      */
-    public boolean postLayoutRunnable(Runnable r)
+    public final boolean postLayoutRunnable(Runnable r)
     {
         if (mHasOnLayout)
         {
@@ -271,9 +277,9 @@ public class SDAppView extends FrameLayout implements
      *
      * @param r
      */
-    public void removeLayoutRunnable(Runnable r)
+    public final void removeLayoutRunnable(Runnable r)
     {
-        if (mListLayoutRunnable == null || mListLayoutRunnable.isEmpty())
+        if (mListLayoutRunnable == null)
         {
             return;
         }

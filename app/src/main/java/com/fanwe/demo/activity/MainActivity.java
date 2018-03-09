@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import com.fanwe.demo.R;
 import com.fanwe.demo.appview.TestView;
-import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.activity.SDBaseActivity;
 
 public class MainActivity extends SDBaseActivity
@@ -18,9 +17,6 @@ public class MainActivity extends SDBaseActivity
     Button btn_flexbox;
     Button btn_selectmanager;
     Button btn_sdgridviewpageractivity;
-
-    Button btn;
-    TestView testView;
 
     @Override
     protected void init(Bundle savedInstanceState)
@@ -78,17 +74,17 @@ public class MainActivity extends SDBaseActivity
 
     private void testAppView()
     {
-        testView = new TestView(this);
+        final TestView testView = new TestView(this);
         testView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        FViewUtil.addView((ViewGroup) findViewById(R.id.fl_container_test), testView);
+        testView.setContainer(findViewById(R.id.fl_container_test));
         testView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                testView.attach(false);
+                testView.detach();
             }
         });
+        testView.attachToContainer(false);
     }
 }
