@@ -85,6 +85,6 @@ public class MainActivity extends SDBaseActivity
                 testView.detach();
             }
         });
-        testView.attachToContainer(false);
+        testView.attach(false);
     }
 }

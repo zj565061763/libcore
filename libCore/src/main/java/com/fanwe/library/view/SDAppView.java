@@ -194,9 +194,9 @@ public class SDAppView extends FrameLayout implements
     /**
      * 把View添加到设置的容器{@link #setContainer(View)}
      *
-     * @param replace true-在添加之前会先移除容器的所有子View
+     * @param replace true-父容器仅保留当前View对象在容器中
      */
-    public final void attachToContainer(boolean replace)
+    public final void attach(boolean replace)
     {
         final ViewGroup container = getContainer();
         if (container == null)
