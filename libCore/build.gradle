@@ -34,7 +34,7 @@ dependencies {
     compile 'com.github.zj565061763:res:1.0.12'
     compile 'com.github.zj565061763:selectmanager:1.0.0'
     compile 'com.github.zj565061763:receiver:1.0.3'
-    compile 'com.github.zj565061763:utils:4d4777001d'
+    compile 'com.github.zj565061763:utils:b389b3a016'
     compile 'com.github.zj565061763:utils-extend:b0c488144b'
     compile 'com.github.zj565061763:json:1.0.0'
     compile 'com.github.zj565061763:eventbus:1.0.15'

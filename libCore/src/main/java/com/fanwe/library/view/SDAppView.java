@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 import com.fanwe.lib.utils.FViewUtil;
@@ -198,32 +197,12 @@ public class SDAppView extends FrameLayout implements
      */
     public final void attach(boolean replace)
     {
-        final ViewGroup container = getContainer();
-        if (container == null)
+        if (replace)
         {
-            return;
-        }
-
-        final ViewParent parent = getParent();
-        if (parent != container)
-        {
-            if (replace)
-            {
-                container.removeAllViews();
-            }
-            detach();
-            container.addView(this);
+            FViewUtil.replaceView(getContainer(), this);
         } else
         {
-            final int count = container.getChildCount();
-            for (int i = 0; i < count; i++)
-            {
-                final View child = container.getChildAt(i);
-                if (child != this)
-                {
-                    container.removeView(child);
-                }
-            }
+            FViewUtil.addView(getContainer(), this);
         }
     }
 
@@ -232,11 +211,7 @@ public class SDAppView extends FrameLayout implements
      */
     public final void detach()
     {
-        final ViewParent parent = getParent();
-        if (parent instanceof ViewGroup)
-        {
-            ((ViewGroup) parent).removeView(this);
-        }
+        FViewUtil.removeView(this);
     }
 
     @Override
