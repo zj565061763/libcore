@@ -20,17 +20,14 @@ import android.widget.LinearLayout;
 import com.fanwe.lib.holder.objects.FObjectsHolder;
 import com.fanwe.lib.holder.objects.FStrongObjectsHolder;
 import com.fanwe.lib.holder.objects.ForeachCallback;
-import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.common.SDFragmentManager;
 import com.fanwe.library.listener.SDActivityKeyEventCallback;
 import com.fanwe.library.listener.SDActivityLifecycleCallback;
 import com.fanwe.library.listener.SDActivityTouchEventCallback;
-import com.fanwe.library.view.ISDViewContainer;
 
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
-        OnClickListener,
-        ISDViewContainer
+        OnClickListener
 {
     private SDFragmentManager mFragmentManager;
 
@@ -495,29 +492,14 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     //------------notify callback end------------------
 
-    public void addContentView(View view)
-    {
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        addContentView(view, params);
-    }
-
     @Override
-    public void addView(int parentId, View child)
+    public void addContentView(View view, ViewGroup.LayoutParams params)
     {
-        FViewUtil.addView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void replaceView(int parentId, View child)
-    {
-        FViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void toggleView(int parentId, View child)
-    {
-        FViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
+        if (params == null)
+        {
+            params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+        super.addContentView(view, params);
     }
 
     @Override

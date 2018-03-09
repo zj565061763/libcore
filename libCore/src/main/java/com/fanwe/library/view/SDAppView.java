@@ -28,10 +28,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class SDAppView extends FrameLayout implements
         View.OnClickListener,
-        SDActivityKeyEventCallback,
-        SDActivityTouchEventCallback,
         SDActivityLifecycleCallback,
-        ISDViewContainer
+        SDActivityTouchEventCallback,
+        SDActivityKeyEventCallback
 {
     public SDAppView(Context context, AttributeSet attrs, int defStyle)
     {
@@ -464,23 +463,5 @@ public class SDAppView extends FrameLayout implements
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data)
     {
 
-    }
-
-    @Override
-    public void addView(int parentId, View child)
-    {
-        FViewUtil.addView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void replaceView(int parentId, View child)
-    {
-        FViewUtil.replaceView((ViewGroup) findViewById(parentId), child);
-    }
-
-    @Override
-    public void toggleView(int parentId, View child)
-    {
-        FViewUtil.toggleView((ViewGroup) findViewById(parentId), child);
     }
 }
