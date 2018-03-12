@@ -11,10 +11,10 @@ import com.fanwe.library.activity.SDBaseActivity;
 
 public class SDPageViewActivity extends SDBaseActivity
 {
-
     @Override
-    protected void init(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.act_sdpageview);
     }
 }

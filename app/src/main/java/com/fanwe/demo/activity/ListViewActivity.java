@@ -20,11 +20,11 @@ public class ListViewActivity extends SDBaseActivity
     private ListViewAdapter mAdapter;
 
     @Override
-    protected void init(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.act_listview);
         lv_content = findViewById(R.id.lv_content);
-
 
         mAdapter = new ListViewAdapter(DataModel.getListModel(50), this);
         mAdapter.setItemClickCallback(new SDItemClickCallback<DataModel>()
@@ -36,7 +36,5 @@ public class ListViewActivity extends SDBaseActivity
             }
         });
         lv_content.setAdapter(mAdapter);
-
     }
-
 }

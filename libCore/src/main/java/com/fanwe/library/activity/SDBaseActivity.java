@@ -73,12 +73,11 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
 
-        int layoutId = onCreateContentView();
+        final int layoutId = onCreateContentView();
         if (layoutId != 0)
         {
             setContentView(layoutId);
         }
-        init(savedInstanceState);
 
         notifyOnCreate(savedInstanceState);
     }
@@ -92,13 +91,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         return 0;
     }
-
-    /**
-     * 重写此方法初始化，如果没有重写onCreateContentView()方法，则要手动调用setContentView()设置activity布局;
-     *
-     * @param savedInstanceState
-     */
-    protected abstract void init(Bundle savedInstanceState);
 
     @Override
     public void setContentView(int layoutId)
