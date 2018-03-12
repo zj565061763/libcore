@@ -19,9 +19,8 @@ public class MainActivity extends SDBaseActivity
     Button btn_sdgridviewpageractivity;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void init(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
 
         btn_recyclerview = findViewById(R.id.btn_recyclerview);

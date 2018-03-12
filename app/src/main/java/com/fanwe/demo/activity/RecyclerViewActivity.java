@@ -18,13 +18,13 @@ import com.fanwe.library.view.SDRecyclerView;
 
 public class RecyclerViewActivity extends SDBaseActivity
 {
+
     SDRecyclerView rv_content;
     RecyclerViewAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void init(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.act_recyclerview);
         rv_content = findViewById(R.id.rv_content);
         rv_content.setGridVertical(3);

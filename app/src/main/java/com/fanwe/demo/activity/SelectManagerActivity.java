@@ -12,9 +12,9 @@ import com.fanwe.library.activity.SDBaseActivity;
 public class SelectManagerActivity extends SDBaseActivity
 {
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void init(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.act_select_manager);
+
     }
 }
