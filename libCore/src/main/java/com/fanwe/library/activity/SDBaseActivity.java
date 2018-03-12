@@ -72,19 +72,15 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        afterOnCreater(savedInstanceState);
-        notifyOnCreate(savedInstanceState);
-    }
 
-    private void afterOnCreater(Bundle savedInstanceState)
-    {
         int layoutId = onCreateContentView();
         if (layoutId != 0)
         {
             setContentView(layoutId);
         }
-
         init(savedInstanceState);
+
+        notifyOnCreate(savedInstanceState);
     }
 
     /**
@@ -117,6 +113,18 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         View contentView = addTitleViewIfNeed(view);
         contentView.setFitsSystemWindows(true);
         super.setContentView(contentView);
+
+        onInitContentView(contentView);
+    }
+
+    /**
+     * setContentView方法之后会回调此方法，可以用来初始化View
+     *
+     * @param view
+     */
+    protected void onInitContentView(View view)
+    {
+
     }
 
     /**
