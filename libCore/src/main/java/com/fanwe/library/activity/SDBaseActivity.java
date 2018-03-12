@@ -9,7 +9,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -106,44 +105,18 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected abstract void init(Bundle savedInstanceState);
 
     @Override
-    public void setContentView(int layoutResID)
+    public void setContentView(int layoutId)
     {
-        View contentView = getLayoutInflater().inflate(layoutResID, (ViewGroup) findViewById(android.R.id.content), false);
+        View contentView = getLayoutInflater().inflate(layoutId, (ViewGroup) findViewById(android.R.id.content), false);
         setContentView(contentView);
     }
 
     @Override
     public void setContentView(View view)
     {
-        View contentView = addTitleView(view);
+        View contentView = addTitleViewIfNeed(view);
         contentView.setFitsSystemWindows(true);
         super.setContentView(contentView);
-    }
-
-    /**
-     * 为contentView添加titleView
-     *
-     * @param contentView
-     * @return
-     */
-    private View addTitleView(View contentView)
-    {
-        View viewFinal = contentView;
-
-        int resId = onCreateTitleViewResId();
-        if (resId != 0)
-        {
-            View titleView = LayoutInflater.from(this).inflate(resId, (ViewGroup) findViewById(android.R.id.content), false);
-
-            LinearLayout linAll = new LinearLayout(this);
-            linAll.setOrientation(LinearLayout.VERTICAL);
-            linAll.addView(titleView);
-            linAll.addView(contentView);
-            viewFinal = linAll;
-
-            onInitTitleView(titleView);
-        }
-        return viewFinal;
     }
 
     /**
@@ -154,6 +127,32 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     protected int onCreateTitleViewResId()
     {
         return 0;
+    }
+
+    /**
+     * 为contentView添加titleView
+     *
+     * @param contentView
+     * @return
+     */
+    private View addTitleViewIfNeed(View contentView)
+    {
+        View viewFinal = contentView;
+
+        int resId = onCreateTitleViewResId();
+        if (resId != 0)
+        {
+            View titleView = getLayoutInflater().inflate(resId, (ViewGroup) findViewById(android.R.id.content), false);
+
+            LinearLayout linAll = new LinearLayout(this);
+            linAll.setOrientation(LinearLayout.VERTICAL);
+            linAll.addView(titleView);
+            linAll.addView(contentView);
+            viewFinal = linAll;
+
+            onInitTitleView(titleView);
+        }
+        return viewFinal;
     }
 
     /**
