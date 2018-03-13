@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 /**
  * Created by Administrator on 2016/8/3.
  */
-public interface SDActivityKeyEventCallback
+public interface ActivityKeyEventCallback
 {
     boolean dispatchKeyEvent(Activity activity, KeyEvent event);
 }

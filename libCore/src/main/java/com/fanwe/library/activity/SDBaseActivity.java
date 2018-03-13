@@ -20,9 +20,9 @@ import com.fanwe.lib.holder.objects.FObjectsHolder;
 import com.fanwe.lib.holder.objects.FStrongObjectsHolder;
 import com.fanwe.lib.holder.objects.ForeachCallback;
 import com.fanwe.library.common.SDFragmentManager;
-import com.fanwe.library.listener.SDActivityKeyEventCallback;
-import com.fanwe.library.listener.SDActivityLifecycleCallback;
-import com.fanwe.library.listener.SDActivityTouchEventCallback;
+import com.fanwe.library.listener.ActivityKeyEventCallback;
+import com.fanwe.library.listener.ActivityLifecycleCallback;
+import com.fanwe.library.listener.ActivityTouchEventCallback;
 
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
@@ -32,16 +32,16 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private ProgressDialog mProgressDialog;
 
-    private FObjectsHolder<SDActivityLifecycleCallback> mLifecycleCallbackHolder;
-    private FObjectsHolder<SDActivityTouchEventCallback> mTouchEventCallbackHolder;
-    private FObjectsHolder<SDActivityKeyEventCallback> mKeyEventCallbackHolder;
+    private FObjectsHolder<ActivityLifecycleCallback> mLifecycleCallbackHolder;
+    private FObjectsHolder<ActivityTouchEventCallback> mTouchEventCallbackHolder;
+    private FObjectsHolder<ActivityKeyEventCallback> mKeyEventCallbackHolder;
 
     public Activity getActivity()
     {
         return this;
     }
 
-    public final FObjectsHolder<SDActivityLifecycleCallback> getLifecycleCallbackHolder()
+    public final FObjectsHolder<ActivityLifecycleCallback> getLifecycleCallbackHolder()
     {
         if (mLifecycleCallbackHolder == null)
         {
@@ -50,7 +50,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         return mLifecycleCallbackHolder;
     }
 
-    public final FObjectsHolder<SDActivityTouchEventCallback> getTouchEventCallbackHolder()
+    public final FObjectsHolder<ActivityTouchEventCallback> getTouchEventCallbackHolder()
     {
         if (mTouchEventCallbackHolder == null)
         {
@@ -59,7 +59,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         return mTouchEventCallbackHolder;
     }
 
-    public final FObjectsHolder<SDActivityKeyEventCallback> getKeyEventCallbackHolder()
+    public final FObjectsHolder<ActivityKeyEventCallback> getKeyEventCallbackHolder()
     {
         if (mKeyEventCallbackHolder == null)
         {
@@ -266,10 +266,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public boolean dispatchTouchEvent(final MotionEvent ev)
     {
-        final Object data = getTouchEventCallbackHolder().foreachReverse(new ForeachCallback<SDActivityTouchEventCallback>()
+        final Object data = getTouchEventCallbackHolder().foreachReverse(new ForeachCallback<ActivityTouchEventCallback>()
         {
             @Override
-            protected void next(SDActivityTouchEventCallback item)
+            protected void next(ActivityTouchEventCallback item)
             {
                 if (item.dispatchTouchEvent(SDBaseActivity.this, ev))
                 {
@@ -290,10 +290,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event)
     {
-        final Object data = getKeyEventCallbackHolder().foreachReverse(new ForeachCallback<SDActivityKeyEventCallback>()
+        final Object data = getKeyEventCallbackHolder().foreachReverse(new ForeachCallback<ActivityKeyEventCallback>()
         {
             @Override
-            protected void next(SDActivityKeyEventCallback item)
+            protected void next(ActivityKeyEventCallback item)
             {
                 if (item.dispatchKeyEvent(SDBaseActivity.this, event))
                 {
@@ -391,10 +391,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnCreate(final Bundle savedInstanceState)
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivityCreated(SDBaseActivity.this, savedInstanceState);
             }
@@ -403,10 +403,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnStart()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivityStarted(SDBaseActivity.this);
             }
@@ -415,10 +415,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnResume()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivityResumed(SDBaseActivity.this);
             }
@@ -427,10 +427,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnPause()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivityPaused(SDBaseActivity.this);
             }
@@ -439,10 +439,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnStop()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivityStopped(SDBaseActivity.this);
             }
@@ -451,10 +451,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnDestroy()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivityDestroyed(SDBaseActivity.this);
             }
@@ -463,10 +463,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnSaveInstanceState(final Bundle outState)
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivitySaveInstanceState(SDBaseActivity.this, outState);
             }
@@ -475,10 +475,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnRestoreInstanceState(final Bundle savedInstanceState)
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivityRestoreInstanceState(SDBaseActivity.this, savedInstanceState);
             }
@@ -487,10 +487,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnActivityResult(final int requestCode, final int resultCode, final Intent data)
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<SDActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(SDActivityLifecycleCallback item)
+            protected void next(ActivityLifecycleCallback item)
             {
                 item.onActivityResult(SDBaseActivity.this, requestCode, resultCode, data);
             }

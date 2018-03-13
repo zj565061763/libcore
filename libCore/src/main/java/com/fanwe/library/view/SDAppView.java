@@ -15,9 +15,9 @@ import android.widget.FrameLayout;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.activity.SDBaseActivity;
-import com.fanwe.library.listener.SDActivityKeyEventCallback;
-import com.fanwe.library.listener.SDActivityLifecycleCallback;
-import com.fanwe.library.listener.SDActivityTouchEventCallback;
+import com.fanwe.library.listener.ActivityKeyEventCallback;
+import com.fanwe.library.listener.ActivityLifecycleCallback;
+import com.fanwe.library.listener.ActivityTouchEventCallback;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -28,9 +28,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class SDAppView extends FrameLayout implements
         View.OnClickListener,
-        SDActivityLifecycleCallback,
-        SDActivityTouchEventCallback,
-        SDActivityKeyEventCallback
+        ActivityLifecycleCallback,
+        ActivityTouchEventCallback,
+        ActivityKeyEventCallback
 {
     public SDAppView(Context context, AttributeSet attrs, int defStyle)
     {

@@ -9,7 +9,7 @@ import android.os.Bundle;
  * Created by Administrator on 2017/4/7.
  */
 
-public interface SDActivityLifecycleCallback extends Application.ActivityLifecycleCallbacks
+public interface ActivityLifecycleCallback extends Application.ActivityLifecycleCallbacks
 {
     void onActivityRestoreInstanceState(Activity activity, Bundle savedInstanceState);
 
