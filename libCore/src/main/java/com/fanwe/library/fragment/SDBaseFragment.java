@@ -15,16 +15,14 @@ import android.widget.LinearLayout;
 
 import com.fanwe.library.activity.SDBaseActivity;
 import com.fanwe.library.common.SDFragmentManager;
-import com.fanwe.library.listener.ActivityKeyEventCallback;
-import com.fanwe.library.listener.ActivityTouchEventCallback;
 
 import java.util.List;
 
 @Deprecated
 public abstract class SDBaseFragment extends Fragment implements
         OnClickListener,
-        ActivityTouchEventCallback,
-        ActivityKeyEventCallback
+        SDBaseActivity.ActivityTouchEventCallback,
+        SDBaseActivity.ActivityKeyEventCallback
 {
 
     private SDFragmentManager fragmentManager;

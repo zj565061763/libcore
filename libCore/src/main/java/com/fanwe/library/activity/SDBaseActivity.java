@@ -1,6 +1,7 @@
 package com.fanwe.library.activity;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,9 +21,6 @@ import com.fanwe.lib.holder.objects.FObjectsHolder;
 import com.fanwe.lib.holder.objects.FStrongObjectsHolder;
 import com.fanwe.lib.holder.objects.ForeachCallback;
 import com.fanwe.library.common.SDFragmentManager;
-import com.fanwe.library.listener.ActivityKeyEventCallback;
-import com.fanwe.library.listener.ActivityLifecycleCallback;
-import com.fanwe.library.listener.ActivityTouchEventCallback;
 
 
 public abstract class SDBaseActivity extends AppCompatActivity implements
@@ -528,5 +526,22 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             mFragmentManager = new SDFragmentManager(getSupportFragmentManager());
         }
         return mFragmentManager;
+    }
+
+    public interface ActivityLifecycleCallback extends Application.ActivityLifecycleCallbacks
+    {
+        void onActivityRestoreInstanceState(Activity activity, Bundle savedInstanceState);
+
+        void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data);
+    }
+
+    public interface ActivityTouchEventCallback
+    {
+        boolean dispatchTouchEvent(Activity activity, MotionEvent ev);
+    }
+
+    public interface ActivityKeyEventCallback
+    {
+        boolean dispatchKeyEvent(Activity activity, KeyEvent event);
     }
 }
