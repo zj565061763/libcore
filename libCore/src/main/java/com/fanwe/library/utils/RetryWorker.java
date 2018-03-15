@@ -6,6 +6,9 @@ import android.os.Looper;
 import com.fanwe.lib.receiver.FNetworkReceiver;
 import com.fanwe.lib.utils.context.FContext;
 
+/**
+ * 重试帮助类
+ */
 public abstract class RetryWorker
 {
     /**
@@ -58,9 +61,19 @@ public abstract class RetryWorker
     }
 
     /**
+     * 返回已重试次数
+     *
+     * @return
+     */
+    public final int getRetryCount()
+    {
+        return mRetryCount;
+    }
+
+    /**
      * 开始重试
      */
-    public final void start()
+    public synchronized final void start()
     {
         if (mIsInRetry)
         {
@@ -79,38 +92,41 @@ public abstract class RetryWorker
         @Override
         public void run()
         {
-            if (mIsRetrySuccess)
+            synchronized (RetryWorker.this)
             {
-                stop();
-                return;
-            }
+                if (mIsRetrySuccess)
+                {
+                    stop();
+                    return;
+                }
 
-            if (mRetryCount >= mMaxRetryCount && !mIsRetrySuccess)
-            {
-                // 达到最大重试次数，并且没有成功
-                stop();
-                onRetryFailedOnMaxRetryCount();
-                return;
-            }
+                if (mRetryCount >= mMaxRetryCount && !mIsRetrySuccess)
+                {
+                    // 达到最大重试次数，并且没有成功
+                    stop();
+                    onRetryFailedOnMaxRetryCount();
+                    return;
+                }
 
-            if (!FNetworkReceiver.isNetworkConnected(FContext.get()))
-            {
-                // 无网络
-                LogUtil.i("pause retry net disconnected");
-                stop();
-                return;
-            }
+                if (!FNetworkReceiver.isNetworkConnected(FContext.get()))
+                {
+                    // 无网络
+                    LogUtil.i("pause retry net disconnected");
+                    stop();
+                    return;
+                }
 
-            onRetry();
-            mRetryCount++;
-            LogUtil.i("retry count:" + mRetryCount);
+                onRetry();
+                mRetryCount++;
+                LogUtil.i("retry count:" + mRetryCount);
+            }
         }
     };
 
     /**
      * 结束重试
      */
-    public final void stop()
+    public synchronized final void stop()
     {
         mIsInRetry = false;
         mHandler.removeCallbacks(mRetryRunnable);
@@ -122,7 +138,7 @@ public abstract class RetryWorker
      *
      * @param success
      */
-    public final void setRetryResult(boolean success)
+    public synchronized final void setRetryResult(boolean success)
     {
         mIsRetrySuccess = success;
 
@@ -141,12 +157,15 @@ public abstract class RetryWorker
         @Override
         protected void onNetworkChanged(int type)
         {
-            if (type >= 0)
+            synchronized (RetryWorker.this)
             {
-                if (!mIsRetrySuccess)
+                if (type >= 0)
                 {
-                    LogUtil.i("resume retry net connected");
-                    start();
+                    if (!mIsRetrySuccess)
+                    {
+                        LogUtil.i("resume retry net connected");
+                        start();
+                    }
                 }
             }
         }
