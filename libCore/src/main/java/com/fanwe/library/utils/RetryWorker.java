@@ -25,10 +25,6 @@ public abstract class RetryWorker
      * 最大重试次数
      */
     private int mMaxRetryCount = 60;
-    /**
-     * 重试间隔
-     */
-    private long mRetryInterval = 5 * 1000;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -45,16 +41,6 @@ public abstract class RetryWorker
     public final void setMaxRetryCount(int maxRetryCount)
     {
         mMaxRetryCount = maxRetryCount;
-    }
-
-    /**
-     * 设置重试间隔
-     *
-     * @param retryInterval
-     */
-    public final void setRetryInterval(long retryInterval)
-    {
-        mRetryInterval = retryInterval;
     }
 
     /**
@@ -115,14 +101,10 @@ public abstract class RetryWorker
                     return;
                 }
 
-                if (!canRetry())
+                if (onRetry())
                 {
-                    stop();
-                    return;
+                    mRetryCount++;
                 }
-
-                onRetry();
-                mRetryCount++;
             }
         }
     };
@@ -137,14 +119,14 @@ public abstract class RetryWorker
     }
 
     /**
-     * 重试一次，调用开始后，此方法才有效
+     * 延迟多少毫秒后重试，调用开始后，此方法才有效
      */
-    public synchronized void retryAgain()
+    public synchronized void retryDelayed(long delayMillis)
     {
         if (mIsStarted)
         {
             mHandler.removeCallbacks(mRetryRunnable);
-            mHandler.postDelayed(mRetryRunnable, mRetryInterval);
+            mHandler.postDelayed(mRetryRunnable, delayMillis);
         }
     }
 
@@ -158,19 +140,11 @@ public abstract class RetryWorker
     }
 
     /**
-     * 每次重试的时候会触发此方法，验证是否可以执行当次重试任务，默认返回true
-     *
-     * @return
-     */
-    protected boolean canRetry()
-    {
-        return true;
-    }
-
-    /**
      * 执行重试任务
+     *
+     * @return true-成功发起一次重试，重试次数加一
      */
-    protected abstract void onRetry();
+    protected abstract boolean onRetry();
 
     /**
      * 达到最大重试次数，并且重试失败
