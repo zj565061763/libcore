@@ -101,10 +101,8 @@ public abstract class RetryWorker
                     return;
                 }
 
-                if (onRetry())
-                {
-                    mRetryCount++;
-                }
+                onRetry();
+                mRetryCount++;
             }
         }
     };
@@ -141,10 +139,8 @@ public abstract class RetryWorker
 
     /**
      * 执行重试任务
-     *
-     * @return true-成功发起一次重试，重试次数加一
      */
-    protected abstract boolean onRetry();
+    protected abstract void onRetry();
 
     /**
      * 达到最大重试次数，并且重试失败
