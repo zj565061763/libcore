@@ -3,9 +3,6 @@ package com.fanwe.library.utils;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.fanwe.lib.receiver.FNetworkReceiver;
-import com.fanwe.lib.utils.context.FContext;
-
 /**
  * 重试帮助类
  */
@@ -37,7 +34,7 @@ public abstract class RetryWorker
 
     protected RetryWorker()
     {
-        mNetworkReceiver.register(FContext.get());
+
     }
 
     /**
@@ -68,6 +65,16 @@ public abstract class RetryWorker
     public final int getRetryCount()
     {
         return mRetryCount;
+    }
+
+    /**
+     * 是否重试成功
+     *
+     * @return
+     */
+    public synchronized boolean isRetrySuccess()
+    {
+        return mIsRetrySuccess;
     }
 
     /**
@@ -102,76 +109,71 @@ public abstract class RetryWorker
 
                 if (mRetryCount >= mMaxRetryCount && !mIsRetrySuccess)
                 {
-                    // 达到最大重试次数，并且没有成功
+                    // 达到最大重试次数
                     stop();
                     onRetryFailedOnMaxRetryCount();
                     return;
                 }
 
-                if (!FNetworkReceiver.isNetworkConnected(FContext.get()))
+                if (!canRetry())
                 {
-                    // 无网络
-                    LogUtil.i("pause retry net disconnected");
                     stop();
                     return;
                 }
 
                 onRetry();
                 mRetryCount++;
-                LogUtil.i("retry count:" + mRetryCount);
             }
         }
     };
 
     /**
-     * 结束重试
+     * 停止重试
      */
     public synchronized final void stop()
     {
         mIsInRetry = false;
         mHandler.removeCallbacks(mRetryRunnable);
-        LogUtil.i("stop retry");
     }
 
     /**
-     * 设置重试结果
-     *
-     * @param success
+     * 重试一次，调用开始后，此方法才有效
      */
-    public synchronized final void setRetryResult(boolean success)
+    public synchronized void retry()
     {
-        mIsRetrySuccess = success;
-
-        if (success)
-        {
-            stop();
-        } else
+        if (mIsInRetry)
         {
             mHandler.removeCallbacks(mRetryRunnable);
             mHandler.postDelayed(mRetryRunnable, mRetryInterval);
         }
     }
 
-    private FNetworkReceiver mNetworkReceiver = new FNetworkReceiver()
+    /**
+     * 设置重试成功
+     */
+    public synchronized final void setRetrySuccess()
     {
-        @Override
-        protected void onNetworkChanged(int type)
-        {
-            synchronized (RetryWorker.this)
-            {
-                if (type >= 0)
-                {
-                    if (!mIsRetrySuccess)
-                    {
-                        LogUtil.i("resume retry net connected");
-                        start();
-                    }
-                }
-            }
-        }
-    };
+        mIsRetrySuccess = true;
+        stop();
+    }
 
+    /**
+     * 每次重试的时候会触发此方法，验证是否可以执行当次重试任务，默认返回true
+     *
+     * @return
+     */
+    protected boolean canRetry()
+    {
+        return true;
+    }
+
+    /**
+     * 执行重试任务
+     */
     protected abstract void onRetry();
 
+    /**
+     * 达到最大重试次数，并且重试失败
+     */
     protected abstract void onRetryFailedOnMaxRetryCount();
 }
