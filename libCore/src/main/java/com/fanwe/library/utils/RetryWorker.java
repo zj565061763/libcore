@@ -6,7 +6,7 @@ import android.os.Looper;
 import com.fanwe.lib.receiver.FNetworkReceiver;
 import com.fanwe.lib.utils.context.FContext;
 
-public abstract class RequestRetryer
+public abstract class RetryWorker
 {
     /**
      * 是否正在重试中
@@ -32,7 +32,7 @@ public abstract class RequestRetryer
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    protected RequestRetryer()
+    protected RetryWorker()
     {
         mNetworkReceiver.register(FContext.get());
     }
@@ -125,7 +125,11 @@ public abstract class RequestRetryer
     public final void setRetryResult(boolean success)
     {
         mIsRetrySuccess = success;
-        if (!success)
+
+        if (success)
+        {
+            stop();
+        } else
         {
             mHandler.removeCallbacks(mRetryRunnable);
             mHandler.postDelayed(mRetryRunnable, mRetryInterval);
