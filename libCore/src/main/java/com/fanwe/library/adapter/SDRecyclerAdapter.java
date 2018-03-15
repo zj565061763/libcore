@@ -187,24 +187,28 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     }
 
     @Override
-    public void onNormal(int position, T item)
+    public void onNormal(T item)
     {
         if (item instanceof FSelectManager.Selectable)
         {
             FSelectManager.Selectable selectable = (FSelectManager.Selectable) item;
             selectable.setSelected(false);
         }
+
+        final int position = indexOf(item);
         updateData(position);
     }
 
     @Override
-    public void onSelected(int position, T item)
+    public void onSelected(T item)
     {
         if (item instanceof FSelectManager.Selectable)
         {
             FSelectManager.Selectable selectable = (FSelectManager.Selectable) item;
             selectable.setSelected(true);
         }
+
+        final int position = indexOf(item);
         updateData(position);
     }
 
@@ -291,7 +295,6 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
             this.mListModel.clear();
         }
         getSelectManager().setItems(mListModel);
-        getSelectManager().synchronizeSelected();
     }
 
     @Override
@@ -303,56 +306,57 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     @Override
     public void appendData(T model)
     {
-        if (model != null)
+        if (model == null)
         {
-            mListModel.add(model);
-            getSelectManager().synchronizeSelected(model);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyItemInserted(mListModel.size() - 1);
-            }
+            return;
+        }
+
+        mListModel.add(model);
+        getSelectManager().appendItem(model);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyItemInserted(mListModel.size() - 1);
         }
     }
 
     @Override
     public void appendData(List<T> list)
     {
-        if (list != null && !list.isEmpty())
+        if (list == null || list.isEmpty())
         {
-            int positionStart = mListModel.size();
-            int itemCount = list.size();
+            return;
+        }
 
-            mListModel.addAll(list);
-            getSelectManager().synchronizeSelected(list);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyItemRangeInserted(positionStart, itemCount);
-            }
+        final int positionStart = mListModel.size();
+        final int itemCount = list.size();
+
+        mListModel.addAll(list);
+        getSelectManager().appendItems(list);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyItemRangeInserted(positionStart, itemCount);
         }
     }
 
     @Override
     public void removeData(T model)
     {
-        if (model != null)
-        {
-            int position = mListModel.indexOf(model);
-            removeData(position);
-        }
+        removeData(indexOf(model));
     }
 
     @Override
     public T removeData(int position)
     {
-        T model = null;
-        if (isPositionLegal(position))
+        if (!isPositionLegal(position))
         {
-            getSelectManager().setSelected(position, false);
-            model = mListModel.remove(position);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyItemRemoved(position);
-            }
+            return null;
+        }
+
+        final T model = mListModel.remove(position);
+        getSelectManager().removeItem(model);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyItemRemoved(position);
         }
         return model;
     }
@@ -360,41 +364,50 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     @Override
     public void insertData(int position, T model)
     {
-        if (model != null)
+        if (model == null)
         {
-            mListModel.add(position, model);
-            getSelectManager().synchronizeSelected(model);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyItemInserted(position);
-            }
+            return;
+        }
+
+        mListModel.add(position, model);
+        getSelectManager().insertItem(position, model);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyItemInserted(position);
         }
     }
 
     @Override
     public void insertData(int position, List<T> list)
     {
-        if (list != null && !list.isEmpty())
+        if (list == null || list.isEmpty())
         {
-            int positionStart = position;
-            int itemCount = list.size();
+            return;
+        }
 
-            mListModel.addAll(position, list);
-            getSelectManager().synchronizeSelected(list);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyItemRangeInserted(positionStart, itemCount);
-            }
+        final int positionStart = position;
+        final int itemCount = list.size();
+
+        mListModel.addAll(position, list);
+        getSelectManager().insertItem(position, list);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyItemRangeInserted(positionStart, itemCount);
         }
     }
 
     @Override
     public void updateData(int position, T model)
     {
-        if (model != null && isPositionLegal(position))
+        if (model == null || !isPositionLegal(position))
         {
-            mListModel.set(position, model);
-            getSelectManager().synchronizeSelected(model);
+            return;
+        }
+
+        mListModel.set(position, model);
+        getSelectManager().updateItem(position, model);
+        if (mAutoNotifyDataSetChanged)
+        {
             updateData(position);
         }
     }
@@ -402,13 +415,11 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     @Override
     public void updateData(int position)
     {
-        if (isPositionLegal(position))
+        if (!isPositionLegal(position))
         {
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyItemChanged(position, mDefaultPayloads);
-            }
+            return;
         }
+        notifyItemChanged(position, mDefaultPayloads);
     }
 
     @Override

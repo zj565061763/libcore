@@ -112,24 +112,28 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     }
 
     @Override
-    public void onNormal(int position, T item)
+    public void onNormal(T item)
     {
         if (item instanceof FSelectManager.Selectable)
         {
             FSelectManager.Selectable selectable = (FSelectManager.Selectable) item;
             selectable.setSelected(false);
         }
+
+        final int position = indexOf(item);
         updateData(position);
     }
 
     @Override
-    public void onSelected(int position, T item)
+    public void onSelected(T item)
     {
         if (item instanceof FSelectManager.Selectable)
         {
             FSelectManager.Selectable selectable = (FSelectManager.Selectable) item;
             selectable.setSelected(true);
         }
+
+        final int position = indexOf(item);
         updateData(position);
     }
 
@@ -291,14 +295,9 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     }
 
     @Override
-    public int indexOf(T t)
+    public int indexOf(T model)
     {
-        int index = -1;
-        if (t != null)
-        {
-            index = mListModel.indexOf(t);
-        }
-        return index;
+        return mListModel.indexOf(model);
     }
 
     @Override
@@ -316,13 +315,12 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     {
         if (list != null)
         {
-            this.mListModel = list;
+            mListModel = list;
         } else
         {
-            this.mListModel.clear();
+            mListModel.clear();
         }
         getSelectManager().setItems(mListModel);
-        getSelectManager().synchronizeSelected();
     }
 
     @Override
@@ -334,28 +332,32 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     @Override
     public void appendData(T model)
     {
-        if (model != null)
+        if (model == null)
         {
-            mListModel.add(model);
-            getSelectManager().synchronizeSelected(model);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyDataSetChanged();
-            }
+            return;
+        }
+
+        mListModel.add(model);
+        getSelectManager().appendItem(model);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyDataSetChanged();
         }
     }
 
     @Override
     public void appendData(List<T> list)
     {
-        if (list != null && list.size() > 0)
+        if (list == null || list.isEmpty())
         {
-            mListModel.addAll(list);
-            getSelectManager().synchronizeSelected(list);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyDataSetChanged();
-            }
+            return;
+        }
+
+        mListModel.addAll(list);
+        getSelectManager().appendItems(list);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyDataSetChanged();
         }
     }
 
@@ -368,15 +370,16 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     @Override
     public T removeData(int position)
     {
-        T model = null;
-        if (isPositionLegal(position))
+        if (!isPositionLegal(position))
         {
-            model = mListModel.remove(position);
-            getSelectManager().setSelected(position, false);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyDataSetChanged();
-            }
+            return null;
+        }
+
+        final T model = mListModel.remove(position);
+        getSelectManager().removeItem(model);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyDataSetChanged();
         }
         return model;
     }
@@ -384,38 +387,47 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     @Override
     public void insertData(int position, T model)
     {
-        if (model != null)
+        if (model == null)
         {
-            mListModel.add(position, model);
-            getSelectManager().synchronizeSelected(model);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyDataSetChanged();
-            }
+            return;
+        }
+
+        mListModel.add(position, model);
+        getSelectManager().insertItem(position, model);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyDataSetChanged();
         }
     }
 
     @Override
     public void insertData(int position, List<T> list)
     {
-        if (list != null && !list.isEmpty())
+        if (list == null || list.isEmpty())
         {
-            mListModel.addAll(position, list);
-            getSelectManager().synchronizeSelected(list);
-            if (mAutoNotifyDataSetChanged)
-            {
-                notifyDataSetChanged();
-            }
+            return;
+        }
+
+        mListModel.addAll(position, list);
+        getSelectManager().insertItem(position, list);
+        if (mAutoNotifyDataSetChanged)
+        {
+            notifyDataSetChanged();
         }
     }
 
     @Override
     public void updateData(int position, T model)
     {
-        if (isPositionLegal(position))
+        if (model == null || !isPositionLegal(position))
         {
-            mListModel.set(position, model);
-            getSelectManager().synchronizeSelected(model);
+            return;
+        }
+
+        mListModel.set(position, model);
+        getSelectManager().updateItem(position, model);
+        if (mAutoNotifyDataSetChanged)
+        {
             updateData(position);
         }
     }
@@ -423,16 +435,15 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     @Override
     public void updateData(int position)
     {
-        if (mAutoNotifyDataSetChanged)
+        List<View> list = getItemView(position);
+        if (list == null || list.isEmpty())
         {
-            List<View> listItem = getItemView(position);
-            if (listItem != null && !listItem.isEmpty())
-            {
-                for (View itemView : listItem)
-                {
-                    onUpdateView(position, itemView, (ViewGroup) itemView.getParent(), getItem(position));
-                }
-            }
+            return;
+        }
+
+        for (View item : list)
+        {
+            onUpdateView(position, item, (ViewGroup) item.getParent(), getItem(position));
         }
     }
 
