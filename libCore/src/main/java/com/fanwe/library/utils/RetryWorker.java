@@ -9,9 +9,9 @@ import android.os.Looper;
 public abstract class RetryWorker
 {
     /**
-     * 是否正在重试中
+     * 重试是否已经开始
      */
-    private boolean mIsInRetry = false;
+    private boolean mIsStarted = false;
     /**
      * 是否重试成功
      */
@@ -82,11 +82,11 @@ public abstract class RetryWorker
      */
     public synchronized final void start()
     {
-        if (mIsInRetry)
+        if (mIsStarted)
         {
             return;
         }
-        mIsInRetry = true;
+        mIsStarted = true;
         mIsRetrySuccess = false;
         mRetryCount = 0;
 
@@ -132,7 +132,7 @@ public abstract class RetryWorker
      */
     public synchronized final void stop()
     {
-        mIsInRetry = false;
+        mIsStarted = false;
         mHandler.removeCallbacks(mRetryRunnable);
     }
 
@@ -141,7 +141,7 @@ public abstract class RetryWorker
      */
     public synchronized void retry()
     {
-        if (mIsInRetry)
+        if (mIsStarted)
         {
             mHandler.removeCallbacks(mRetryRunnable);
             mHandler.postDelayed(mRetryRunnable, mRetryInterval);
