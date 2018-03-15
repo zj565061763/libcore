@@ -79,7 +79,6 @@ public abstract class RequestRetryer
         @Override
         public void run()
         {
-            LogUtil.i("mRetryRunnable run");
             if (mIsRetrySuccess)
             {
                 stop();
