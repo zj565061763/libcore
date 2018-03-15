@@ -139,7 +139,7 @@ public abstract class RetryWorker
     /**
      * 重试一次，调用开始后，此方法才有效
      */
-    public synchronized void retry()
+    public synchronized void retryAgain()
     {
         if (mIsStarted)
         {
