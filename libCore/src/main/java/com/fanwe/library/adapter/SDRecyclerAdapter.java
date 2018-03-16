@@ -187,7 +187,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     }
 
     @Override
-    public void onNormal(T item)
+    public void onNormal(int index, T item)
     {
         if (item instanceof FSelectManager.Selectable)
         {
@@ -200,7 +200,7 @@ public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecycl
     }
 
     @Override
-    public void onSelected(T item)
+    public void onSelected(int index, T item)
     {
         if (item instanceof FSelectManager.Selectable)
         {
