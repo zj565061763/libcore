@@ -112,7 +112,7 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     }
 
     @Override
-    public void onNormal(int index, T item)
+    public void onNormal(T item)
     {
         if (item instanceof FSelectManager.Selectable)
         {
@@ -125,7 +125,7 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     }
 
     @Override
-    public void onSelected(int index, T item)
+    public void onSelected(T item)
     {
         if (item instanceof FSelectManager.Selectable)
         {
