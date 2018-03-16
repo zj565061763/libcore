@@ -140,18 +140,17 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     @Override
     public void notifyDataSetChanged()
     {
-        clearViews();
+        mMapViewPosition.clear();
         super.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View view)
     {
-        if (mMapViewPosition.containsKey(view))
+        final Integer position = mMapViewPosition.get(view);
+        if (position != null)
         {
-            int position = mMapViewPosition.get(view);
-            T model = getItem(position);
-            onItemClick(position, model, view);
+            onItemClick(position, getItem(position), view);
         }
     }
 
@@ -159,11 +158,6 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
     public void onItemClick(int position, T model, View view)
     {
         notifyItemClickCallback(position, model, view);
-    }
-
-    private void clearViews()
-    {
-        mMapViewPosition.clear();
     }
 
     @Override
@@ -202,14 +196,14 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
      */
     public List<View> getItemView(int position)
     {
-        if (mMapViewPosition.size() <= 0)
+        if (mMapViewPosition.isEmpty())
         {
             return null;
         }
 
-        List<View> listItem = new ArrayList<>();
+        final List<View> list = new ArrayList<>();
 
-        Set<Entry<View, Integer>> set = mMapViewPosition.entrySet();
+        final Set<Entry<View, Integer>> set = mMapViewPosition.entrySet();
         for (Entry<View, Integer> item : set)
         {
             if (Integer.valueOf(position).equals(item.getValue()))
@@ -217,12 +211,12 @@ public abstract class SDAdapter<T> extends BaseAdapter implements
                 View view = item.getKey();
                 if (view != null && view.getParent() != null)
                 {
-                    listItem.add(view);
+                    list.add(view);
                 }
             }
         }
 
-        return listItem;
+        return list;
     }
 
     /**
