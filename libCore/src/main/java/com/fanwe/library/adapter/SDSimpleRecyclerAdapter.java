@@ -8,9 +8,7 @@ import com.fanwe.library.adapter.viewholder.SDRecyclerViewHolder;
 
 import java.util.List;
 
-/**
- * Created by Administrator on 2016/9/7.
- */
+@Deprecated
 public abstract class SDSimpleRecyclerAdapter<T> extends SDRecyclerAdapter<T>
 {
     public SDSimpleRecyclerAdapter(Activity activity)

@@ -6,9 +6,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-/**
- * Created by L on 2016/8/28.
- */
+@Deprecated
 public interface ISDAdapter<T>
 {
     /**

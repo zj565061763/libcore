@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+@Deprecated
 public abstract class SDSimpleAdapter<T> extends SDAdapter<T>
 {
 

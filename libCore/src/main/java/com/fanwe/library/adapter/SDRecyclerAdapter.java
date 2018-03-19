@@ -13,11 +13,7 @@ import com.fanwe.library.listener.SDItemLongClickCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * RecyclerView适配器
- *
- * @param <T> 实体类型
- */
+@Deprecated
 public abstract class SDRecyclerAdapter<T> extends RecyclerView.Adapter<SDRecyclerViewHolder<T>> implements
         ISDAdapter<T>,
         View.OnClickListener,

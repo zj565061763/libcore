@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 
 import com.fanwe.library.adapter.SDRecyclerAdapter;
 
-/**
- * Created by Administrator on 2016/8/27.
- */
+@Deprecated
 public abstract class SDRecyclerViewHolder<T> extends RecyclerView.ViewHolder implements
         View.OnClickListener,
         View.OnLongClickListener

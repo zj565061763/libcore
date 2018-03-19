@@ -8,6 +8,7 @@ import com.fanwe.library.adapter.viewholder.SDViewHolder;
 
 import java.util.List;
 
+@Deprecated
 public abstract class SDViewHolderAdapter<T> extends SDAdapter<T>
 {
 

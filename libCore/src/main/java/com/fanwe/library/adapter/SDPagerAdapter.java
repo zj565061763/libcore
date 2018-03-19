@@ -11,6 +11,7 @@ import com.fanwe.library.listener.SDItemClickCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public abstract class SDPagerAdapter<T> extends PagerAdapter implements ISDAdapter<T>
 {
     private List<T> mListModel = new ArrayList<T>();

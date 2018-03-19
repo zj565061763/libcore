@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.fanwe.library.adapter.SDAdapter;
 
+@Deprecated
 public abstract class SDViewHolder<T> implements
         View.OnClickListener,
         View.OnLongClickListener

@@ -10,6 +10,7 @@ import com.fanwe.library.adapter.SDSimpleAdapter;
 
 import java.util.List;
 
+@Deprecated
 public class SDSimpleTextAdapter<T> extends SDSimpleAdapter<T>
 {
     public SDSimpleTextAdapter(List<T> listModel, Activity activity)

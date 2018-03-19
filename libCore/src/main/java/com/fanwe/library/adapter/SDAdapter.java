@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+@Deprecated
 public abstract class SDAdapter<T> extends BaseAdapter implements
         ISDAdapter<T>,
         FSelectManager.Callback<T>,
