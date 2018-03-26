@@ -36,7 +36,6 @@ dependencies {
     compile 'com.github.zj565061763:receiver:1.0.3'
     compile 'com.github.zj565061763:utils:a1badca186'
     compile 'com.github.zj565061763:utils-extend:b0c488144b'
-    compile 'com.github.zj565061763:json:1.0.0'
     compile 'com.github.zj565061763:eventbus:1.0.15'
     compile 'com.github.zj565061763:holder-objects:1.0.1'
 }
