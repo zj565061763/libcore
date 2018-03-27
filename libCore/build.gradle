@@ -34,7 +34,7 @@ dependencies {
     compile 'com.github.zj565061763:res:1.0.12'
     compile 'com.github.zj565061763:selectmanager:1.0.5'
     compile 'com.github.zj565061763:utils:8976d73e1a'
-    compile 'com.github.zj565061763:utils-extend:b0c488144b'
+    compile 'com.github.zj565061763:utils-extend:ee3873a69c'
     compile 'com.github.zj565061763:eventbus:1.0.15'
     compile 'com.github.zj565061763:holder-objects:1.0.1'
 }
