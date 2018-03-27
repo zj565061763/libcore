@@ -58,7 +58,7 @@ public abstract class RetryWorker
      *
      * @return
      */
-    public synchronized boolean isRetrySuccess()
+    public final boolean isRetrySuccess()
     {
         return mIsRetrySuccess;
     }
