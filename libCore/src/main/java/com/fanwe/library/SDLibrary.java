@@ -5,14 +5,12 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.fanwe.lib.eventbus.FEventBus;
-import com.fanwe.lib.receiver.FNetworkReceiver;
 import com.fanwe.lib.utils.context.FContext;
 import com.fanwe.lib.utils.extend.FActivityStack;
 import com.fanwe.lib.utils.extend.FAppBackgroundListener;
 import com.fanwe.library.event.EAppBackground;
 import com.fanwe.library.event.EAppResumeFromBackground;
 import com.fanwe.library.event.ECallStateChanged;
-import com.fanwe.library.event.ENetworkChanged;
 
 public class SDLibrary
 {
@@ -72,17 +70,6 @@ public class SDLibrary
                 FEventBus.getDefault().post(event);
             }
         });
-
-        new FNetworkReceiver()
-        {
-            @Override
-            protected void onNetworkChanged(int type)
-            {
-                ENetworkChanged event = new ENetworkChanged();
-                event.type = type;
-                FEventBus.getDefault().post(event);
-            }
-        }.register(getContext());
 
         TelephonyManager tm = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
         tm.listen(new PhoneStateListener()
