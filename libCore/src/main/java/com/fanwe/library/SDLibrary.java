@@ -1,5 +1,6 @@
 package com.fanwe.library;
 
+import android.app.Application;
 import android.content.Context;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -38,15 +39,15 @@ public class SDLibrary
         return mContext;
     }
 
-    public synchronized void init(Context context)
+    public synchronized void init(Application application)
     {
         if (mContext == null)
         {
-            mContext = context.getApplicationContext();
+            mContext = application;
 
-            FContext.set(context);
-            FActivityStack.getInstance().init(context);
-            FAppBackgroundListener.getInstance().init(context);
+            FContext.set(application);
+            FActivityStack.getInstance().init(application);
+            FAppBackgroundListener.getInstance().init(application);
 
             initInternal();
         }
