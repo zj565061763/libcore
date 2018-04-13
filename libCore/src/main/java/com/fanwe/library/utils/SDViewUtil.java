@@ -36,7 +36,6 @@ import android.widget.TextView;
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.context.FToast;
 import com.fanwe.library.SDLibrary;
-import com.fanwe.library.adapter.SDAdapter;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -1737,23 +1736,6 @@ public class SDViewUtil
     public static void updateImageViewSize(ImageView imageView, Drawable drawable)
     {
         scaleHeight(imageView, drawable);
-    }
-
-    @Deprecated
-    public static <T> void updateAdapterByList(List<T> listOriginalData, List<T> listNewData, SDAdapter<T> mAdapter, boolean isLoadMore)
-    {
-        updateAdapterByList(listOriginalData, listNewData, mAdapter, isLoadMore, null, "未找到更多数据");
-    }
-
-    @Deprecated
-    public static <T> void updateAdapterByList(List<T> listOriginalData, List<T> listNewData, SDAdapter<T> mAdapter, boolean isLoadMore,
-                                               String noData, String noMoreData)
-    {
-        updateList(listOriginalData, listNewData, isLoadMore, noData, noMoreData);
-        if (mAdapter != null && listOriginalData != null)
-        {
-            mAdapter.updateData(listOriginalData);
-        }
     }
 
     @Deprecated
