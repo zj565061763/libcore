@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 20180413
-        versionName "1.1.1"
+        versionCode 20180416
+        versionName "1.1.2"
     }
 
     buildTypes {
@@ -32,8 +32,8 @@ dependencies {
 
     api 'com.github.zj565061763:res:1.0.15'
     api 'com.github.zj565061763:receiver:1.0.4'
-    api 'com.github.zj565061763:utils:8976d73e1a'
-    api 'com.github.zj565061763:utils-extend:f70d344eb0'
+    api 'com.github.zj565061763:utils:1.0.2'
+    api 'com.github.zj565061763:utils-extend:1.0.1'
     api 'com.github.zj565061763:eventbus:1.0.17'
     api 'com.github.zj565061763:holder-objects:1.0.2'
 }
