@@ -244,7 +244,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     protected void onRestoreInstanceStateException(Exception e)
     {
-
     }
 
     @Override
@@ -252,13 +251,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     {
         super.onActivityResult(requestCode, resultCode, data);
         notifyOnActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onBackPressed()
-    {
-        finish();
-        super.onBackPressed();
     }
 
     @Override
