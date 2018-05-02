@@ -113,10 +113,7 @@ public class FPageModel
         this.hasNextPage = hasNextPage;
         if (isLoadMore)
         {
-            if (hasNextPage())
-            {
-                currentPage++;
-            }
+            currentPage++;
         } else
         {
             currentPage = 1;
