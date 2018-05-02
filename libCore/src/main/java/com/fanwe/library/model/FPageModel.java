@@ -1,5 +1,7 @@
 package com.fanwe.library.model;
 
+import java.util.List;
+
 /**
  * 分页逻辑封装
  */
@@ -58,24 +60,16 @@ public class FPageModel
     }
 
     /**
-     * 接口请求成功后，更新当前分页
+     * 接口请求成功更新当前分页
      *
-     * @param isLoadMore  是否加载更多
-     * @param hasNextPage 是否有下一页数据
+     * @param isLoadMore 是否加载更多
+     * @param list       本次请求的数量
+     * @param totalCount 总数量
      */
-    public void updatePageOnSuccess(boolean isLoadMore, boolean hasNextPage)
+    public void updatePageOnSuccess(boolean isLoadMore, List list, int totalCount)
     {
-        this.hasNextPage = hasNextPage;
-        if (isLoadMore)
-        {
-            if (hasNextPage())
-            {
-                currentPage++;
-            }
-        } else
-        {
-            currentPage = 1;
-        }
+        final int newCount = list == null ? 0 : list.size();
+        updatePageOnSuccess(isLoadMore, newCount, totalCount);
     }
 
     /**
@@ -97,5 +91,26 @@ public class FPageModel
 
         final boolean hasNext = totalCount > currentCount;
         updatePageOnSuccess(isLoadMore, hasNext);
+    }
+
+    /**
+     * 接口请求成功后，更新当前分页
+     *
+     * @param isLoadMore  是否加载更多
+     * @param hasNextPage 是否有下一页数据
+     */
+    public void updatePageOnSuccess(boolean isLoadMore, boolean hasNextPage)
+    {
+        this.hasNextPage = hasNextPage;
+        if (isLoadMore)
+        {
+            if (hasNextPage())
+            {
+                currentPage++;
+            }
+        } else
+        {
+            currentPage = 1;
+        }
     }
 }
