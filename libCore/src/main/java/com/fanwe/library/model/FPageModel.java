@@ -81,6 +81,15 @@ public class FPageModel
      */
     public void updatePageOnSuccess(boolean isLoadMore, int newCount, int totalCount)
     {
+        if (newCount < 0)
+        {
+            throw new IllegalArgumentException("newCount < 0");
+        }
+        if (totalCount < 0)
+        {
+            throw new IllegalArgumentException("totalCount < 0");
+        }
+
         if (isLoadMore)
         {
             currentCount += newCount;
