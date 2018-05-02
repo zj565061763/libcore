@@ -5,17 +5,29 @@ package com.fanwe.library.model;
  */
 public class FPageModel
 {
-    private int page = 1;
+    private int currentPage = 1;
     private boolean hasNextPage = false;
+
+    private int currentCount;
+
+    /**
+     * 返回当前数据的数量
+     *
+     * @return
+     */
+    public int getCurrentCount()
+    {
+        return currentCount;
+    }
 
     /**
      * 返回当前的页数
      *
      * @return
      */
-    public int currentPage()
+    public int getCurrentPage()
     {
-        return page;
+        return currentPage;
     }
 
     /**
@@ -38,7 +50,7 @@ public class FPageModel
     {
         if (isLoadMore)
         {
-            return page + 1;
+            return currentPage + 1;
         } else
         {
             return 1;
@@ -58,11 +70,32 @@ public class FPageModel
         {
             if (hasNextPage())
             {
-                page++;
+                currentPage++;
             }
         } else
         {
-            page = 1;
+            currentPage = 1;
         }
+    }
+
+    /**
+     * 接口请求成功更新当前分页
+     *
+     * @param isLoadMore 是否加载更多
+     * @param newCount   本次请求的数量
+     * @param totalCount 总数量
+     */
+    public void updatePageOnSuccess(boolean isLoadMore, int newCount, int totalCount)
+    {
+        if (isLoadMore)
+        {
+            currentCount += newCount;
+        } else
+        {
+            currentCount = newCount;
+        }
+
+        final boolean hasNext = totalCount > currentCount;
+        updatePageOnSuccess(isLoadMore, hasNext);
     }
 }
