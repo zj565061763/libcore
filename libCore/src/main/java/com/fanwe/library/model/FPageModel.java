@@ -79,7 +79,7 @@ public class FPageModel
      * @param newCount   本次请求的数量
      * @param totalCount 总数量
      */
-    public void updatePageOnSuccess(boolean isLoadMore, int newCount, int totalCount)
+    public synchronized void updatePageOnSuccess(boolean isLoadMore, int newCount, int totalCount)
     {
         if (newCount < 0)
         {
@@ -108,7 +108,7 @@ public class FPageModel
      * @param isLoadMore  是否加载更多
      * @param hasNextPage 是否有下一页数据
      */
-    public void updatePageOnSuccess(boolean isLoadMore, boolean hasNextPage)
+    public synchronized void updatePageOnSuccess(boolean isLoadMore, boolean hasNextPage)
     {
         this.hasNextPage = hasNextPage;
         if (isLoadMore)
