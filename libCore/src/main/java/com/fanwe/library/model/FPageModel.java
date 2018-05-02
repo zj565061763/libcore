@@ -6,7 +6,17 @@ package com.fanwe.library.model;
 public class FPageModel
 {
     private int page = 1;
-    private int hasNextPage = 0;
+    private boolean hasNextPage = false;
+
+    /**
+     * 返回当前的页数
+     *
+     * @return
+     */
+    public int currentPage()
+    {
+        return page;
+    }
 
     /**
      * 是否有下一页数据
@@ -15,13 +25,13 @@ public class FPageModel
      */
     public boolean hasNextPage()
     {
-        return hasNextPage == 1;
+        return hasNextPage;
     }
 
     /**
      * 返回当前请求需要传入的page
      *
-     * @param isLoadMore
+     * @param isLoadMore 是否加载更多
      * @return
      */
     public int getPageForRequest(boolean isLoadMore)
@@ -36,12 +46,12 @@ public class FPageModel
     }
 
     /**
-     * 更新当前分页
+     * 接口请求成功后，更新当前分页
      *
-     * @param isLoadMore
-     * @param hasNextPage
+     * @param isLoadMore  是否加载更多
+     * @param hasNextPage 是否有下一页数据
      */
-    public void updatePageOnSuccess(boolean isLoadMore, int hasNextPage)
+    public void updatePageOnSuccess(boolean isLoadMore, boolean hasNextPage)
     {
         this.hasNextPage = hasNextPage;
         if (isLoadMore)
