@@ -31,6 +31,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     private ProgressDialog mProgressDialog;
 
     private FObjectsHolder<ActivityLifecycleCallback> mLifecycleCallbackHolder;
+    private FObjectsHolder<ActivityResultCallback> mActivityResultCallbackHolder;
     private FObjectsHolder<ActivityTouchEventCallback> mTouchEventCallbackHolder;
     private FObjectsHolder<ActivityKeyEventCallback> mKeyEventCallbackHolder;
 
@@ -46,6 +47,15 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             mLifecycleCallbackHolder = new FStrongObjectsHolder<>();
         }
         return mLifecycleCallbackHolder;
+    }
+
+    public final FObjectsHolder<ActivityResultCallback> getActivityResultCallbackHolder()
+    {
+        if (mActivityResultCallbackHolder == null)
+        {
+            mActivityResultCallbackHolder = new FStrongObjectsHolder<>();
+        }
+        return mActivityResultCallbackHolder;
     }
 
     public final FObjectsHolder<ActivityTouchEventCallback> getTouchEventCallbackHolder()
@@ -477,10 +487,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private void notifyOnActivityResult(final int requestCode, final int resultCode, final Intent data)
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getActivityResultCallbackHolder().foreach(new ForeachCallback<ActivityResultCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected void next(ActivityResultCallback item)
             {
                 item.onActivityResult(SDBaseActivity.this, requestCode, resultCode, data);
             }
@@ -523,7 +533,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     public interface ActivityLifecycleCallback extends Application.ActivityLifecycleCallbacks
     {
         void onActivityRestoreInstanceState(Activity activity, Bundle savedInstanceState);
+    }
 
+    public interface ActivityResultCallback
+    {
         void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data);
     }
 

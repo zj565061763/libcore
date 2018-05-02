@@ -26,6 +26,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class SDAppView extends FrameLayout implements
         View.OnClickListener,
         SDBaseActivity.ActivityLifecycleCallback,
+        SDBaseActivity.ActivityResultCallback,
         SDBaseActivity.ActivityTouchEventCallback,
         SDBaseActivity.ActivityKeyEventCallback
 {
@@ -373,6 +374,7 @@ public class SDAppView extends FrameLayout implements
         if (activity != null)
         {
             activity.getLifecycleCallbackHolder().add(this);
+            activity.getActivityResultCallbackHolder().add(this);
             activity.getTouchEventCallbackHolder().add(this);
             activity.getKeyEventCallbackHolder().add(this);
         }
@@ -387,6 +389,7 @@ public class SDAppView extends FrameLayout implements
         if (activity != null)
         {
             activity.getLifecycleCallbackHolder().remove(this);
+            activity.getActivityResultCallbackHolder().remove(this);
             activity.getTouchEventCallbackHolder().remove(this);
             activity.getKeyEventCallbackHolder().remove(this);
         }
