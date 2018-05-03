@@ -2,7 +2,6 @@ package com.fanwe.library.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +20,13 @@ public class SDRecyclerView extends RecyclerView
         init();
     }
 
-    public SDRecyclerView(Context context, @Nullable AttributeSet attrs)
+    public SDRecyclerView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
     }
 
-    public SDRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle)
+    public SDRecyclerView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         init();
@@ -35,67 +34,81 @@ public class SDRecyclerView extends RecyclerView
 
     private void init()
     {
-        setLinearVertical();
+        setLinearLayoutManager(RecyclerView.VERTICAL);
+    }
+
+    //----------Linear----------
+
+    /**
+     * 设置线性布局管理器
+     *
+     * @param orientation {@link RecyclerView#VERTICAL} 或者 {@link RecyclerView#HORIZONTAL}
+     */
+    public void setLinearLayoutManager(int orientation)
+    {
+        if (orientation == RecyclerView.VERTICAL || orientation == RecyclerView.HORIZONTAL)
+        {
+            final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+            manager.setOrientation(orientation);
+            setLayoutManager(manager);
+        } else
+        {
+            throw new IllegalArgumentException("orientation must be RecyclerView.VERTICAL or RecyclerView.HORIZONTAL");
+        }
     }
 
     /**
-     * 第一个item是否完全可见
+     * 返回线性布局管理器
      *
      * @return
      */
-    public boolean isFirstItemCompletelyVisible()
+    public LinearLayoutManager getLinearLayoutManager()
     {
-        boolean result = false;
-        int count = getItemCount();
-        if (count > 0)
+        final LayoutManager manager = getLayoutManager();
+        if (manager instanceof LinearLayoutManager)
         {
-            LayoutManager layoutManager = getLayoutManager();
-            if (layoutManager instanceof GridLayoutManager)
-            {
-                if (getGridLayoutManager().findFirstCompletelyVisibleItemPosition() == 0)
-                {
-                    result = true;
-                }
-            } else if (layoutManager instanceof LinearLayoutManager)
-            {
-                if (getLinearLayoutManager().findFirstCompletelyVisibleItemPosition() == 0)
-                {
-                    result = true;
-                }
-            }
+            return (LinearLayoutManager) manager;
         }
-        return result;
+        return null;
+    }
+
+    //----------Grid----------
+
+    /**
+     * 设置网格布局管理器
+     *
+     * @param orientation {@link RecyclerView#VERTICAL} 或者 {@link RecyclerView#HORIZONTAL}
+     * @param spanCount   单行或者单列的网格数量
+     */
+    public void setGridLayoutManager(int orientation, int spanCount)
+    {
+        if (orientation == RecyclerView.VERTICAL || orientation == RecyclerView.HORIZONTAL)
+        {
+            final GridLayoutManager manager = new GridLayoutManager(getContext(), spanCount);
+            manager.setOrientation(orientation);
+            setLayoutManager(manager);
+        } else
+        {
+            throw new IllegalArgumentException("orientation must be RecyclerView.VERTICAL or RecyclerView.HORIZONTAL");
+        }
     }
 
     /**
-     * 最后一个item是否完全可见
+     * 返回网格布局管理器
      *
      * @return
      */
-    public boolean isLastItemCompletelyVisible()
+    public GridLayoutManager getGridLayoutManager()
     {
-        boolean result = false;
-
-        int count = getItemCount();
-        if (count > 0)
+        final LayoutManager manager = getLayoutManager();
+        if (manager instanceof GridLayoutManager)
         {
-            LayoutManager layoutManager = getLayoutManager();
-            if (layoutManager instanceof GridLayoutManager)
-            {
-                if (getGridLayoutManager().findLastCompletelyVisibleItemPosition() == count - 1)
-                {
-                    result = true;
-                }
-            } else if (layoutManager instanceof LinearLayoutManager)
-            {
-                if (getLinearLayoutManager().findLastCompletelyVisibleItemPosition() == count - 1)
-                {
-                    result = true;
-                }
-            }
+            return (GridLayoutManager) manager;
         }
-        return result;
+        return null;
     }
+
+    //----------scroll----------
 
     /**
      * 获得item的数量
@@ -104,115 +117,13 @@ public class SDRecyclerView extends RecyclerView
      */
     public int getItemCount()
     {
-        Adapter adapter = getAdapter();
+        final Adapter adapter = getAdapter();
         if (adapter != null)
         {
             return adapter.getItemCount();
         }
         return 0;
     }
-
-    //----------Linear----------
-
-    /**
-     * 设置从上往下单列布局
-     */
-    public void setLinearVertical()
-    {
-        setLinearOrientation(RecyclerView.VERTICAL);
-    }
-
-    /**
-     * 设置从左往右单行布局
-     */
-    public void setLinearHorizontal()
-    {
-        setLinearOrientation(RecyclerView.HORIZONTAL);
-    }
-
-    private void setLinearOrientation(int orientation)
-    {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        if (orientation == RecyclerView.VERTICAL || orientation == RecyclerView.HORIZONTAL)
-        {
-            layoutManager.setOrientation(orientation);
-            setLayoutManager(layoutManager);
-        }
-    }
-
-    /**
-     * 获得线性布局管理器
-     *
-     * @return
-     */
-    public LinearLayoutManager getLinearLayoutManager()
-    {
-        LayoutManager layoutManager = getLayoutManager();
-        if (layoutManager instanceof LinearLayoutManager)
-        {
-            return (LinearLayoutManager) layoutManager;
-        }
-        return null;
-    }
-
-    //----------Grid----------
-
-    /**
-     * 设置从上往下多列布局
-     *
-     * @param spanCount 列数
-     */
-    public void setGridVertical(int spanCount)
-    {
-        setGridOrientation(RecyclerView.VERTICAL, spanCount);
-    }
-
-    /**
-     * 设置从左往右多行布局
-     *
-     * @param spanCount 行数
-     */
-    public void setGridHorizontal(int spanCount)
-    {
-        setGridOrientation(RecyclerView.HORIZONTAL, spanCount);
-    }
-
-    private void setGridOrientation(int orientation, int spanCount)
-    {
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
-        if (orientation == RecyclerView.VERTICAL || orientation == RecyclerView.HORIZONTAL)
-        {
-            layoutManager.setOrientation(orientation);
-            setLayoutManager(layoutManager);
-        }
-    }
-
-    /**
-     * 获得网格布局管理器
-     *
-     * @return
-     */
-    public GridLayoutManager getGridLayoutManager()
-    {
-        LayoutManager layoutManager = getLayoutManager();
-        if (layoutManager instanceof GridLayoutManager)
-        {
-            return (GridLayoutManager) layoutManager;
-        }
-        return null;
-    }
-
-    /**
-     * 是否处于RecyclerView.SCROLL_STATE_IDLE空闲状态
-     *
-     * @return
-     */
-    public boolean isIdle()
-    {
-        return getScrollState() == RecyclerView.SCROLL_STATE_IDLE;
-    }
-
-    //----------scroll----------
 
     /**
      * 滚动到布局开始的位置
@@ -223,101 +134,15 @@ public class SDRecyclerView extends RecyclerView
     }
 
     /**
-     * 延迟滚动到布局开始的位置
-     *
-     * @param delay 延迟毫秒
-     */
-    public void scrollToStartDelayed(long delay)
-    {
-        if (delay < 0)
-        {
-            delay = 0;
-        }
-        postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                scrollToStart();
-            }
-        }, delay);
-    }
-
-    /**
      * 滚动到布局结束的位置
      */
     public void scrollToEnd()
     {
-        int count = getItemCount();
+        final int count = getItemCount();
         if (count > 0)
         {
             scrollToPosition(count - 1);
         }
-    }
-
-    /**
-     * 延迟滚动到布局结束的位置
-     *
-     * @param delay 延迟毫秒
-     */
-    public void scrollToEndDelayed(long delay)
-    {
-        if (delay < 0)
-        {
-            delay = 0;
-        }
-        postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                scrollToEnd();
-            }
-        }, delay);
-    }
-
-    /**
-     * 延迟滚动到某个位置
-     *
-     * @param position 要滚动到的位置
-     * @param delay    延迟毫秒
-     */
-    public void scrollToPositionDelayed(final int position, long delay)
-    {
-        if (delay < 0)
-        {
-            delay = 0;
-        }
-        postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                scrollToPosition(position);
-            }
-        }, delay);
-    }
-
-    /**
-     * 延迟顺滑的滚动到某个位置
-     *
-     * @param position 要滚动到的位置
-     * @param delay    延迟毫秒
-     */
-    public void smoothScrollToPositionDelayed(final int position, long delay)
-    {
-        if (delay < 0)
-        {
-            delay = 0;
-        }
-        postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                smoothScrollToPosition(position);
-            }
-        }, delay);
     }
 
     //----------divider start----------
