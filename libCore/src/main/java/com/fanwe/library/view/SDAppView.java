@@ -54,6 +54,7 @@ public class SDAppView extends FrameLayout implements
     private boolean mConsumeTouchEvent = false;
     private WeakReference<ViewGroup> mContainer;
     private FViewVisibilityHandler mVisibilityHandler;
+    private final int[] mLocationOnScreen = new int[2];
 
     private boolean mHasOnLayout = false;
     private List<Runnable> mListLayoutRunnable;
@@ -287,6 +288,26 @@ public class SDAppView extends FrameLayout implements
         return super.onTouchEvent(event);
     }
 
+    /**
+     * view是否位于指定的坐标之下
+     *
+     * @param x 屏幕x坐标
+     * @param y 屏幕y坐标
+     * @return
+     */
+    public boolean isViewUnder(int x, int y)
+    {
+        getLocationOnScreen(mLocationOnScreen);
+
+        final int left = mLocationOnScreen[0];
+        final int top = mLocationOnScreen[1];
+        final int right = left + getWidth();
+        final int bottom = top + getHeight();
+
+        return left < right && top < bottom
+                && x >= left && x < right && y >= top && y < bottom;
+    }
+
     @Override
     public boolean dispatchTouchEvent(Activity activity, MotionEvent ev)
     {
@@ -295,12 +316,15 @@ public class SDAppView extends FrameLayout implements
             switch (ev.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
-                    if (FViewUtil.isViewUnder(this, ev))
+                    if (getVisibility() == VISIBLE)
                     {
-                        return onTouchDownInside(ev);
-                    } else
-                    {
-                        return onTouchDownOutside(ev);
+                        if (isViewUnder((int) ev.getRawX(), (int) ev.getRawY()))
+                        {
+                            return onTouchDownInside(ev);
+                        } else
+                        {
+                            return onTouchDownOutside(ev);
+                        }
                     }
                 default:
                     break;
