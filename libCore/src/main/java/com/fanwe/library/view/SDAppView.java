@@ -54,7 +54,6 @@ public class SDAppView extends FrameLayout implements
     private boolean mConsumeTouchEvent = false;
     private WeakReference<ViewGroup> mContainer;
     private FViewVisibilityHandler mVisibilityHandler;
-    private final int[] mLocationOnScreen = new int[2];
 
     private boolean mHasOnLayout = false;
     private List<Runnable> mListLayoutRunnable;
@@ -297,34 +296,23 @@ public class SDAppView extends FrameLayout implements
      */
     public boolean isViewUnder(int x, int y)
     {
-        getLocationOnScreen(mLocationOnScreen);
-
-        final int left = mLocationOnScreen[0];
-        final int top = mLocationOnScreen[1];
-        final int right = left + getWidth();
-        final int bottom = top + getHeight();
-
-        return left < right && top < bottom
-                && x >= left && x < right && y >= top && y < bottom;
+        return FViewUtil.isViewUnder(this, x, y, null);
     }
 
     @Override
     public boolean dispatchTouchEvent(Activity activity, MotionEvent ev)
     {
-        if (View.VISIBLE == getVisibility() && getParent() != null)
+        if (getVisibility() == VISIBLE && getParent() != null)
         {
             switch (ev.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
-                    if (getVisibility() == VISIBLE)
+                    if (isViewUnder((int) ev.getRawX(), (int) ev.getRawY()))
                     {
-                        if (isViewUnder((int) ev.getRawX(), (int) ev.getRawY()))
-                        {
-                            return onTouchDownInside(ev);
-                        } else
-                        {
-                            return onTouchDownOutside(ev);
-                        }
+                        return onTouchDownInside(ev);
+                    } else
+                    {
+                        return onTouchDownOutside(ev);
                     }
                 default:
                     break;
@@ -346,7 +334,7 @@ public class SDAppView extends FrameLayout implements
     @Override
     public boolean dispatchKeyEvent(Activity activity, KeyEvent event)
     {
-        if (View.VISIBLE == getVisibility() && getParent() != null)
+        if (getVisibility() == VISIBLE && getParent() != null)
         {
             switch (event.getAction())
             {
