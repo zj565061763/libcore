@@ -32,7 +32,7 @@ dependencies {
 
     api 'com.github.zj565061763:res:1.0.15'
     api 'com.github.zj565061763:receiver:1.0.4'
-    api 'com.github.zj565061763:utils:1.0.5'
+    api 'com.github.zj565061763:utils:1.0.6'
     api 'com.github.zj565061763:utils-extend:1.0.1'
     api 'com.github.zj565061763:eventbus:1.0.19'
     api 'com.github.zj565061763:holder-objects:1.0.2'
