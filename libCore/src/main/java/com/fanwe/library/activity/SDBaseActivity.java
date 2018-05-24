@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.fanwe.lib.holder.objects.FObjectsHolder;
 import com.fanwe.lib.holder.objects.FStrongObjectsHolder;
 import com.fanwe.lib.holder.objects.ForeachCallback;
+import com.fanwe.lib.holder.objects.ObjectsHolder;
 import com.fanwe.library.common.SDFragmentManager;
 
 
@@ -30,48 +30,48 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
 
     private ProgressDialog mProgressDialog;
 
-    private FObjectsHolder<ActivityLifecycleCallback> mLifecycleCallbackHolder;
-    private FObjectsHolder<ActivityResultCallback> mActivityResultCallbackHolder;
-    private FObjectsHolder<ActivityTouchEventCallback> mTouchEventCallbackHolder;
-    private FObjectsHolder<ActivityKeyEventCallback> mKeyEventCallbackHolder;
+    private ObjectsHolder<ActivityLifecycleCallback> mLifecycleCallbackHolder;
+    private ObjectsHolder<ActivityResultCallback> mActivityResultCallbackHolder;
+    private ObjectsHolder<ActivityTouchEventCallback> mTouchEventCallbackHolder;
+    private ObjectsHolder<ActivityKeyEventCallback> mKeyEventCallbackHolder;
 
     public Activity getActivity()
     {
         return this;
     }
 
-    public final FObjectsHolder<ActivityLifecycleCallback> getLifecycleCallbackHolder()
+    public final ObjectsHolder<ActivityLifecycleCallback> getLifecycleCallbackHolder()
     {
         if (mLifecycleCallbackHolder == null)
         {
-            mLifecycleCallbackHolder = new FStrongObjectsHolder<>();
+            mLifecycleCallbackHolder = new FStrongObjectsHolder<>(null);
         }
         return mLifecycleCallbackHolder;
     }
 
-    public final FObjectsHolder<ActivityResultCallback> getActivityResultCallbackHolder()
+    public final ObjectsHolder<ActivityResultCallback> getActivityResultCallbackHolder()
     {
         if (mActivityResultCallbackHolder == null)
         {
-            mActivityResultCallbackHolder = new FStrongObjectsHolder<>();
+            mActivityResultCallbackHolder = new FStrongObjectsHolder<>(null);
         }
         return mActivityResultCallbackHolder;
     }
 
-    public final FObjectsHolder<ActivityTouchEventCallback> getTouchEventCallbackHolder()
+    public final ObjectsHolder<ActivityTouchEventCallback> getTouchEventCallbackHolder()
     {
         if (mTouchEventCallbackHolder == null)
         {
-            mTouchEventCallbackHolder = new FStrongObjectsHolder<>();
+            mTouchEventCallbackHolder = new FStrongObjectsHolder<>(null);
         }
         return mTouchEventCallbackHolder;
     }
 
-    public final FObjectsHolder<ActivityKeyEventCallback> getKeyEventCallbackHolder()
+    public final ObjectsHolder<ActivityKeyEventCallback> getKeyEventCallbackHolder()
     {
         if (mKeyEventCallbackHolder == null)
         {
-            mKeyEventCallbackHolder = new FStrongObjectsHolder<>();
+            mKeyEventCallbackHolder = new FStrongObjectsHolder<>(null);
         }
         return mKeyEventCallbackHolder;
     }
@@ -269,12 +269,15 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         final Object data = getTouchEventCallbackHolder().foreachReverse(new ForeachCallback<ActivityTouchEventCallback>()
         {
             @Override
-            protected void next(ActivityTouchEventCallback item)
+            protected boolean next(ActivityTouchEventCallback item)
             {
                 if (item.dispatchTouchEvent(SDBaseActivity.this, ev))
                 {
                     setData(true);
-                    breakForeach();
+                    return true;
+                } else
+                {
+                    return false;
                 }
             }
         });
@@ -293,12 +296,15 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         final Object data = getKeyEventCallbackHolder().foreachReverse(new ForeachCallback<ActivityKeyEventCallback>()
         {
             @Override
-            protected void next(ActivityKeyEventCallback item)
+            protected boolean next(ActivityKeyEventCallback item)
             {
                 if (item.dispatchKeyEvent(SDBaseActivity.this, event))
                 {
                     setData(true);
-                    breakForeach();
+                    return true;
+                } else
+                {
+                    return false;
                 }
             }
         });
@@ -394,9 +400,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected boolean next(ActivityLifecycleCallback item)
             {
                 item.onActivityCreated(SDBaseActivity.this, savedInstanceState);
+                return false;
             }
         });
     }
@@ -406,9 +413,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected boolean next(ActivityLifecycleCallback item)
             {
                 item.onActivityStarted(SDBaseActivity.this);
+                return false;
             }
         });
     }
@@ -418,9 +426,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected boolean next(ActivityLifecycleCallback item)
             {
                 item.onActivityResumed(SDBaseActivity.this);
+                return false;
             }
         });
     }
@@ -430,9 +439,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected boolean next(ActivityLifecycleCallback item)
             {
                 item.onActivityPaused(SDBaseActivity.this);
+                return false;
             }
         });
     }
@@ -442,9 +452,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected boolean next(ActivityLifecycleCallback item)
             {
                 item.onActivityStopped(SDBaseActivity.this);
+                return false;
             }
         });
     }
@@ -454,9 +465,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected boolean next(ActivityLifecycleCallback item)
             {
                 item.onActivityDestroyed(SDBaseActivity.this);
+                return false;
             }
         });
     }
@@ -466,9 +478,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected boolean next(ActivityLifecycleCallback item)
             {
                 item.onActivitySaveInstanceState(SDBaseActivity.this, outState);
+                return false;
             }
         });
     }
@@ -478,9 +491,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
-            protected void next(ActivityLifecycleCallback item)
+            protected boolean next(ActivityLifecycleCallback item)
             {
                 item.onActivityRestoreInstanceState(SDBaseActivity.this, savedInstanceState);
+                return false;
             }
         });
     }
@@ -490,9 +504,10 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         getActivityResultCallbackHolder().foreach(new ForeachCallback<ActivityResultCallback>()
         {
             @Override
-            protected void next(ActivityResultCallback item)
+            protected boolean next(ActivityResultCallback item)
             {
                 item.onActivityResult(SDBaseActivity.this, requestCode, resultCode, data);
+                return false;
             }
         });
     }
