@@ -34,8 +34,11 @@ dependencies {
     api 'com.github.zj565061763:receiver:1.0.5'
     api 'com.github.zj565061763:utils:1.0.7'
     api 'com.github.zj565061763:utils-extend:1.0.2'
-    api 'com.fanwe.android:eventbus:1.0.21'
-    api 'com.fanwe.android:holder-objects:1.0.4'
+
+    api 'com.fanwe.android:eventbus:1.0.22'
+    api 'com.fanwe.android:holder-objects:1.0.5'
+    api 'com.fanwe.android:adapter:1.0.9'
+    api 'com.fanwe.android:selectmanager:1.0.10'
 }
 
 // 指定编码
