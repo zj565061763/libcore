@@ -1,6 +1,6 @@
 package com.fanwe.library.adapter;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.fanwe.lib.adapter.FBaseAdapter;
 import com.fanwe.lib.selectmanager.SelectManager;
@@ -9,9 +9,13 @@ public abstract class FSelectableBaseAdapter<T> extends FBaseAdapter<T> implemen
 {
     private final SelectManager<T> mSelectManager = new AdapterSelectManager<>(this);
 
-    public FSelectableBaseAdapter(Activity activity)
+    public FSelectableBaseAdapter()
     {
-        super(activity);
+    }
+
+    public FSelectableBaseAdapter(Context context)
+    {
+        super(context);
     }
 
     @Override

@@ -1,17 +1,21 @@
 package com.fanwe.library.adapter;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.fanwe.lib.adapter.FRecyclerAdapter;
 import com.fanwe.lib.selectmanager.SelectManager;
 
 public abstract class FSelectableRecyclerAdapter<T> extends FRecyclerAdapter<T> implements SelectableAdapter<T>
 {
-    private SelectManager<T> mSelectManager = new AdapterSelectManager<>(this);
+    private final SelectManager<T> mSelectManager = new AdapterSelectManager<>(this);
 
-    public FSelectableRecyclerAdapter(Activity activity)
+    public FSelectableRecyclerAdapter()
     {
-        super(activity);
+    }
+
+    public FSelectableRecyclerAdapter(Context context)
+    {
+        super(context);
     }
 
     @Override
