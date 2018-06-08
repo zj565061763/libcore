@@ -1,15 +1,13 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-
-group = 'com.github.zj565061763'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 27
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 20180529
-        versionName "1.1.9"
+        versionCode 20180608
+        versionName "1.1.10"
     }
 
     buildTypes {
@@ -41,35 +39,19 @@ dependencies {
     api 'com.fanwe.android:selectmanager:1.0.10'
 }
 
-// 指定编码
+publish {
+    userOrg = 'zj565061763'
+    groupId = 'com.fanwe.android'
+
+    artifactId = 'libCore'
+    publishVersion = '1.1.10'
+    desc = 'fanwe android libCore library'
+    website = 'https://github.com/zj565061763/libcore'
+}
+
 tasks.withType(Javadoc) {
     options {
         encoding "UTF-8"
         charSet 'UTF-8'
-        failOnError false
     }
-}
-
-// 打包源码
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    failOnError false
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
-}
-
-// 制作文档(Javadoc)
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
 }

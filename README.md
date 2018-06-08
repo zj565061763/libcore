@@ -1,3 +1,3 @@
 # Gradle
-[![](https://jitpack.io/v/zj565061763/libcore.svg)](https://jitpack.io/#zj565061763/libcore)
+`implementation 'com.fanwe.android:libCore:1.1.10'`
 
