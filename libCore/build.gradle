@@ -7,7 +7,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 20180612
-        versionName "1.1.13"
+        versionName "1.1.14"
     }
 
     buildTypes {
@@ -31,7 +31,7 @@ dependencies {
     api 'com.github.zj565061763:res:1.0.16'
     api 'com.github.zj565061763:receiver:1.0.5'
     api 'com.github.zj565061763:utils:1.0.7'
-    api 'com.github.zj565061763:utils-extend:1.0.4'
+    api 'com.github.zj565061763:utils-extend:1.0.5'
 
     api 'com.fanwe.android:eventbus:1.0.23'
     api 'com.fanwe.android:holder-objects:1.0.5'
@@ -42,7 +42,7 @@ publish {
     groupId = 'com.fanwe.android'
 
     artifactId = 'libCore'
-    publishVersion = '1.1.13'
+    publishVersion = '1.1.14'
     desc = 'fanwe android libCore library'
     website = 'https://github.com/zj565061763/libcore'
 }
