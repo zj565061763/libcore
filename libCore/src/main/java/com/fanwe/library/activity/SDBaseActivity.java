@@ -2,7 +2,6 @@ package com.fanwe.library.activity;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -353,7 +352,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
-    public Dialog showProgressDialog(String msg)
+    public void showProgressDialog(String msg)
     {
         if (mProgressDialog == null)
         {
@@ -361,7 +360,6 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
         }
         mProgressDialog.setMessage(msg);
         mProgressDialog.show();
-        return mProgressDialog;
     }
 
     public void dismissProgressDialog()
