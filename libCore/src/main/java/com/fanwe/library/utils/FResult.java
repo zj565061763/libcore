@@ -1,4 +1,4 @@
-package com.fanwe.library.model;
+package com.fanwe.library.utils;
 
 /**
  * Created by zhengjun on 2018/3/6.

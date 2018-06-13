@@ -1,4 +1,4 @@
-package com.fanwe.library.model;
+package com.fanwe.library.utils;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import java.util.List;
  */
 public class FPageModel
 {
-    private int currentPage = 1;
-    private boolean hasNextPage = false;
+    private int mCurrentPage = 1;
+    private boolean mHasNextPage = false;
 
-    private int currentCount;
+    private int mCurrentCount;
 
     /**
      * 返回当前数据的数量
@@ -19,7 +19,7 @@ public class FPageModel
      */
     public int getCurrentCount()
     {
-        return currentCount;
+        return mCurrentCount;
     }
 
     /**
@@ -29,7 +29,7 @@ public class FPageModel
      */
     public int getCurrentPage()
     {
-        return currentPage;
+        return mCurrentPage;
     }
 
     /**
@@ -39,7 +39,7 @@ public class FPageModel
      */
     public boolean hasNextPage()
     {
-        return hasNextPage;
+        return mHasNextPage;
     }
 
     /**
@@ -52,7 +52,7 @@ public class FPageModel
     {
         if (isLoadMore)
         {
-            return currentPage + 1;
+            return mCurrentPage + 1;
         } else
         {
             return 1;
@@ -82,23 +82,20 @@ public class FPageModel
     public synchronized void updatePageOnSuccess(boolean isLoadMore, int newCount, int totalCount)
     {
         if (newCount < 0)
-        {
             throw new IllegalArgumentException("newCount < 0");
-        }
+
         if (totalCount < 0)
-        {
             throw new IllegalArgumentException("totalCount < 0");
-        }
 
         if (isLoadMore)
         {
-            currentCount += newCount;
+            mCurrentCount += newCount;
         } else
         {
-            currentCount = newCount;
+            mCurrentCount = newCount;
         }
 
-        final boolean hasNext = totalCount > currentCount;
+        final boolean hasNext = totalCount > mCurrentCount;
         updatePageOnSuccess(isLoadMore, hasNext);
     }
 
@@ -110,13 +107,13 @@ public class FPageModel
      */
     public synchronized void updatePageOnSuccess(boolean isLoadMore, boolean hasNextPage)
     {
-        this.hasNextPage = hasNextPage;
+        this.mHasNextPage = hasNextPage;
         if (isLoadMore)
         {
-            currentPage++;
+            mCurrentPage++;
         } else
         {
-            currentPage = 1;
+            mCurrentPage = 1;
         }
     }
 }
