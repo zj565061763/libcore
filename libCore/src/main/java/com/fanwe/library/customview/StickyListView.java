@@ -1,7 +1,5 @@
 package com.fanwe.library.customview;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class StickyListView extends ListView
 {

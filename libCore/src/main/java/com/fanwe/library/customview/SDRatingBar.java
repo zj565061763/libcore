@@ -1,11 +1,11 @@
 package com.fanwe.library.customview;
 
-import java.lang.reflect.Field;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.RatingBar;
+
+import java.lang.reflect.Field;
 
 public class SDRatingBar extends RatingBar
 {

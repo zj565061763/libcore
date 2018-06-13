@@ -1,12 +1,12 @@
 package com.fanwe.library.utils;
 
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Deprecated
 public class SDTimer

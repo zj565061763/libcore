@@ -15,11 +15,11 @@
 
 package com.fanwe.library.utils;
 
-import java.io.FileDescriptor;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import java.io.FileDescriptor;
 
 @Deprecated
 public class BitmapDecoder

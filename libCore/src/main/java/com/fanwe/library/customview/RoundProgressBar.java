@@ -1,7 +1,5 @@
 package com.fanwe.library.customview;
 
-import java.text.DecimalFormat;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -9,6 +7,8 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
+
+import java.text.DecimalFormat;
 
 public class RoundProgressBar extends View
 {

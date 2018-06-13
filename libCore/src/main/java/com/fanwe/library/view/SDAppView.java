@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.lib.utils.extend.FViewVisibilityHandler;
 import com.fanwe.library.activity.SDBaseActivity;
 
 import java.lang.ref.WeakReference;
@@ -53,7 +52,6 @@ public class SDAppView extends FrameLayout implements
      */
     private boolean mConsumeTouchEvent = false;
     private WeakReference<ViewGroup> mContainer;
-    private FViewVisibilityHandler mVisibilityHandler;
 
     private boolean mHasOnLayout = false;
     private List<Runnable> mListLayoutRunnable;
@@ -129,15 +127,6 @@ public class SDAppView extends FrameLayout implements
     public ViewGroup getContainer()
     {
         return mContainer == null ? null : mContainer.get();
-    }
-
-    public final FViewVisibilityHandler getVisibilityHandler()
-    {
-        if (mVisibilityHandler == null)
-        {
-            mVisibilityHandler = new FViewVisibilityHandler(this);
-        }
-        return mVisibilityHandler;
     }
 
     public Activity getActivity()

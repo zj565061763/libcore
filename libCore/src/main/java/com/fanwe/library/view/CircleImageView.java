@@ -15,8 +15,6 @@
  */
 package com.fanwe.library.view;
 
-import com.fanwe.library.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -37,6 +35,8 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.fanwe.library.R;
 
 public class CircleImageView extends ImageView {
 
