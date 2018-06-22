@@ -68,17 +68,16 @@ public class FReplaceableLayout extends FrameLayout
      */
     public final void setContentView(View child)
     {
-        if (child == null)
+        final View old = mContentView;
+        if (old != child)
         {
-            removeAllViews();
-        } else
-        {
+            if (old != null)
+                removeView(old);
+
             mContentView = child;
-            if (child.getParent() != this)
-            {
-                removeAllViews();
+
+            if (child != null && child.getParent() != this)
                 addView(child);
-            }
         }
     }
 
