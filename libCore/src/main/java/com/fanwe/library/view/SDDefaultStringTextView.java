@@ -4,9 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-/**
- * 用{@link FPlaceholderTextView}替代
- */
 @Deprecated
 public abstract class SDDefaultStringTextView extends TextView
 {
