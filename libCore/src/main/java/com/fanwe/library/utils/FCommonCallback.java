@@ -3,7 +3,7 @@ package com.fanwe.library.utils;
 /**
  * 通用的结果回调
  */
-public interface FResultCallback<T>
+public interface FCommonCallback<T>
 {
     void onSuccess(T result);
 

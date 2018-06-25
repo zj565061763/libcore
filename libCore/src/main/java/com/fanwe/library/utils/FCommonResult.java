@@ -3,7 +3,7 @@ package com.fanwe.library.utils;
 /**
  * Created by zhengjun on 2018/3/6.
  */
-public class FResult<T>
+public class FCommonResult<T>
 {
     private final boolean mIsSuccessful;
 
@@ -12,25 +12,25 @@ public class FResult<T>
     private int mCode;
     private String mDescription;
 
-    public FResult(boolean isSuccessful)
+    public FCommonResult(boolean isSuccessful)
     {
         mIsSuccessful = isSuccessful;
     }
 
-    public FResult(boolean isSuccessful, T data)
+    public FCommonResult(boolean isSuccessful, T data)
     {
         mIsSuccessful = isSuccessful;
         mData = data;
     }
 
-    public FResult(boolean isSuccessful, int code, String description)
+    public FCommonResult(boolean isSuccessful, int code, String description)
     {
         mIsSuccessful = isSuccessful;
         mCode = code;
         mDescription = description;
     }
 
-    public FResult(FResult<T> result)
+    public FCommonResult(FCommonResult<T> result)
     {
         mIsSuccessful = result.isSuccessful();
         mData = result.getData();
@@ -44,7 +44,7 @@ public class FResult<T>
      * @param data
      * @return
      */
-    public FResult<T> setData(T data)
+    public FCommonResult<T> setData(T data)
     {
         mData = data;
         return this;
@@ -56,7 +56,7 @@ public class FResult<T>
      * @param code
      * @return
      */
-    public FResult<T> setCode(int code)
+    public FCommonResult<T> setCode(int code)
     {
         mCode = code;
         return this;
@@ -68,7 +68,7 @@ public class FResult<T>
      * @param description
      * @return
      */
-    public FResult<T> setDescription(String description)
+    public FCommonResult<T> setDescription(String description)
     {
         mDescription = description;
         return this;
