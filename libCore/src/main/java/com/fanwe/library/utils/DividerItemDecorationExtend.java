@@ -27,9 +27,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
-/**
- * 基于DividerItemDecoration修改
- */
+@Deprecated
 public class DividerItemDecorationExtend extends RecyclerView.ItemDecoration
 {
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;

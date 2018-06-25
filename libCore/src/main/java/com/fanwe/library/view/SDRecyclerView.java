@@ -9,9 +9,7 @@ import android.util.AttributeSet;
 
 import com.fanwe.library.utils.DividerItemDecorationExtend;
 
-/**
- * Created by Administrator on 2016/8/30.
- */
+@Deprecated
 public class SDRecyclerView extends RecyclerView
 {
     public SDRecyclerView(Context context)

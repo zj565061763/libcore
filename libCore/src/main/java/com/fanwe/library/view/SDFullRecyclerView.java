@@ -4,9 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-/**
- * 一次性全部展示的RecyclerView，需要在android.support.v4.widget.NestedScrollView里面使用
- */
+@Deprecated
 public class SDFullRecyclerView extends SDRecyclerView
 {
     private boolean mIsFocusable;
