@@ -355,9 +355,8 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     public void showProgressDialog(String msg)
     {
         if (mProgressDialog == null)
-        {
             mProgressDialog = new ProgressDialog(this);
-        }
+
         mProgressDialog.setMessage(msg);
         mProgressDialog.show();
     }
@@ -365,14 +364,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
     public void dismissProgressDialog()
     {
         if (mProgressDialog != null)
-        {
-            try
-            {
-                mProgressDialog.dismiss();
-            } catch (Exception e)
-            {
-            }
-        }
+            mProgressDialog.dismiss();
     }
 
     /**
