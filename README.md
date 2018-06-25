@@ -1,3 +1,3 @@
 # Gradle
-`implementation 'com.fanwe.android:libCore:1.1.18'`
+`implementation 'com.fanwe.android:libCore:1.1.19'`
 
