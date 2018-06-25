@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 20180622
-        versionName "1.1.17"
+        versionCode 20180625
+        versionName "1.1.18"
     }
 
     buildTypes {
@@ -40,7 +40,7 @@ publish {
     groupId = 'com.fanwe.android'
 
     artifactId = 'libCore'
-    publishVersion = '1.1.17'
+    publishVersion = '1.1.18'
     desc = 'fanwe android libCore library'
     website = 'https://github.com/zj565061763/libcore'
 }
