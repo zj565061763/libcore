@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 20180625
-        versionName "1.1.20"
+        versionCode 20180730
+        versionName "1.1.21"
     }
 
     buildTypes {
@@ -29,7 +29,7 @@ dependencies {
     api 'com.android.support:recyclerview-v7:27.1.1'
 
     api 'com.github.zj565061763:receiver:1.0.7'
-    api 'com.github.zj565061763:utils:1.0.9'
+    api 'com.github.zj565061763:utils:1.0.10'
     api 'com.github.zj565061763:eventbus:1.0.24'
     api 'com.github.zj565061763:holder-objects:1.0.6'
 }
