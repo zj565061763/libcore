@@ -35,7 +35,7 @@ import android.widget.TextView;
 
 import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.lib.utils.context.FToast;
-import com.fanwe.library.SDLibrary;
+import com.fanwe.library.FLibrary;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class SDViewUtil
      */
     public static void setBackgroundColorResId(View view, int resId)
     {
-        view.setBackgroundColor(SDLibrary.getInstance().getContext().getResources().getColor(resId));
+        view.setBackgroundColor(FLibrary.getInstance().getContext().getResources().getColor(resId));
     }
 
     /**
@@ -107,7 +107,7 @@ public class SDViewUtil
      */
     public static void setTextViewColorResId(TextView textView, int resId)
     {
-        textView.setTextColor(SDLibrary.getInstance().getContext().getResources().getColor(resId));
+        textView.setTextColor(FLibrary.getInstance().getContext().getResources().getColor(resId));
     }
 
     /**
@@ -416,7 +416,7 @@ public class SDViewUtil
     // ------------------------layoutInflater
     public static LayoutInflater getLayoutInflater()
     {
-        return LayoutInflater.from(SDLibrary.getInstance().getContext());
+        return LayoutInflater.from(FLibrary.getInstance().getContext());
     }
 
     public static View inflate(int resource, ViewGroup root)
@@ -431,7 +431,7 @@ public class SDViewUtil
 
     public static DisplayMetrics getDisplayMetrics()
     {
-        return SDLibrary.getInstance().getContext().getResources().getDisplayMetrics();
+        return FLibrary.getInstance().getContext().getResources().getDisplayMetrics();
     }
 
     public static int sp2px(float sp)
@@ -1476,7 +1476,7 @@ public class SDViewUtil
      */
     public static int getStatusBarHeight()
     {
-        Resources resources = SDLibrary.getInstance().getContext().getResources();
+        Resources resources = FLibrary.getInstance().getContext().getResources();
 
         int result = 0;
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");

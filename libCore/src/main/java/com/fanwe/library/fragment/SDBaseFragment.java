@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.fanwe.library.activity.SDBaseActivity;
+import com.fanwe.library.activity.FActivity;
 import com.fanwe.library.common.SDFragmentManager;
 
 import java.util.List;
@@ -21,8 +21,8 @@ import java.util.List;
 @Deprecated
 public abstract class SDBaseFragment extends Fragment implements
         OnClickListener,
-        SDBaseActivity.ActivityTouchEventCallback,
-        SDBaseActivity.ActivityKeyEventCallback
+        FActivity.ActivityTouchEventCallback,
+        FActivity.ActivityKeyEventCallback
 {
 
     private SDFragmentManager fragmentManager;
@@ -79,7 +79,7 @@ public abstract class SDBaseFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        SDBaseActivity activity = getBaseActivity();
+        FActivity activity = getBaseActivity();
         if (activity != null)
         {
             activity.getTouchEventCallbackHolder().add(this);
@@ -172,12 +172,12 @@ public abstract class SDBaseFragment extends Fragment implements
         return new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
-    public SDBaseActivity getBaseActivity()
+    public FActivity getBaseActivity()
     {
-        SDBaseActivity sdBaseActivity = null;
-        if (getActivity() instanceof SDBaseActivity)
+        FActivity sdBaseActivity = null;
+        if (getActivity() instanceof FActivity)
         {
-            sdBaseActivity = (SDBaseActivity) getActivity();
+            sdBaseActivity = (FActivity) getActivity();
         }
         return sdBaseActivity;
     }
@@ -196,7 +196,7 @@ public abstract class SDBaseFragment extends Fragment implements
     public void onDestroy()
     {
         super.onDestroy();
-        SDBaseActivity activity = getBaseActivity();
+        FActivity activity = getBaseActivity();
         if (activity != null)
         {
             activity.getTouchEventCallbackHolder().remove(this);

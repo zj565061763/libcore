@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.fanwe.lib.utils.context.FToast;
-import com.fanwe.library.SDLibrary;
+import com.fanwe.library.FLibrary;
 
 /**
  * 用{@link FToast}替代
@@ -53,7 +53,7 @@ public class SDToast
             sToast.setDuration(duration);
         } else
         {
-            sToast = Toast.makeText(SDLibrary.getInstance().getContext(), text, duration);
+            sToast = Toast.makeText(FLibrary.getInstance().getContext(), text, duration);
         }
         sToast.show();
     }

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.library.activity.SDBaseActivity;
+import com.fanwe.library.activity.FActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -22,26 +22,26 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
  */
-public class SDAppView extends FrameLayout implements
+public class FAppView extends FrameLayout implements
         View.OnClickListener,
-        SDBaseActivity.ActivityLifecycleCallback,
-        SDBaseActivity.ActivityResultCallback,
-        SDBaseActivity.ActivityTouchEventCallback,
-        SDBaseActivity.ActivityKeyEventCallback
+        FActivity.ActivityLifecycleCallback,
+        FActivity.ActivityResultCallback,
+        FActivity.ActivityTouchEventCallback,
+        FActivity.ActivityKeyEventCallback
 {
-    public SDAppView(Context context, AttributeSet attrs, int defStyle)
+    public FAppView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         baseInit();
     }
 
-    public SDAppView(Context context, AttributeSet attrs)
+    public FAppView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         baseInit();
     }
 
-    public SDAppView(Context context)
+    public FAppView(Context context)
     {
         super(context);
         baseInit();
@@ -101,7 +101,7 @@ public class SDAppView extends FrameLayout implements
      * @param container
      * @return
      */
-    public SDAppView setContainer(View container)
+    public FAppView setContainer(View container)
     {
         if (container == null)
         {
@@ -131,7 +131,7 @@ public class SDAppView extends FrameLayout implements
 
     public Activity getActivity()
     {
-        Context context = getContext();
+        final Context context = getContext();
         if (context instanceof Activity)
         {
             return (Activity) context;
@@ -141,12 +141,12 @@ public class SDAppView extends FrameLayout implements
         }
     }
 
-    public SDBaseActivity getBaseActivity()
+    public FActivity getFActivity()
     {
-        Activity activity = getActivity();
-        if (activity instanceof SDBaseActivity)
+        final Activity activity = getActivity();
+        if (activity instanceof FActivity)
         {
-            return (SDBaseActivity) activity;
+            return (FActivity) activity;
         } else
         {
             return null;
@@ -371,7 +371,7 @@ public class SDAppView extends FrameLayout implements
      */
     public final void registerActivityEvent()
     {
-        final SDBaseActivity activity = getBaseActivity();
+        final FActivity activity = getFActivity();
         if (activity != null)
         {
             activity.getLifecycleCallbackHolder().add(this);
@@ -386,7 +386,7 @@ public class SDAppView extends FrameLayout implements
      */
     public final void unregisterActivityEvent()
     {
-        final SDBaseActivity activity = getBaseActivity();
+        final FActivity activity = getFActivity();
         if (activity != null)
         {
             activity.getLifecycleCallbackHolder().remove(this);
@@ -398,17 +398,17 @@ public class SDAppView extends FrameLayout implements
 
     public void showProgressDialog(String msg)
     {
-        if (getBaseActivity() != null)
+        if (getFActivity() != null)
         {
-            getBaseActivity().showProgressDialog(msg);
+            getFActivity().showProgressDialog(msg);
         }
     }
 
     public void dismissProgressDialog()
     {
-        if (getBaseActivity() != null)
+        if (getFActivity() != null)
         {
-            getBaseActivity().dismissProgressDialog();
+            getFActivity().dismissProgressDialog();
         }
     }
 

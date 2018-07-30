@@ -10,7 +10,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.fanwe.lib.utils.FIntentUtil;
-import com.fanwe.library.SDLibrary;
+import com.fanwe.library.FLibrary;
 
 import java.io.File;
 import java.util.List;
@@ -142,7 +142,7 @@ public class SDIntentUtil
     {
         if (intent != null)
         {
-            List<ResolveInfo> activities = SDLibrary.getInstance().getContext().getPackageManager()
+            List<ResolveInfo> activities = FLibrary.getInstance().getContext().getPackageManager()
                     .queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
             return activities.size() != 0;
         }

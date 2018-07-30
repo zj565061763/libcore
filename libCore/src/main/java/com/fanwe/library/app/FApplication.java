@@ -3,7 +3,7 @@ package com.fanwe.library.app;
 import android.app.Application;
 
 import com.fanwe.lib.utils.FOtherUtil;
-import com.fanwe.library.SDLibrary;
+import com.fanwe.library.FLibrary;
 
 /**
  * Created by zhengjun on 2018/3/28.
@@ -18,7 +18,7 @@ public abstract class FApplication extends Application
         final String processName = FOtherUtil.getProcessName(this);
         if (getPackageName().equals(processName))
         {
-            SDLibrary.getInstance().init(this);
+            FLibrary.getInstance().init(this);
             onCreateMainProcess();
         }
     }

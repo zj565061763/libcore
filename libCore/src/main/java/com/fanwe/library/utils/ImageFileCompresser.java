@@ -3,7 +3,7 @@ package com.fanwe.library.utils;
 import com.fanwe.lib.utils.FFileUtil;
 import com.fanwe.lib.utils.FHandlerManager;
 import com.fanwe.lib.utils.FIOUtil;
-import com.fanwe.library.SDLibrary;
+import com.fanwe.library.FLibrary;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class ImageFileCompresser
 
     public ImageFileCompresser()
     {
-        mCompressedFileDir = FFileUtil.getCacheDir(COMPRESSED_IMAGE_FILE_DIR_NAME, SDLibrary.getInstance().getContext());
+        mCompressedFileDir = FFileUtil.getCacheDir(COMPRESSED_IMAGE_FILE_DIR_NAME, FLibrary.getInstance().getContext());
     }
 
     private ImageFileCompresserListener mListener;

@@ -22,7 +22,7 @@ import com.fanwe.lib.holder.objects.ObjectsHolder;
 import com.fanwe.library.common.SDFragmentManager;
 
 
-public abstract class SDBaseActivity extends AppCompatActivity implements
+public abstract class FActivity extends AppCompatActivity implements
         OnClickListener
 {
     private SDFragmentManager mFragmentManager;
@@ -270,7 +270,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityTouchEventCallback item)
             {
-                if (item.dispatchTouchEvent(SDBaseActivity.this, ev))
+                if (item.dispatchTouchEvent(FActivity.this, ev))
                 {
                     setData(true);
                     return true;
@@ -297,7 +297,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityKeyEventCallback item)
             {
-                if (item.dispatchKeyEvent(SDBaseActivity.this, event))
+                if (item.dispatchKeyEvent(FActivity.this, event))
                 {
                     setData(true);
                     return true;
@@ -392,7 +392,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityLifecycleCallback item)
             {
-                item.onActivityCreated(SDBaseActivity.this, savedInstanceState);
+                item.onActivityCreated(FActivity.this, savedInstanceState);
                 return false;
             }
         });
@@ -405,7 +405,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityLifecycleCallback item)
             {
-                item.onActivityStarted(SDBaseActivity.this);
+                item.onActivityStarted(FActivity.this);
                 return false;
             }
         });
@@ -418,7 +418,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityLifecycleCallback item)
             {
-                item.onActivityResumed(SDBaseActivity.this);
+                item.onActivityResumed(FActivity.this);
                 return false;
             }
         });
@@ -431,7 +431,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityLifecycleCallback item)
             {
-                item.onActivityPaused(SDBaseActivity.this);
+                item.onActivityPaused(FActivity.this);
                 return false;
             }
         });
@@ -444,7 +444,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityLifecycleCallback item)
             {
-                item.onActivityStopped(SDBaseActivity.this);
+                item.onActivityStopped(FActivity.this);
                 return false;
             }
         });
@@ -457,7 +457,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityLifecycleCallback item)
             {
-                item.onActivityDestroyed(SDBaseActivity.this);
+                item.onActivityDestroyed(FActivity.this);
                 return false;
             }
         });
@@ -470,7 +470,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityLifecycleCallback item)
             {
-                item.onActivitySaveInstanceState(SDBaseActivity.this, outState);
+                item.onActivitySaveInstanceState(FActivity.this, outState);
                 return false;
             }
         });
@@ -483,7 +483,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityLifecycleCallback item)
             {
-                item.onActivityRestoreInstanceState(SDBaseActivity.this, savedInstanceState);
+                item.onActivityRestoreInstanceState(FActivity.this, savedInstanceState);
                 return false;
             }
         });
@@ -496,7 +496,7 @@ public abstract class SDBaseActivity extends AppCompatActivity implements
             @Override
             protected boolean next(ActivityResultCallback item)
             {
-                item.onActivityResult(SDBaseActivity.this, requestCode, resultCode, data);
+                item.onActivityResult(FActivity.this, requestCode, resultCode, data);
                 return false;
             }
         });
