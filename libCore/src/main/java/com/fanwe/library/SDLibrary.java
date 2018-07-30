@@ -6,12 +6,12 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.fanwe.lib.eventbus.FEventBus;
-import com.fanwe.lib.receiver.FNetworkReceiver;
 import com.fanwe.lib.utils.context.FContext;
 import com.fanwe.library.event.EAppBackground;
 import com.fanwe.library.event.EAppResumeFromBackground;
 import com.fanwe.library.event.ECallStateChanged;
 import com.fanwe.library.event.ENetworkChanged;
+import com.fanwe.library.receiver.FNetworkReceiver;
 import com.fanwe.library.utils.FActivityStack;
 import com.fanwe.library.utils.FAppBackgroundListener;
 
