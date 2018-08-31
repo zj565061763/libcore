@@ -1,8 +1,5 @@
 package com.sd.libcore.utils;
 
-/**
- * Created by zhengjun on 2018/3/6.
- */
 public class FCommonResult<T>
 {
     private final boolean mIsSuccessful;
