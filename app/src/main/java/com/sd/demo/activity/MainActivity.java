@@ -3,7 +3,7 @@ package com.sd.demo.activity;
 import android.os.Bundle;
 
 import com.sd.demo.R;
-import com.sd.library.activity.FActivity;
+import com.sd.libcore.activity.FActivity;
 
 public class MainActivity extends FActivity
 {

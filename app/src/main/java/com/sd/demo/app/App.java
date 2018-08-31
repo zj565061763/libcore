@@ -1,6 +1,6 @@
 package com.sd.demo.app;
 
-import com.sd.library.app.FApplication;
+import com.sd.libcore.app.FApplication;
 
 /**
  * Created by Administrator on 2017/5/27.
