@@ -33,17 +33,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fanwe.lib.utils.FViewUtil;
-import com.fanwe.lib.utils.context.FToast;
 import com.fanwe.library.FLibrary;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 用{@link FViewUtil}替代
- */
 @Deprecated
 public class SDViewUtil
 {
@@ -1762,14 +1757,14 @@ public class SDViewUtil
                 {
                     if (!TextUtils.isEmpty(noData))
                     {
-                        FToast.show(noData);
+                        SDToast.showToast(noData);
                     }
                     listOriginalData.clear();
                 } else
                 {
                     if (!TextUtils.isEmpty(noMoreData))
                     {
-                        FToast.show(noMoreData);
+                        SDToast.showToast(noMoreData);
                     }
                 }
             }

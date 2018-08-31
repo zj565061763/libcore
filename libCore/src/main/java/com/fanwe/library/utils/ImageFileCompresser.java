@@ -1,11 +1,19 @@
 package com.fanwe.library.utils;
 
-import com.fanwe.lib.utils.FFileUtil;
-import com.fanwe.lib.utils.FHandlerManager;
-import com.fanwe.lib.utils.FIOUtil;
+import android.content.Context;
+import android.os.Environment;
+
 import com.fanwe.library.FLibrary;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +28,7 @@ public class ImageFileCompresser
 
     public ImageFileCompresser()
     {
-        mCompressedFileDir = FFileUtil.getCacheDir(COMPRESSED_IMAGE_FILE_DIR_NAME, FLibrary.getInstance().getContext());
+        mCompressedFileDir = getCacheDir(COMPRESSED_IMAGE_FILE_DIR_NAME, FLibrary.getInstance().getContext());
     }
 
     private ImageFileCompresserListener mListener;
@@ -59,7 +67,7 @@ public class ImageFileCompresser
         }
 
         // 开线程执行
-        FHandlerManager.getBackgroundHandler().post(new Runnable()
+        SDHandlerManager.getBackgroundHandler().post(new Runnable()
         {
             @Override
             public void run()
@@ -76,7 +84,7 @@ public class ImageFileCompresser
                             SDImageUtil.compressImageFileToNewFileSize(imageFile, fileCompressed, mMaxLength);
                         } else
                         {
-                            FIOUtil.copy(imageFile, fileCompressed);
+                            copy(imageFile, fileCompressed);
                         }
                         notifySuccess(fileCompressed);
                     } else
@@ -116,17 +124,14 @@ public class ImageFileCompresser
 
     public void deleteCompressedImageFile()
     {
-        if (mCompressedFileDir != null)
-        {
-            FFileUtil.deleteFileOrDir(mCompressedFileDir);
-        }
+        deleteFileOrDir(mCompressedFileDir);
     }
 
     protected void notifyStart()
     {
         if (mListener != null)
         {
-            FHandlerManager.getMainHandler().post(new Runnable()
+            SDHandlerManager.getMainHandler().post(new Runnable()
             {
 
                 @Override
@@ -142,7 +147,7 @@ public class ImageFileCompresser
     {
         if (mListener != null)
         {
-            FHandlerManager.getMainHandler().post(new Runnable()
+            SDHandlerManager.getMainHandler().post(new Runnable()
             {
 
                 @Override
@@ -158,7 +163,7 @@ public class ImageFileCompresser
     {
         if (mListener != null)
         {
-            FHandlerManager.getMainHandler().post(new Runnable()
+            SDHandlerManager.getMainHandler().post(new Runnable()
             {
 
                 @Override
@@ -174,7 +179,7 @@ public class ImageFileCompresser
     {
         if (mListener != null)
         {
-            FHandlerManager.getMainHandler().post(new Runnable()
+            SDHandlerManager.getMainHandler().post(new Runnable()
             {
 
                 @Override
@@ -183,6 +188,113 @@ public class ImageFileCompresser
                     mListener.onFinish();
                 }
             });
+        }
+    }
+
+    private static File getCacheDir(String dirName, Context context)
+    {
+        File dir = null;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+        {
+            dir = new File(context.getExternalCacheDir(), dirName);
+        } else
+        {
+            dir = new File(context.getCacheDir(), dirName);
+        }
+        return mkdirs(dir);
+    }
+
+    private static File mkdirs(File dir)
+    {
+        if (dir == null || dir.exists())
+            return dir;
+
+        try
+        {
+            return dir.mkdirs() ? dir : null;
+        } catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+    private static boolean deleteFileOrDir(File file)
+    {
+        if (file == null || !file.exists())
+            return true;
+
+        if (file.isFile())
+            return file.delete();
+
+        final File[] files = file.listFiles();
+        if (files != null)
+        {
+            for (File item : files)
+            {
+                deleteFileOrDir(item);
+            }
+        }
+        return file.delete();
+    }
+
+    private static boolean copy(File fileFrom, File fileTo)
+    {
+        if (fileFrom == null || !fileFrom.exists())
+        {
+            return false;
+        }
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try
+        {
+            if (!fileTo.exists())
+            {
+                fileTo.createNewFile();
+            }
+            inputStream = new FileInputStream(fileFrom);
+            outputStream = new FileOutputStream(fileTo);
+            copy(inputStream, outputStream);
+            return true;
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        } finally
+        {
+            closeQuietly(inputStream);
+            closeQuietly(outputStream);
+        }
+    }
+
+    private static void copy(InputStream inputStream, OutputStream outputStream) throws IOException
+    {
+        if (!(inputStream instanceof BufferedInputStream))
+        {
+            inputStream = new BufferedInputStream(inputStream);
+        }
+        if (!(outputStream instanceof BufferedOutputStream))
+        {
+            outputStream = new BufferedOutputStream(outputStream);
+        }
+        int len = 0;
+        byte[] buffer = new byte[1024];
+        while ((len = inputStream.read(buffer)) != -1)
+        {
+            outputStream.write(buffer, 0, len);
+        }
+        outputStream.flush();
+    }
+
+    private static void closeQuietly(Closeable closeable)
+    {
+        if (closeable != null)
+        {
+            try
+            {
+                closeable.close();
+            } catch (Throwable ignored)
+            {
+            }
         }
     }
 

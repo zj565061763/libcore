@@ -2,15 +2,9 @@ package com.fanwe.library.utils;
 
 import android.text.TextUtils;
 
-import com.fanwe.lib.utils.FStringUtil;
-
-/**
- * 用{@link FStringUtil}替代
- */
 @Deprecated
 public class SDTypeParseUtil
 {
-
     public static Integer init(Integer value)
     {
         if (value == null)

@@ -3,7 +3,6 @@ package com.fanwe.library;
 import android.app.Application;
 import android.content.Context;
 
-import com.fanwe.lib.utils.context.FContext;
 import com.fanwe.library.utils.FActivityStack;
 import com.fanwe.library.utils.FAppBackgroundListener;
 
@@ -39,7 +38,6 @@ public class FLibrary
         if (mContext == null)
         {
             mContext = application;
-            FContext.set(application);
             FActivityStack.getInstance().init(application);
             FAppBackgroundListener.getInstance().init(application);
         }

@@ -2,12 +2,9 @@ package com.fanwe.library.app;
 
 import android.app.Application;
 
-import com.fanwe.lib.utils.FOtherUtil;
 import com.fanwe.library.FLibrary;
+import com.fanwe.library.utils.LibCoreUtil;
 
-/**
- * Created by zhengjun on 2018/3/28.
- */
 public abstract class FApplication extends Application
 {
     @Override
@@ -15,7 +12,7 @@ public abstract class FApplication extends Application
     {
         super.onCreate();
 
-        final String processName = FOtherUtil.getProcessName(this);
+        final String processName = LibCoreUtil.getProcessName(this);
         if (getPackageName().equals(processName))
         {
             FLibrary.getInstance().init(this);

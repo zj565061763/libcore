@@ -9,15 +9,11 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
 
-import com.fanwe.lib.utils.FIntentUtil;
 import com.fanwe.library.FLibrary;
 
 import java.io.File;
 import java.util.List;
 
-/**
- * 用{@link FIntentUtil}替代
- */
 @Deprecated
 public class SDIntentUtil
 {

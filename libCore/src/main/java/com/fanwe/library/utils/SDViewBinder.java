@@ -6,11 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fanwe.lib.utils.FViewBinder;
-
-/**
- * 用{@link FViewBinder}
- */
 @Deprecated
 public class SDViewBinder
 {

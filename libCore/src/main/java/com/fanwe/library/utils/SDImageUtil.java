@@ -18,21 +18,20 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
-import com.fanwe.lib.utils.FIOUtil;
-import com.fanwe.lib.utils.FImageUtil;
-import com.fanwe.lib.utils.FViewUtil;
-
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-/**
- * 用{@link FImageUtil}替代
- */
 @Deprecated
 public class SDImageUtil
 {
-
     public static Bitmap drawable2Bitmap(Drawable drawable)
     {
 
@@ -166,7 +165,7 @@ public class SDImageUtil
                 e.printStackTrace();
             } finally
             {
-                FIOUtil.closeQuietly(fos);
+                closeQuietly(fos);
             }
         }
         return result;
@@ -198,7 +197,7 @@ public class SDImageUtil
                 return false;
             } finally
             {
-                FIOUtil.closeQuietly(fos);
+                closeQuietly(fos);
             }
         }
         return false;
@@ -245,7 +244,7 @@ public class SDImageUtil
                     int originalHeight = options.outHeight;
                     if (targetWidth < originalWidth)
                     {
-                        int targetHeight = FViewUtil.getScaleHeight(originalWidth, originalHeight, targetWidth);
+                        int targetHeight = getScaleHeight(originalWidth, originalHeight, targetWidth);
 
                         BitmapSize maxSize = new BitmapSize(targetWidth, targetHeight);
                         Bitmap bmpSampled = BitmapDecoder.decodeSampledBitmapFromFile(oldFile.getAbsolutePath(), maxSize, null);
@@ -266,7 +265,7 @@ public class SDImageUtil
                     } else
                     {
                         // 只做copy
-                        FIOUtil.copy(oldFile, newFile);
+                        copy(oldFile, newFile);
                     }
                     return true;
                 }
@@ -275,7 +274,7 @@ public class SDImageUtil
                 return false;
             } finally
             {
-                FIOUtil.closeQuietly(fos);
+                closeQuietly(fos);
             }
         }
         return false;
@@ -299,5 +298,75 @@ public class SDImageUtil
             c.drawBitmap(bmp, 0, 0, paint);
         }
         return bmpGray;
+    }
+
+    private static void closeQuietly(Closeable closeable)
+    {
+        if (closeable != null)
+        {
+            try
+            {
+                closeable.close();
+            } catch (Throwable ignored)
+            {
+            }
+        }
+    }
+
+    private static int getScaleHeight(int scaleWidth, int scaleHeight, int width)
+    {
+        if (scaleWidth == 0)
+        {
+            return 0;
+        }
+        return scaleHeight * width / scaleWidth;
+    }
+
+    private static boolean copy(File fileFrom, File fileTo)
+    {
+        if (fileFrom == null || !fileFrom.exists())
+        {
+            return false;
+        }
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try
+        {
+            if (!fileTo.exists())
+            {
+                fileTo.createNewFile();
+            }
+            inputStream = new FileInputStream(fileFrom);
+            outputStream = new FileOutputStream(fileTo);
+            copy(inputStream, outputStream);
+            return true;
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        } finally
+        {
+            closeQuietly(inputStream);
+            closeQuietly(outputStream);
+        }
+    }
+
+    private static void copy(InputStream inputStream, OutputStream outputStream) throws IOException
+    {
+        if (!(inputStream instanceof BufferedInputStream))
+        {
+            inputStream = new BufferedInputStream(inputStream);
+        }
+        if (!(outputStream instanceof BufferedOutputStream))
+        {
+            outputStream = new BufferedOutputStream(outputStream);
+        }
+        int len = 0;
+        byte[] buffer = new byte[1024];
+        while ((len = inputStream.read(buffer)) != -1)
+        {
+            outputStream.write(buffer, 0, len);
+        }
+        outputStream.flush();
     }
 }

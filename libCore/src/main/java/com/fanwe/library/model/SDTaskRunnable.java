@@ -1,10 +1,13 @@
 package com.fanwe.library.model;
 
-import com.fanwe.lib.utils.FHandlerManager;
+
+import android.os.Handler;
+import android.os.Looper;
 
 @Deprecated
 public abstract class SDTaskRunnable<T> implements Runnable
 {
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public final void run()
@@ -21,7 +24,7 @@ public abstract class SDTaskRunnable<T> implements Runnable
 
     private void notifyMainThread(final T result)
     {
-        FHandlerManager.getMainHandler().post(new Runnable()
+        mHandler.post(new Runnable()
         {
             @Override
             public void run()
@@ -33,7 +36,7 @@ public abstract class SDTaskRunnable<T> implements Runnable
 
     private void notifyError(final Exception e)
     {
-        FHandlerManager.getMainHandler().post(new Runnable()
+        mHandler.post(new Runnable()
         {
             @Override
             public void run()

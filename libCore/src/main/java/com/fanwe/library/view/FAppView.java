@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.fanwe.lib.utils.FViewUtil;
 import com.fanwe.library.activity.FActivity;
 
 import java.lang.ref.WeakReference;
@@ -56,6 +55,8 @@ public class FAppView extends FrameLayout implements
     private boolean mHasOnLayout = false;
     private List<Runnable> mListLayoutRunnable;
 
+    private int[] mLocationOnScreen;
+
     private void baseInit()
     {
         int layoutId = onCreateContentView();
@@ -86,74 +87,6 @@ public class FAppView extends FrameLayout implements
     }
 
     /**
-     * 设置是否消费掉触摸事件
-     *
-     * @param consumeTouchEvent true-消费掉事件，事件不会透过view继续往下传递
-     */
-    public void setConsumeTouchEvent(boolean consumeTouchEvent)
-    {
-        mConsumeTouchEvent = consumeTouchEvent;
-    }
-
-    /**
-     * 设置父容器
-     *
-     * @param container
-     * @return
-     */
-    public FAppView setContainer(View container)
-    {
-        if (container == null)
-        {
-            mContainer = null;
-        } else
-        {
-            if (container instanceof ViewGroup)
-            {
-                mContainer = new WeakReference<>((ViewGroup) container);
-            } else
-            {
-                throw new IllegalArgumentException("container must be instance of ViewGroup");
-            }
-        }
-        return this;
-    }
-
-    /**
-     * 返回设置的父容器
-     *
-     * @return
-     */
-    public ViewGroup getContainer()
-    {
-        return mContainer == null ? null : mContainer.get();
-    }
-
-    public Activity getActivity()
-    {
-        final Context context = getContext();
-        if (context instanceof Activity)
-        {
-            return (Activity) context;
-        } else
-        {
-            return null;
-        }
-    }
-
-    public FActivity getFActivity()
-    {
-        final Activity activity = getActivity();
-        if (activity instanceof FActivity)
-        {
-            return (FActivity) activity;
-        } else
-        {
-            return null;
-        }
-    }
-
-    /**
      * 设置布局
      *
      * @param layoutId 布局id
@@ -177,18 +110,88 @@ public class FAppView extends FrameLayout implements
     }
 
     /**
+     * 设置是否消费掉触摸事件
+     *
+     * @param consumeTouchEvent true-消费掉事件，事件不会透过view继续往下传递
+     */
+    public void setConsumeTouchEvent(boolean consumeTouchEvent)
+    {
+        mConsumeTouchEvent = consumeTouchEvent;
+    }
+
+    /**
+     * 设置父容器
+     *
+     * @param container
+     * @return
+     */
+    public FAppView setContainer(View container)
+    {
+        if (container == null)
+        {
+            mContainer = null;
+        } else
+        {
+            if (container instanceof ViewGroup)
+                mContainer = new WeakReference<>((ViewGroup) container);
+            else
+                throw new IllegalArgumentException("container must be instance of ViewGroup");
+        }
+        return this;
+    }
+
+    /**
+     * 返回设置的父容器
+     *
+     * @return
+     */
+    public ViewGroup getContainer()
+    {
+        return mContainer == null ? null : mContainer.get();
+    }
+
+    public Activity getActivity()
+    {
+        final Context context = getContext();
+        return context instanceof Activity ? (Activity) context : null;
+    }
+
+    public FActivity getFActivity()
+    {
+        final Activity activity = getActivity();
+        return activity instanceof FActivity ? (FActivity) activity : null;
+    }
+
+    /**
      * 把View添加到设置的容器{@link #setContainer(View)}
      *
      * @param replace true-父容器仅保留当前View对象在容器中
      */
     public final void attach(boolean replace)
     {
-        if (replace)
+        final ViewGroup viewGroup = getContainer();
+        if (viewGroup == null)
+            return;
+
+        if (getParent() != viewGroup)
         {
-            FViewUtil.replaceView(getContainer(), this);
+            if (replace)
+                viewGroup.removeAllViews();
+
+            detach();
+            viewGroup.addView(this);
         } else
         {
-            FViewUtil.addView(getContainer(), this);
+            if (replace)
+            {
+                final int count = viewGroup.getChildCount();
+                for (int i = count - 1; i >= 0; i--)
+                {
+                    final View item = viewGroup.getChildAt(i);
+                    if (item != this)
+                        viewGroup.removeView(item);
+                }
+            }
         }
     }
 
@@ -197,7 +200,14 @@ public class FAppView extends FrameLayout implements
      */
     public final void detach()
     {
-        FViewUtil.removeView(this);
+        if (getParent() == null)
+            return;
+        try
+        {
+            ((ViewGroup) getParent()).removeView(this);
+        } catch (Exception e)
+        {
+        }
     }
 
     @Override
@@ -265,15 +275,18 @@ public class FAppView extends FrameLayout implements
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
+    /**
+     * 返回View在屏幕上的坐标
+     *
+     * @return
+     */
+    public final int[] getLocationOnScreen()
     {
-        if (mConsumeTouchEvent)
-        {
-            super.onTouchEvent(event);
-            return true;
-        }
-        return super.onTouchEvent(event);
+        if (mLocationOnScreen == null)
+            mLocationOnScreen = new int[]{0, 0};
+
+        getLocationOnScreen(mLocationOnScreen);
+        return mLocationOnScreen;
     }
 
     /**
@@ -283,9 +296,27 @@ public class FAppView extends FrameLayout implements
      * @param y 屏幕y坐标
      * @return
      */
-    public boolean isViewUnder(int x, int y)
+    public final boolean isViewUnder(int x, int y)
     {
-        return FViewUtil.isViewUnder(this, x, y, null);
+        final int[] location = getLocationOnScreen();
+        final int left = location[0];
+        final int top = location[1];
+        final int right = left + getWidth();
+        final int bottom = top + getHeight();
+
+        return left < right && top < bottom
+                && x >= left && x < right && y >= top && y < bottom;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        if (mConsumeTouchEvent)
+        {
+            super.onTouchEvent(event);
+            return true;
+        }
+        return super.onTouchEvent(event);
     }
 
     @Override

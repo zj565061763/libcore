@@ -5,12 +5,8 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.fanwe.lib.utils.context.FToast;
 import com.fanwe.library.FLibrary;
 
-/**
- * 用{@link FToast}替代
- */
 @Deprecated
 public class SDToast
 {
