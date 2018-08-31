@@ -16,10 +16,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.fanwe.lib.holder.objects.FStrongObjectsHolder;
-import com.fanwe.lib.holder.objects.ForeachCallback;
-import com.fanwe.lib.holder.objects.ObjectsHolder;
 import com.fanwe.library.common.SDFragmentManager;
+import com.fanwe.library.holder.objects.FStrongObjectsHolder;
+import com.fanwe.library.holder.objects.ForeachCallback;
+import com.fanwe.library.holder.objects.ObjectsHolder;
 
 
 public abstract class FActivity extends AppCompatActivity implements

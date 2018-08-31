@@ -4,6 +4,5 @@
 依赖以下库：
 ```
 implementation 'com.github.zj565061763:utils:+'
-implementation 'com.github.zj565061763:holder-objects:+'
 ```
 
