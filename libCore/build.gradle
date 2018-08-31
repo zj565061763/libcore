@@ -35,7 +35,7 @@ publish {
 
     artifactId = 'libCore'
     publishVersion = '1.1.23'
-    desc = 'fanwe android libCore library'
+    desc = 'android develop library'
     website = 'https://github.com/zj565061763/libcore'
 }
 

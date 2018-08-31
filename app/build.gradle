@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
-        applicationId "com.fanwe.demo"
+        applicationId "com.sd.demo"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
