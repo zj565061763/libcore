@@ -1,7 +1,6 @@
 package com.sd.libcore.activity;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -501,8 +500,22 @@ public abstract class FActivity extends AppCompatActivity implements
         return mFragmentManager;
     }
 
-    public interface ActivityLifecycleCallback extends Application.ActivityLifecycleCallbacks
+    public interface ActivityLifecycleCallback
     {
+        void onActivityCreated(Activity activity, Bundle savedInstanceState);
+
+        void onActivityStarted(Activity activity);
+
+        void onActivityResumed(Activity activity);
+
+        void onActivityPaused(Activity activity);
+
+        void onActivityStopped(Activity activity);
+
+        void onActivityDestroyed(Activity activity);
+
+        void onActivitySaveInstanceState(Activity activity, Bundle outState);
+
         void onActivityRestoreInstanceState(Activity activity, Bundle savedInstanceState);
     }
 
