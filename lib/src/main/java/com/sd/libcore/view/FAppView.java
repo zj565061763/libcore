@@ -474,13 +474,13 @@ public class FAppView extends FrameLayout implements
     }
 
     @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState)
+    public void onActivityDestroyed(Activity activity)
     {
 
     }
 
     @Override
-    public void onActivityDestroyed(Activity activity)
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState)
     {
 
     }
