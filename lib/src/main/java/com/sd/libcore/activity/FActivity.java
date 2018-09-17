@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 
 import com.sd.libcore.common.SDFragmentManager;
 import com.sd.libcore.holder.objects.FStrongObjectsHolder;
-import com.sd.libcore.holder.objects.ForeachCallback;
 import com.sd.libcore.holder.objects.ObjectsHolder;
 
 
@@ -42,36 +41,28 @@ public abstract class FActivity extends AppCompatActivity implements
     public final ObjectsHolder<ActivityLifecycleCallback> getLifecycleCallbackHolder()
     {
         if (mLifecycleCallbackHolder == null)
-        {
             mLifecycleCallbackHolder = new FStrongObjectsHolder<>(null);
-        }
         return mLifecycleCallbackHolder;
     }
 
     public final ObjectsHolder<ActivityResultCallback> getActivityResultCallbackHolder()
     {
         if (mActivityResultCallbackHolder == null)
-        {
             mActivityResultCallbackHolder = new FStrongObjectsHolder<>(null);
-        }
         return mActivityResultCallbackHolder;
     }
 
     public final ObjectsHolder<ActivityTouchEventCallback> getTouchEventCallbackHolder()
     {
         if (mTouchEventCallbackHolder == null)
-        {
             mTouchEventCallbackHolder = new FStrongObjectsHolder<>(null);
-        }
         return mTouchEventCallbackHolder;
     }
 
     public final ObjectsHolder<ActivityKeyEventCallback> getKeyEventCallbackHolder()
     {
         if (mKeyEventCallbackHolder == null)
-        {
             mKeyEventCallbackHolder = new FStrongObjectsHolder<>(null);
-        }
         return mKeyEventCallbackHolder;
     }
 
@@ -82,9 +73,8 @@ public abstract class FActivity extends AppCompatActivity implements
 
         final int layoutId = onCreateContentView();
         if (layoutId != 0)
-        {
             setContentView(layoutId);
-        }
+
         init(savedInstanceState);
 
         notifyOnCreate(savedInstanceState);
@@ -110,14 +100,14 @@ public abstract class FActivity extends AppCompatActivity implements
     @Override
     public void setContentView(int layoutId)
     {
-        View contentView = getLayoutInflater().inflate(layoutId, (ViewGroup) findViewById(android.R.id.content), false);
+        final View contentView = getLayoutInflater().inflate(layoutId, (ViewGroup) findViewById(android.R.id.content), false);
         setContentView(contentView);
     }
 
     @Override
     public void setContentView(View view)
     {
-        View contentView = addTitleViewIfNeed(view);
+        final View contentView = addTitleViewIfNeed(view);
         contentView.setFitsSystemWindows(true);
         super.setContentView(contentView);
 
@@ -154,7 +144,7 @@ public abstract class FActivity extends AppCompatActivity implements
     {
         View viewFinal = contentView;
 
-        int resId = onCreateTitleViewResId();
+        final int resId = onCreateTitleViewResId();
         if (resId != 0)
         {
             View titleView = getLayoutInflater().inflate(resId, (ViewGroup) findViewById(android.R.id.content), false);
@@ -219,40 +209,15 @@ public abstract class FActivity extends AppCompatActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
-        try
-        {
-            super.onSaveInstanceState(outState);
-            if (outState != null)
-            {
-                outState.remove("android:support:fragments");
-            }
-            notifyOnSaveInstanceState(outState);
-        } catch (Exception e)
-        {
-            onSaveInstanceStateException(e);
-        }
-    }
-
-    protected void onSaveInstanceStateException(Exception e)
-    {
-
+        super.onSaveInstanceState(outState);
+        notifyOnSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
-        try
-        {
-            super.onRestoreInstanceState(savedInstanceState);
-            notifyOnRestoreInstanceState(savedInstanceState);
-        } catch (Exception e)
-        {
-            onRestoreInstanceStateException(e);
-        }
-    }
-
-    protected void onRestoreInstanceStateException(Exception e)
-    {
+        super.onRestoreInstanceState(savedInstanceState);
+        notifyOnRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -265,7 +230,7 @@ public abstract class FActivity extends AppCompatActivity implements
     @Override
     public boolean dispatchTouchEvent(final MotionEvent ev)
     {
-        final Object data = getTouchEventCallbackHolder().foreachReverse(new ForeachCallback<ActivityTouchEventCallback>()
+        final Object data = getTouchEventCallbackHolder().foreachReverse(new ObjectsHolder.ForeachCallback<ActivityTouchEventCallback>()
         {
             @Override
             protected boolean next(ActivityTouchEventCallback item)
@@ -280,6 +245,7 @@ public abstract class FActivity extends AppCompatActivity implements
                 }
             }
         });
+
         if (data != null)
         {
             // 不为null的话直接返回true，不做data为true的判断，上面已经写死了
@@ -292,7 +258,7 @@ public abstract class FActivity extends AppCompatActivity implements
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event)
     {
-        final Object data = getKeyEventCallbackHolder().foreachReverse(new ForeachCallback<ActivityKeyEventCallback>()
+        final Object data = getKeyEventCallbackHolder().foreachReverse(new ObjectsHolder.ForeachCallback<ActivityKeyEventCallback>()
         {
             @Override
             protected boolean next(ActivityKeyEventCallback item)
@@ -307,6 +273,7 @@ public abstract class FActivity extends AppCompatActivity implements
                 }
             }
         });
+
         if (data != null)
         {
             // 不为null的话直接返回true，不做data为true的判断，上面已经写死了
@@ -387,7 +354,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnCreate(final Bundle savedInstanceState)
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
             protected boolean next(ActivityLifecycleCallback item)
@@ -400,7 +367,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnStart()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
             protected boolean next(ActivityLifecycleCallback item)
@@ -413,7 +380,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnResume()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
             protected boolean next(ActivityLifecycleCallback item)
@@ -426,7 +393,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnPause()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
             protected boolean next(ActivityLifecycleCallback item)
@@ -439,7 +406,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnStop()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
             protected boolean next(ActivityLifecycleCallback item)
@@ -452,7 +419,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnDestroy()
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
             protected boolean next(ActivityLifecycleCallback item)
@@ -465,7 +432,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnSaveInstanceState(final Bundle outState)
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
             protected boolean next(ActivityLifecycleCallback item)
@@ -478,7 +445,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnRestoreInstanceState(final Bundle savedInstanceState)
     {
-        getLifecycleCallbackHolder().foreach(new ForeachCallback<ActivityLifecycleCallback>()
+        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
         {
             @Override
             protected boolean next(ActivityLifecycleCallback item)
@@ -491,7 +458,7 @@ public abstract class FActivity extends AppCompatActivity implements
 
     private void notifyOnActivityResult(final int requestCode, final int resultCode, final Intent data)
     {
-        getActivityResultCallbackHolder().foreach(new ForeachCallback<ActivityResultCallback>()
+        getActivityResultCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityResultCallback>()
         {
             @Override
             protected boolean next(ActivityResultCallback item)
@@ -508,9 +475,8 @@ public abstract class FActivity extends AppCompatActivity implements
     public void addContentView(View view, ViewGroup.LayoutParams params)
     {
         if (params == null)
-        {
             params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        }
+
         super.addContentView(view, params);
     }
 

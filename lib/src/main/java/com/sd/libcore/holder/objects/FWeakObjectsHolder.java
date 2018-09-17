@@ -114,19 +114,6 @@ public class FWeakObjectsHolder<T> implements ObjectsHolder<T>
         return callback.getData();
     }
 
-    @Override
-    public String getObjectsString()
-    {
-        final List<T> list = new ArrayList<>();
-
-        releaseWeakReferenceIfNeed();
-        for (WeakReference<T> item : mListObject)
-        {
-            list.add(item.get());
-        }
-        return list.toString();
-    }
-
     private void releaseWeakReferenceIfNeed()
     {
         while (true)
@@ -137,5 +124,18 @@ public class FWeakObjectsHolder<T> implements ObjectsHolder<T>
             else
                 mListObject.remove(item);
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        final List<T> list = new ArrayList<>();
+        releaseWeakReferenceIfNeed();
+        for (WeakReference<T> item : mListObject)
+        {
+            list.add(item.get());
+        }
+
+        return super.toString() + " " + list.toString();
     }
 }

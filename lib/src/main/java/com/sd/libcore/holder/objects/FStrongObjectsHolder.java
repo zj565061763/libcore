@@ -85,8 +85,8 @@ public class FStrongObjectsHolder<T> implements ObjectsHolder<T>
     }
 
     @Override
-    public String getObjectsString()
+    public String toString()
     {
-        return mListObject.toString();
+        return super.toString() + " " + mListObject.toString();
     }
 }
