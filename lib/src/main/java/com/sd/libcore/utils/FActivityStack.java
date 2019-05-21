@@ -259,7 +259,7 @@ public class FActivityStack
      *
      * @param activity
      */
-    public void finishAllActivityExcept(Activity activity)
+    public void finishActivityExcept(Activity activity)
     {
         for (Activity item : mActivityHolder)
         {
@@ -273,7 +273,7 @@ public class FActivityStack
      *
      * @param clazz
      */
-    public void finishAllActivityExcept(Class<?> clazz)
+    public void finishActivityExcept(Class<?> clazz)
     {
         for (Activity item : mActivityHolder)
         {
@@ -287,7 +287,7 @@ public class FActivityStack
      *
      * @param activity
      */
-    public void finishAllClassActivityExcept(Activity activity)
+    public void finishSameClassActivityExcept(Activity activity)
     {
         for (Activity item : mActivityHolder)
         {
