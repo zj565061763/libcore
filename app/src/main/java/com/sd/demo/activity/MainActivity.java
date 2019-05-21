@@ -8,8 +8,9 @@ import com.sd.libcore.activity.FActivity;
 public class MainActivity extends FActivity
 {
     @Override
-    protected void init(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
     }
 }

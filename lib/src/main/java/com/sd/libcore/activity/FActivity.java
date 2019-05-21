@@ -74,8 +74,6 @@ public abstract class FActivity extends AppCompatActivity implements
         if (layoutId != 0)
             setContentView(layoutId);
 
-        init(savedInstanceState);
-
         notifyOnCreate(savedInstanceState);
     }
 
@@ -88,13 +86,6 @@ public abstract class FActivity extends AppCompatActivity implements
     {
         return 0;
     }
-
-    /**
-     * 重写此方法初始化
-     *
-     * @param savedInstanceState
-     */
-    protected abstract void init(Bundle savedInstanceState);
 
     @Override
     public void setContentView(int layoutId)
