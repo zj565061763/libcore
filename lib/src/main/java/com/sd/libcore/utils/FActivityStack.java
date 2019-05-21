@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -42,16 +43,13 @@ public class FActivityStack
 
     public synchronized void init(Application application)
     {
-        if (application == null)
-            throw new NullPointerException("application is null");
+        if (mApplication != null)
+            return;
 
-        if (mApplication == null)
-        {
-            mApplication = application;
+        mApplication = application;
 
-            application.unregisterActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
-            application.registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
-        }
+        application.unregisterActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
+        application.registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
     }
 
     private final Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks()
@@ -151,40 +149,7 @@ public class FActivityStack
     }
 
     /**
-     * 返回最后一个对象
-     *
-     * @return
-     */
-    public Activity getLastActivity()
-    {
-        try
-        {
-            return mActivityHolder.get(mActivityHolder.size() - 1);
-        } catch (Exception e)
-        {
-            return null;
-        }
-    }
-
-    /**
-     * 返回指定位置的对象
-     *
-     * @param index
-     * @return
-     */
-    public Activity getActivity(int index)
-    {
-        if (index >= 0 && index < size())
-        {
-            return mActivityHolder.get(index);
-        } else
-        {
-            return null;
-        }
-    }
-
-    /**
-     * 返回当前保存的对象个数
+     * 返回栈中保存的对象个数
      *
      * @return
      */
@@ -194,33 +159,30 @@ public class FActivityStack
     }
 
     /**
-     * 结束指定类的对象
+     * 返回栈中指定位置的对象
      *
-     * @param clazz
+     * @param index
+     * @return
      */
-    public void finishActivity(Class<?> clazz)
+    public Activity getActivity(int index)
     {
-        for (Activity item : mActivityHolder)
+        try
         {
-            if (item.getClass() == clazz)
-                item.finish();
+            return mActivityHolder.get(index);
+        } catch (Exception e)
+        {
+            return null;
         }
     }
 
     /**
-     * 是否包含指定类的对象
+     * 返回栈中最后一个对象
      *
-     * @param clazz
      * @return
      */
-    public boolean containActivity(Class<?> clazz)
+    public Activity getLastActivity()
     {
-        for (Activity item : mActivityHolder)
-        {
-            if (item.getClass() == clazz)
-                return true;
-        }
-        return false;
+        return getActivity(mActivityHolder.size() - 1);
     }
 
     /**
@@ -235,7 +197,65 @@ public class FActivityStack
     }
 
     /**
-     * 结束除了activity外的所有对象
+     * 返回栈中指定类型的所有对象
+     *
+     * @param clazz
+     * @return
+     */
+    public List<Activity> getActivity(Class<?> clazz)
+    {
+        final List<Activity> list = new ArrayList<>(1);
+        for (Activity item : mActivityHolder)
+        {
+            if (item.getClass() == clazz)
+                list.add(item);
+        }
+        return list;
+    }
+
+    /**
+     * 返回栈中指定类型的第一个对象
+     *
+     * @param clazz
+     * @return
+     */
+    public Activity getFirstActivity(Class<?> clazz)
+    {
+        for (Activity item : mActivityHolder)
+        {
+            if (item.getClass() == clazz)
+                return item;
+        }
+        return null;
+    }
+
+    /**
+     * 栈中是否包含指定类型的对象
+     *
+     * @param clazz
+     * @return
+     */
+    public boolean containActivity(Class<?> clazz)
+    {
+        return getFirstActivity(clazz) != null;
+    }
+
+    /**
+     * 结束栈中指定类型的对象
+     *
+     * @param clazz
+     */
+    public void finishActivity(Class<?> clazz)
+    {
+        final List<Activity> list = getActivity(clazz);
+        for (Activity item : list)
+        {
+            item.finish();
+        }
+    }
+
+    /**
+     * 结束栈中除了activity外的所有对象
      *
      * @param activity
      */
@@ -249,7 +269,7 @@ public class FActivityStack
     }
 
     /**
-     * 结束除了指定类外的所有对象
+     * 结束栈中除了指定类型外的所有对象
      *
      * @param clazz
      */
@@ -263,7 +283,7 @@ public class FActivityStack
     }
 
     /**
-     * 结束除了activity外的所有activity类的对象
+     * 结束栈中除了activity外的所有activity类型的对象
      *
      * @param activity
      */
