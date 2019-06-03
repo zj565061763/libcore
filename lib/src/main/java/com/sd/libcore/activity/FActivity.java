@@ -352,7 +352,7 @@ public abstract class FActivity extends AppCompatActivity implements
         return getStreamTag();
     }
 
-    private String getStreamTag()
+    public final String getStreamTag()
     {
         return FActivity.this.toString();
     }
