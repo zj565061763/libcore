@@ -24,21 +24,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class FAppView extends FrameLayout implements View.OnClickListener, FStream, ActivityKeyEventStream
 {
-    public FAppView(Context context, AttributeSet attrs, int defStyle)
-    {
-        super(context, attrs, defStyle);
-        baseInit();
-    }
-
     public FAppView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        baseInit();
-    }
-
-    public FAppView(Context context)
-    {
-        super(context);
         baseInit();
     }
 
