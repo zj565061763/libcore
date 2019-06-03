@@ -20,6 +20,20 @@ public class TestAppView extends FAppView implements ActivityResumedStream, Acti
     }
 
     @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        Log.i(TAG, "onAttachedToWindow");
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        super.onDetachedFromWindow();
+        Log.i(TAG, "onDetachedFromWindow");
+    }
+
+    @Override
     public void onActivityResumed(Activity activity)
     {
         Log.i(TAG, "onActivityResumed:" + activity);
