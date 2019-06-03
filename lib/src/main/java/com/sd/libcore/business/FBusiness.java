@@ -13,17 +13,12 @@ public abstract class FBusiness
         onCreate();
     }
 
-    public String getStreamTag()
-    {
-        return mTag;
-    }
-
     protected final <T extends FStream> T getStream(Class<T> clazz)
     {
-        return new FStream.ProxyBuilder().setTag(getStreamTag()).build(clazz);
+        return new FStream.ProxyBuilder().setTag(mTag).build(clazz);
     }
 
-    protected BSProgress getProgress()
+    protected final BSProgress getProgress()
     {
         return getStream(BSProgress.class);
     }
