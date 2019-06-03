@@ -2,8 +2,6 @@ package com.sd.libcore.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -12,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.sd.lib.stream.FStream;
+import com.sd.lib.stream.FStreamManager;
 import com.sd.libcore.activity.FActivity;
+import com.sd.libcore.stream.activity.ActivityKeyEventStream;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -21,12 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
  */
-public class FAppView extends FrameLayout implements
-        View.OnClickListener,
-        FActivity.ActivityLifecycleCallback,
-        FActivity.ActivityResultCallback,
-        FActivity.ActivityTouchEventCallback,
-        FActivity.ActivityKeyEventCallback
+public class FAppView extends FrameLayout implements View.OnClickListener, FStream, ActivityKeyEventStream
 {
     public FAppView(Context context, AttributeSet attrs, int defStyle)
     {
@@ -320,38 +316,6 @@ public class FAppView extends FrameLayout implements
     }
 
     @Override
-    public boolean dispatchTouchEvent(Activity activity, MotionEvent ev)
-    {
-        if (getVisibility() == VISIBLE && getParent() != null)
-        {
-            switch (ev.getAction())
-            {
-                case MotionEvent.ACTION_DOWN:
-                    if (isViewUnder((int) ev.getRawX(), (int) ev.getRawY()))
-                    {
-                        return onTouchDownInside(ev);
-                    } else
-                    {
-                        return onTouchDownOutside(ev);
-                    }
-                default:
-                    break;
-            }
-        }
-        return false;
-    }
-
-    protected boolean onTouchDownOutside(MotionEvent ev)
-    {
-        return false;
-    }
-
-    protected boolean onTouchDownInside(MotionEvent ev)
-    {
-        return false;
-    }
-
-    @Override
     public boolean dispatchKeyEvent(Activity activity, KeyEvent event)
     {
         if (getVisibility() == VISIBLE && getParent() != null)
@@ -381,50 +345,45 @@ public class FAppView extends FrameLayout implements
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-        registerActivityEvent();
+        registerStream();
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
         super.onDetachedFromWindow();
+        unregisterStream();
         mHasOnLayout = false;
         if (mListLayoutRunnable != null)
         {
             mListLayoutRunnable.clear();
             mListLayoutRunnable = null;
         }
-        unregisterActivityEvent();
     }
 
-    /**
-     * 注册activity事件监听
-     */
-    public final void registerActivityEvent()
+    @Override
+    public Object getTagForStream(Class<? extends FStream> clazz)
     {
-        final FActivity activity = getFActivity();
-        if (activity != null)
-        {
-            activity.getLifecycleCallbackHolder().add(this);
-            activity.getActivityResultCallbackHolder().add(this);
-            activity.getTouchEventCallbackHolder().add(this);
-            activity.getKeyEventCallbackHolder().add(this);
-        }
+        return getStreamTag();
     }
 
-    /**
-     * 取消注册activity事件监听
-     */
-    public final void unregisterActivityEvent()
+    public Object getStreamTag()
     {
-        final FActivity activity = getFActivity();
+        final Activity activity = getActivity();
         if (activity != null)
-        {
-            activity.getLifecycleCallbackHolder().remove(this);
-            activity.getActivityResultCallbackHolder().remove(this);
-            activity.getTouchEventCallbackHolder().remove(this);
-            activity.getKeyEventCallbackHolder().remove(this);
-        }
+            return activity.toString();
+
+        return FAppView.this.toString();
+    }
+
+    protected void registerStream()
+    {
+        FStreamManager.getInstance().register(this);
+    }
+
+    protected void unregisterStream()
+    {
+        FStreamManager.getInstance().unregister(this);
     }
 
     public void showProgressDialog(String msg)
@@ -441,59 +400,5 @@ public class FAppView extends FrameLayout implements
         {
             getFActivity().dismissProgressDialog();
         }
-    }
-
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState)
-    {
-
-    }
-
-    @Override
-    public void onActivityStarted(Activity activity)
-    {
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity)
-    {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity)
-    {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity)
-    {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity)
-    {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState)
-    {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Activity activity, Bundle savedInstanceState)
-    {
-
-    }
-
-    @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data)
-    {
-
     }
 }

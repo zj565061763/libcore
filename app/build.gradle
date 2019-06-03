@@ -9,6 +9,12 @@ android {
         versionCode 1
         versionName "1.2"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,4 +34,6 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.0.8"
     implementation 'com.google.android:flexbox:0.2.6'
     implementation 'com.jakewharton.timber:timber:4.5.1'
+
+    implementation 'com.github.zj565061763:stream:1.1.20'
 }

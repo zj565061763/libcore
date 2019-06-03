@@ -1,12 +1,9 @@
 package com.sd.libcore.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,12 +16,8 @@ import com.sd.libcore.common.SDFragmentManager;
 import java.util.List;
 
 @Deprecated
-public abstract class SDBaseFragment extends Fragment implements
-        OnClickListener,
-        FActivity.ActivityTouchEventCallback,
-        FActivity.ActivityKeyEventCallback
+public abstract class SDBaseFragment extends Fragment implements OnClickListener
 {
-
     private SDFragmentManager fragmentManager;
     private boolean isRemovedFromViewPager = false;
     private boolean isStopped;
@@ -79,12 +72,6 @@ public abstract class SDBaseFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        FActivity activity = getBaseActivity();
-        if (activity != null)
-        {
-            activity.getTouchEventCallbackHolder().add(this);
-            activity.getKeyEventCallbackHolder().add(this);
-        }
         super.onCreate(savedInstanceState);
     }
 
@@ -196,12 +183,6 @@ public abstract class SDBaseFragment extends Fragment implements
     public void onDestroy()
     {
         super.onDestroy();
-        FActivity activity = getBaseActivity();
-        if (activity != null)
-        {
-            activity.getTouchEventCallbackHolder().remove(this);
-            activity.getKeyEventCallbackHolder().remove(this);
-        }
     }
 
     /**
@@ -344,30 +325,6 @@ public abstract class SDBaseFragment extends Fragment implements
     public void onClick(View v)
     {
 
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(Activity activity, MotionEvent ev)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(Activity activity, KeyEvent event)
-    {
-        switch (event.getAction())
-        {
-            case KeyEvent.ACTION_DOWN:
-                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
-                {
-                    return onBackPressed();
-                }
-                break;
-
-            default:
-                break;
-        }
-        return false;
     }
 
     @Override

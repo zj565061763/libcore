@@ -15,60 +15,39 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.sd.lib.stream.FStream;
+import com.sd.lib.stream.FStreamManager;
 import com.sd.libcore.common.SDFragmentManager;
-import com.sd.libcore.holder.objects.FStrongObjectsHolder;
-import com.sd.libcore.holder.objects.ObjectsHolder;
+import com.sd.libcore.stream.activity.ActivityCreatedStream;
+import com.sd.libcore.stream.activity.ActivityDestroyedStream;
+import com.sd.libcore.stream.activity.ActivityInstanceStateStream;
+import com.sd.libcore.stream.activity.ActivityKeyEventStream;
+import com.sd.libcore.stream.activity.ActivityPausedStream;
+import com.sd.libcore.stream.activity.ActivityResultStream;
+import com.sd.libcore.stream.activity.ActivityResumedStream;
+import com.sd.libcore.stream.activity.ActivityStartedStream;
+import com.sd.libcore.stream.activity.ActivityStoppedStream;
+import com.sd.libcore.stream.activity.ActivityTouchEventStream;
+
+import java.lang.reflect.Method;
 
 
 public abstract class FActivity extends AppCompatActivity implements
-        OnClickListener
+        OnClickListener, FStream
 {
     private SDFragmentManager mFragmentManager;
-
     private ProgressDialog mProgressDialog;
-
-    private ObjectsHolder<ActivityLifecycleCallback> mLifecycleCallbackHolder;
-    private ObjectsHolder<ActivityResultCallback> mActivityResultCallbackHolder;
-    private ObjectsHolder<ActivityTouchEventCallback> mTouchEventCallbackHolder;
-    private ObjectsHolder<ActivityKeyEventCallback> mKeyEventCallbackHolder;
 
     public Activity getActivity()
     {
         return this;
     }
 
-    public final ObjectsHolder<ActivityLifecycleCallback> getLifecycleCallbackHolder()
-    {
-        if (mLifecycleCallbackHolder == null)
-            mLifecycleCallbackHolder = new FStrongObjectsHolder<>(null);
-        return mLifecycleCallbackHolder;
-    }
-
-    public final ObjectsHolder<ActivityResultCallback> getActivityResultCallbackHolder()
-    {
-        if (mActivityResultCallbackHolder == null)
-            mActivityResultCallbackHolder = new FStrongObjectsHolder<>(null);
-        return mActivityResultCallbackHolder;
-    }
-
-    public final ObjectsHolder<ActivityTouchEventCallback> getTouchEventCallbackHolder()
-    {
-        if (mTouchEventCallbackHolder == null)
-            mTouchEventCallbackHolder = new FStrongObjectsHolder<>(null);
-        return mTouchEventCallbackHolder;
-    }
-
-    public final ObjectsHolder<ActivityKeyEventCallback> getKeyEventCallbackHolder()
-    {
-        if (mKeyEventCallbackHolder == null)
-            mKeyEventCallbackHolder = new FStrongObjectsHolder<>(null);
-        return mKeyEventCallbackHolder;
-    }
-
     @Override
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        FStreamManager.getInstance().register(this);
 
         final int layoutId = onCreateContentView();
         if (layoutId != 0)
@@ -192,6 +171,7 @@ public abstract class FActivity extends AppCompatActivity implements
     protected void onDestroy()
     {
         super.onDestroy();
+        FStreamManager.getInstance().unregister(this);
         dismissProgressDialog();
         notifyOnDestroy();
     }
@@ -217,58 +197,82 @@ public abstract class FActivity extends AppCompatActivity implements
         notifyOnActivityResult(requestCode, resultCode, data);
     }
 
+    private ActivityTouchEventStream mTouchEventStream;
+
+    private ActivityTouchEventStream getTouchEventStream()
+    {
+        if (mTouchEventStream == null)
+        {
+            mTouchEventStream = new FStream.ProxyBuilder()
+                    .setTag(getStreamTag())
+                    .setDispatchCallback(new DispatchCallback()
+                    {
+                        @Override
+                        public boolean beforeDispatch(FStream stream, Method method, Object[] methodParams)
+                        {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean afterDispatch(FStream stream, Method method, Object[] methodParams, Object methodResult)
+                        {
+                            if (Boolean.TRUE.equals(methodResult))
+                                return true;
+
+                            return false;
+                        }
+                    })
+                    .build(ActivityTouchEventStream.class);
+        }
+        return mTouchEventStream;
+    }
+
     @Override
     public boolean dispatchTouchEvent(final MotionEvent ev)
     {
-        final Object data = getTouchEventCallbackHolder().foreachReverse(new ObjectsHolder.ForeachCallback<ActivityTouchEventCallback>()
-        {
-            @Override
-            protected boolean next(ActivityTouchEventCallback item)
-            {
-                if (item.dispatchTouchEvent(FActivity.this, ev))
-                {
-                    setData(true);
-                    return true;
-                } else
-                {
-                    return false;
-                }
-            }
-        });
-
-        if (data != null)
-        {
-            // 不为null的话直接返回true，不做data为true的判断，上面已经写死了
+        final boolean result = getTouchEventStream().dispatchTouchEvent(FActivity.this, ev);
+        if (result)
             return true;
-        }
 
         return super.dispatchTouchEvent(ev);
+    }
+
+    private ActivityKeyEventStream mKeyEventStream;
+
+    private ActivityKeyEventStream getKeyEventStream()
+    {
+        if (mKeyEventStream == null)
+        {
+            mKeyEventStream = new FStream.ProxyBuilder()
+                    .setTag(getStreamTag())
+                    .setDispatchCallback(new DispatchCallback()
+                    {
+                        @Override
+                        public boolean beforeDispatch(FStream stream, Method method, Object[] methodParams)
+                        {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean afterDispatch(FStream stream, Method method, Object[] methodParams, Object methodResult)
+                        {
+                            if (Boolean.TRUE.equals(methodResult))
+                                return true;
+
+                            return false;
+                        }
+                    })
+                    .build(ActivityKeyEventStream.class);
+        }
+        return mKeyEventStream;
     }
 
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event)
     {
-        final Object data = getKeyEventCallbackHolder().foreachReverse(new ObjectsHolder.ForeachCallback<ActivityKeyEventCallback>()
-        {
-            @Override
-            protected boolean next(ActivityKeyEventCallback item)
-            {
-                if (item.dispatchKeyEvent(FActivity.this, event))
-                {
-                    setData(true);
-                    return true;
-                } else
-                {
-                    return false;
-                }
-            }
-        });
-
-        if (data != null)
-        {
-            // 不为null的话直接返回true，不做data为true的判断，上面已经写死了
+        final boolean result = getKeyEventStream().dispatchKeyEvent(FActivity.this, event);
+        if (result)
             return true;
-        }
 
         return super.dispatchKeyEvent(event);
     }
@@ -342,121 +346,96 @@ public abstract class FActivity extends AppCompatActivity implements
 
     //------------notify callback start------------------
 
+    @Override
+    public Object getTagForStream(Class<? extends FStream> clazz)
+    {
+        return getStreamTag();
+    }
+
+    public Object getStreamTag()
+    {
+        return FActivity.this.toString();
+    }
+
     private void notifyOnCreate(final Bundle savedInstanceState)
     {
-        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
-        {
-            @Override
-            protected boolean next(ActivityLifecycleCallback item)
-            {
-                item.onActivityCreated(FActivity.this, savedInstanceState);
-                return false;
-            }
-        });
+        final ActivityCreatedStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityCreatedStream.class);
+
+        stream.onActivityCreated(FActivity.this, savedInstanceState);
     }
 
     private void notifyOnStart()
     {
-        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
-        {
-            @Override
-            protected boolean next(ActivityLifecycleCallback item)
-            {
-                item.onActivityStarted(FActivity.this);
-                return false;
-            }
-        });
+        final ActivityStartedStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityStartedStream.class);
+
+        stream.onActivityStarted(FActivity.this);
     }
 
     private void notifyOnResume()
     {
-        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
-        {
-            @Override
-            protected boolean next(ActivityLifecycleCallback item)
-            {
-                item.onActivityResumed(FActivity.this);
-                return false;
-            }
-        });
+        final ActivityResumedStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityResumedStream.class);
+
+        stream.onActivityResumed(FActivity.this);
     }
 
     private void notifyOnPause()
     {
-        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
-        {
-            @Override
-            protected boolean next(ActivityLifecycleCallback item)
-            {
-                item.onActivityPaused(FActivity.this);
-                return false;
-            }
-        });
+        final ActivityPausedStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityPausedStream.class);
+
+        stream.onActivityPaused(FActivity.this);
     }
 
     private void notifyOnStop()
     {
-        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
-        {
-            @Override
-            protected boolean next(ActivityLifecycleCallback item)
-            {
-                item.onActivityStopped(FActivity.this);
-                return false;
-            }
-        });
+        final ActivityStoppedStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityStoppedStream.class);
+
+        stream.onActivityStopped(FActivity.this);
     }
 
     private void notifyOnDestroy()
     {
-        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
-        {
-            @Override
-            protected boolean next(ActivityLifecycleCallback item)
-            {
-                item.onActivityDestroyed(FActivity.this);
-                return false;
-            }
-        });
+        final ActivityDestroyedStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityDestroyedStream.class);
+
+        stream.onActivityDestroyed(FActivity.this);
     }
 
     private void notifyOnSaveInstanceState(final Bundle outState)
     {
-        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
-        {
-            @Override
-            protected boolean next(ActivityLifecycleCallback item)
-            {
-                item.onActivitySaveInstanceState(FActivity.this, outState);
-                return false;
-            }
-        });
+        final ActivityInstanceStateStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityInstanceStateStream.class);
+
+        stream.onActivitySaveInstanceState(FActivity.this, outState);
     }
 
     private void notifyOnRestoreInstanceState(final Bundle savedInstanceState)
     {
-        getLifecycleCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityLifecycleCallback>()
-        {
-            @Override
-            protected boolean next(ActivityLifecycleCallback item)
-            {
-                item.onActivityRestoreInstanceState(FActivity.this, savedInstanceState);
-                return false;
-            }
-        });
+        final ActivityInstanceStateStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityInstanceStateStream.class);
+
+        stream.onActivityRestoreInstanceState(FActivity.this, savedInstanceState);
     }
 
     private void notifyOnActivityResult(final int requestCode, final int resultCode, final Intent data)
     {
-        getActivityResultCallbackHolder().foreach(new ObjectsHolder.ForeachCallback<ActivityResultCallback>()
-        {
-            @Override
-            protected boolean next(ActivityResultCallback item)
-            {
-                item.onActivityResult(FActivity.this, requestCode, resultCode, data);
-                return false;
-            }
-        });
+        final ActivityResultStream stream = new FStream.ProxyBuilder()
+                .setTag(getStreamTag())
+                .build(ActivityResultStream.class);
+
+        stream.onActivityResult(FActivity.this, requestCode, resultCode, data);
     }
 
     //------------notify callback end------------------
@@ -489,39 +468,5 @@ public abstract class FActivity extends AppCompatActivity implements
             mFragmentManager = new SDFragmentManager(getSupportFragmentManager());
         }
         return mFragmentManager;
-    }
-
-    public interface ActivityLifecycleCallback
-    {
-        void onActivityCreated(Activity activity, Bundle savedInstanceState);
-
-        void onActivityStarted(Activity activity);
-
-        void onActivityResumed(Activity activity);
-
-        void onActivityPaused(Activity activity);
-
-        void onActivityStopped(Activity activity);
-
-        void onActivityDestroyed(Activity activity);
-
-        void onActivitySaveInstanceState(Activity activity, Bundle outState);
-
-        void onActivityRestoreInstanceState(Activity activity, Bundle savedInstanceState);
-    }
-
-    public interface ActivityResultCallback
-    {
-        void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data);
-    }
-
-    public interface ActivityTouchEventCallback
-    {
-        boolean dispatchTouchEvent(Activity activity, MotionEvent ev);
-    }
-
-    public interface ActivityKeyEventCallback
-    {
-        boolean dispatchKeyEvent(Activity activity, KeyEvent event);
     }
 }
