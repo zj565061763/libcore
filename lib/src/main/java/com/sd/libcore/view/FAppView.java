@@ -3,7 +3,6 @@ package com.sd.libcore.view;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.FrameLayout;
 import com.sd.lib.stream.FStream;
 import com.sd.lib.stream.FStreamManager;
 import com.sd.libcore.activity.FActivity;
-import com.sd.libcore.stream.activity.ActivityKeyEventStream;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -22,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
  */
-public class FAppView extends FrameLayout implements View.OnClickListener, FStream, ActivityKeyEventStream
+public class FAppView extends FrameLayout implements FStream, View.OnClickListener
 {
     public FAppView(Context context)
     {
@@ -313,32 +311,6 @@ public class FAppView extends FrameLayout implements View.OnClickListener, FStre
             return true;
         }
         return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(Activity activity, KeyEvent event)
-    {
-        if (getVisibility() == VISIBLE && getParent() != null)
-        {
-            switch (event.getAction())
-            {
-                case KeyEvent.ACTION_DOWN:
-                    if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
-                    {
-                        return onBackPressed();
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        return false;
-    }
-
-    public boolean onBackPressed()
-    {
-        return false;
     }
 
     @Override
