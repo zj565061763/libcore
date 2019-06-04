@@ -4,7 +4,7 @@ import com.sd.lib.stream.FStream;
 
 public interface BSProgress extends FStream
 {
-    void onBsShowProgress(String msg);
+    void bsShowProgress(String msg);
 
-    void onBsHideProgress();
+    void bsHideProgress();
 }
