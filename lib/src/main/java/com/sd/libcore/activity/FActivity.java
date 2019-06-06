@@ -57,7 +57,13 @@ public abstract class FActivity extends AppCompatActivity implements
     }
 
     /**
-     * 返回布局activity布局id，基类调用的顺序：onCreateContentView()-setContentView()-init()
+     * 返回activity布局id，基类调用的顺序：
+     * <p>
+     * 1. onCreateContentView()<br>
+     * 2. setContentView()<br>
+     * 3. onCreateTitleView() 或者 onCreateTitleViewLayoutId()<br>
+     * 4. onInitTitleView(View view)<br>
+     * 5. onInitContentView(View view)<br>
      *
      * @return
      */
@@ -69,7 +75,7 @@ public abstract class FActivity extends AppCompatActivity implements
     @Override
     public void setContentView(int layoutId)
     {
-        final View contentView = getLayoutInflater().inflate(layoutId, (ViewGroup) findViewById(android.R.id.content), false);
+        final View contentView = getLayoutInflater().inflate(layoutId, findViewById(android.R.id.content), false);
         setContentView(contentView);
     }
 
@@ -84,6 +90,25 @@ public abstract class FActivity extends AppCompatActivity implements
     }
 
     /**
+     * 为contentView添加titleView
+     *
+     * @param contentView
+     * @return
+     */
+    private View addTitleViewIfNeed(View contentView)
+    {
+        final View titleView = createTitleView();
+        if (titleView == null)
+            return contentView;
+
+        final LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(titleView);
+        linearLayout.addView(contentView);
+        return linearLayout;
+    }
+
+    /**
      * setContentView方法之后会回调此方法，可以用来初始化View
      *
      * @param view
@@ -93,40 +118,40 @@ public abstract class FActivity extends AppCompatActivity implements
 
     }
 
+    private View createTitleView()
+    {
+        View titleView = onCreateTitleView();
+        if (titleView == null)
+        {
+            final int layoutId = onCreateTitleViewLayoutId();
+            if (layoutId != 0)
+                titleView = getLayoutInflater().inflate(layoutId, findViewById(android.R.id.content), false);
+        }
+
+        if (titleView != null)
+            onInitTitleView(titleView);
+
+        return titleView;
+    }
+
+    /**
+     * 返回标题栏布局
+     *
+     * @return
+     */
+    protected View onCreateTitleView()
+    {
+        return null;
+    }
+
     /**
      * 返回标题栏布局id
      *
      * @return
      */
-    protected int onCreateTitleViewResId()
+    protected int onCreateTitleViewLayoutId()
     {
         return 0;
-    }
-
-    /**
-     * 为contentView添加titleView
-     *
-     * @param contentView
-     * @return
-     */
-    private View addTitleViewIfNeed(View contentView)
-    {
-        View viewFinal = contentView;
-
-        final int resId = onCreateTitleViewResId();
-        if (resId != 0)
-        {
-            View titleView = getLayoutInflater().inflate(resId, (ViewGroup) findViewById(android.R.id.content), false);
-
-            LinearLayout linAll = new LinearLayout(this);
-            linAll.setOrientation(LinearLayout.VERTICAL);
-            linAll.addView(titleView);
-            linAll.addView(contentView);
-            viewFinal = linAll;
-
-            onInitTitleView(titleView);
-        }
-        return viewFinal;
     }
 
     /**
