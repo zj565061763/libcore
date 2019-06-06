@@ -90,6 +90,16 @@ public abstract class FActivity extends AppCompatActivity implements
     }
 
     /**
+     * setContentView方法之后会回调此方法，可以用来初始化View
+     *
+     * @param view
+     */
+    protected void onInitContentView(View view)
+    {
+
+    }
+
+    /**
      * 为contentView添加titleView
      *
      * @param contentView
@@ -108,16 +118,6 @@ public abstract class FActivity extends AppCompatActivity implements
         return linearLayout;
     }
 
-    /**
-     * setContentView方法之后会回调此方法，可以用来初始化View
-     *
-     * @param view
-     */
-    protected void onInitContentView(View view)
-    {
-
-    }
-
     private View createTitleView()
     {
         View titleView = onCreateTitleView();
@@ -129,7 +129,13 @@ public abstract class FActivity extends AppCompatActivity implements
         }
 
         if (titleView != null)
+        {
+            titleView = transformTitleView(titleView);
+            if (titleView == null)
+                throw new RuntimeException("transformTitleView return null");
+
             onInitTitleView(titleView);
+        }
 
         return titleView;
     }
@@ -152,6 +158,17 @@ public abstract class FActivity extends AppCompatActivity implements
     protected int onCreateTitleViewLayoutId()
     {
         return 0;
+    }
+
+    /**
+     * 转换标题栏，可以做一些全局的修改
+     *
+     * @param view
+     * @return
+     */
+    protected View transformTitleView(View view)
+    {
+        return view;
     }
 
     /**
