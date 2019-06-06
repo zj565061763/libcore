@@ -22,24 +22,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class FAppView extends FrameLayout implements FStream, View.OnClickListener
 {
-    public FAppView(Context context)
-    {
-        super(context);
-        baseInit();
-    }
-
-    public FAppView(Context context, AttributeSet attrs)
-    {
-        super(context, attrs);
-        baseInit();
-    }
-
-    public FAppView(Context context, AttributeSet attrs, int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
-        baseInit();
-    }
-
     /**
      * 设置是否消费掉触摸事件，true-事件不会透过view继续往下传递
      */
@@ -51,13 +33,17 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
 
     private int[] mLocationOnScreen;
 
+    public FAppView(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        baseInit();
+    }
+
     private void baseInit()
     {
-        int layoutId = onCreateContentView();
+        final int layoutId = onCreateContentView();
         if (layoutId != 0)
-        {
             setContentView(layoutId);
-        }
 
         onBaseInit();
     }
@@ -95,12 +81,6 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
     {
         removeAllViews();
         addView(contentView);
-    }
-
-    public void setContentView(View contentView, ViewGroup.LayoutParams params)
-    {
-        removeAllViews();
-        addView(contentView, params);
     }
 
     /**
