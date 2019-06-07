@@ -3,7 +3,9 @@ package com.sd.libcore.stream.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
-public interface ActivityInstanceStateStream extends FActivityStream
+import com.sd.lib.stream.FStream;
+
+public interface ActivityInstanceStateStream extends FStream
 {
     void onActivitySaveInstanceState(Activity activity, Bundle outState);
 

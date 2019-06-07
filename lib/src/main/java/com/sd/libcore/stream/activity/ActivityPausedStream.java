@@ -2,7 +2,9 @@ package com.sd.libcore.stream.activity;
 
 import android.app.Activity;
 
-public interface ActivityPausedStream extends FActivityStream
+import com.sd.lib.stream.FStream;
+
+public interface ActivityPausedStream extends FStream
 {
     void onActivityPaused(Activity activity);
 }

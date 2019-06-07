@@ -3,7 +3,9 @@ package com.sd.libcore.stream.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
-public interface ActivityCreatedStream extends FActivityStream
+import com.sd.lib.stream.FStream;
+
+public interface ActivityCreatedStream extends FStream
 {
     void onActivityCreated(Activity activity, Bundle savedInstanceState);
 }
