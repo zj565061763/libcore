@@ -1,5 +1,7 @@
 package com.sd.libcore.business;
 
+import android.support.annotation.CallSuper;
+
 import com.sd.lib.stream.FStream;
 import com.sd.libcore.business.stream.BSProgress;
 
@@ -10,12 +12,16 @@ public abstract class FBusiness
     public FBusiness(String tag)
     {
         mTag = tag;
-        onCreate();
+    }
+
+    public final String getTag()
+    {
+        return mTag;
     }
 
     protected final <T extends FStream> T getStream(Class<T> clazz)
     {
-        return new FStream.ProxyBuilder().setTag(mTag).build(clazz);
+        return new FStream.ProxyBuilder().setTag(getTag()).build(clazz);
     }
 
     protected final BSProgress getProgress()
@@ -23,10 +29,7 @@ public abstract class FBusiness
         return getStream(BSProgress.class);
     }
 
-    public void onCreate()
-    {
-    }
-
+    @CallSuper
     public void onDestroy()
     {
     }
