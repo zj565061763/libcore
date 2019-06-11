@@ -321,6 +321,10 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
 
     public final String getStreamTag()
     {
+        final FActivity fActivity = getFActivity();
+        if (fActivity != null)
+            return fActivity.getStreamTag();
+
         final Activity activity = getActivity();
         if (activity != null)
             return activity.toString();
