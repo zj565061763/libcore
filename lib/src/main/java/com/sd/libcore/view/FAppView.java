@@ -41,6 +41,8 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
 
     private void baseInit()
     {
+        FStreamManager.getInstance().bindView(this, this);
+
         final int layoutId = onCreateContentView();
         if (layoutId != 0)
             setContentView(layoutId);
@@ -294,17 +296,9 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
     }
 
     @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        registerStream();
-    }
-
-    @Override
     protected void onDetachedFromWindow()
     {
         super.onDetachedFromWindow();
-        unregisterStream();
         mHasOnLayout = false;
         if (mListLayoutRunnable != null)
         {
@@ -330,16 +324,6 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
             return activity.toString();
 
         return FAppView.this.toString();
-    }
-
-    protected void registerStream()
-    {
-        FStreamManager.getInstance().register(this);
-    }
-
-    protected void unregisterStream()
-    {
-        FStreamManager.getInstance().unregister(this);
     }
 
     public void showProgressDialog(String msg)
