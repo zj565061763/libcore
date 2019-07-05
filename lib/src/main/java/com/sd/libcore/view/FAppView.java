@@ -323,7 +323,14 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
         if (activity != null)
             return activity.toString();
 
-        return FAppView.this.toString();
+        return getStreamTagView();
+    }
+
+    public final String getStreamTagView()
+    {
+        final String className = getClass().getName();
+        final String hashCode = Integer.toHexString(System.identityHashCode(this));
+        return className + "@" + hashCode;
     }
 
     public void showProgressDialog(String msg)
