@@ -75,7 +75,7 @@ public abstract class FActivity extends AppCompatActivity implements
     @Override
     public void setContentView(int layoutId)
     {
-        final View contentView = getLayoutInflater().inflate(layoutId, findViewById(android.R.id.content), false);
+        final View contentView = getLayoutInflater().inflate(layoutId, (ViewGroup) findViewById(android.R.id.content), false);
         setContentView(contentView);
     }
 
@@ -125,7 +125,7 @@ public abstract class FActivity extends AppCompatActivity implements
         {
             final int layoutId = onCreateTitleViewLayoutId();
             if (layoutId != 0)
-                titleView = getLayoutInflater().inflate(layoutId, findViewById(android.R.id.content), false);
+                titleView = getLayoutInflater().inflate(layoutId, (ViewGroup) findViewById(android.R.id.content), false);
         }
 
         if (titleView != null)
