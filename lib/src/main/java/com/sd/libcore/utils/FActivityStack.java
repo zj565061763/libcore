@@ -200,7 +200,7 @@ public class FActivityStack
      * @param activity
      * @return
      */
-    public boolean containActivity(Activity activity)
+    public boolean containsActivity(Activity activity)
     {
         return mActivityHolder.contains(activity);
     }
