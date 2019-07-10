@@ -211,7 +211,7 @@ public class FActivityStack
      * @param clazz
      * @return
      */
-    public List<Activity> getActivity(Class<?> clazz)
+    public List<Activity> getActivity(Class<? extends Activity> clazz)
     {
         final List<Activity> list = new ArrayList<>(1);
         for (Activity item : mActivityHolder)
@@ -228,7 +228,7 @@ public class FActivityStack
      * @param clazz
      * @return
      */
-    public Activity getFirstActivity(Class<?> clazz)
+    public Activity getFirstActivity(Class<? extends Activity> clazz)
     {
         for (Activity item : mActivityHolder)
         {
@@ -244,7 +244,7 @@ public class FActivityStack
      * @param clazz
      * @return
      */
-    public boolean containActivity(Class<?> clazz)
+    public boolean containsActivity(Class<? extends Activity> clazz)
     {
         return getFirstActivity(clazz) != null;
     }
@@ -254,7 +254,7 @@ public class FActivityStack
      *
      * @param clazz
      */
-    public void finishActivity(Class<?> clazz)
+    public void finishActivity(Class<? extends Activity> clazz)
     {
         final List<Activity> list = getActivity(clazz);
         for (Activity item : list)
@@ -282,7 +282,7 @@ public class FActivityStack
      *
      * @param clazz
      */
-    public void finishActivityExcept(Class<?> clazz)
+    public void finishActivityExcept(Class<? extends Activity> clazz)
     {
         for (Activity item : mActivityHolder)
         {
