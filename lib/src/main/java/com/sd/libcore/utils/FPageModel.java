@@ -7,19 +7,18 @@ import java.util.List;
  */
 public class FPageModel
 {
-    private int mCurrentPage = 1;
     private boolean mHasNextPage = false;
-
-    private int mCurrentCount;
+    private int mCurrentPage = 1;
+    private int mCurrentCount = 0;
 
     /**
-     * 返回当前数据的数量
+     * 是否有下一页数据
      *
      * @return
      */
-    public int getCurrentCount()
+    public boolean hasNextPage()
     {
-        return mCurrentCount;
+        return mHasNextPage;
     }
 
     /**
@@ -33,13 +32,13 @@ public class FPageModel
     }
 
     /**
-     * 是否有下一页数据
+     * 返回当前数据的数量
      *
      * @return
      */
-    public boolean hasNextPage()
+    public int getCurrentCount()
     {
-        return mHasNextPage;
+        return mCurrentCount;
     }
 
     /**
@@ -115,5 +114,15 @@ public class FPageModel
         {
             mCurrentPage = 1;
         }
+    }
+
+    /**
+     * 重置
+     */
+    public synchronized void reset()
+    {
+        mCurrentPage = 1;
+        mCurrentCount = 0;
+        mHasNextPage = false;
     }
 }
