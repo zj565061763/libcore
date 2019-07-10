@@ -70,7 +70,11 @@ public class FActivityStack
             if (index < 0)
                 return;
 
-            if (index != (mActivityHolder.size() - 1))
+            final int size = mActivityHolder.size();
+            if (size <= 1)
+                return;
+
+            if (index != (size - 1))
             {
                 if (mIsDebug)
                     Log.e(FActivityStack.class.getSimpleName(), "start order activity " + activity + " old index " + index);
@@ -128,8 +132,12 @@ public class FActivityStack
             return;
 
         mActivityHolder.add(activity);
+
         if (mIsDebug)
-            Log.i(FActivityStack.class.getSimpleName(), "+++++ " + activity + "\n" + getCurrentStack());
+        {
+            Log.i(FActivityStack.class.getSimpleName(), "+++++ " + activity + " " + mActivityHolder.size()
+                    + "\r\n" + getCurrentStack());
+        }
     }
 
     /**
@@ -142,7 +150,10 @@ public class FActivityStack
         if (mActivityHolder.remove(activity))
         {
             if (mIsDebug)
-                Log.e(FActivityStack.class.getSimpleName(), "----- " + activity + "\n" + getCurrentStack());
+            {
+                Log.e(FActivityStack.class.getSimpleName(), "----- " + activity + " " + mActivityHolder.size()
+                        + "\r\n" + getCurrentStack());
+            }
         }
     }
 
