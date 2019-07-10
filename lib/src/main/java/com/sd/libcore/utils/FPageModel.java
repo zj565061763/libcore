@@ -66,7 +66,7 @@ public class FPageModel
      * @param list       本次请求的数量
      * @param totalCount 总数量
      */
-    public void updatePageOnSuccess(boolean isLoadMore, List list, int totalCount)
+    public void updatePageOnSuccess(boolean isLoadMore, List<? extends Object> list, int totalCount)
     {
         final int newCount = list == null ? 0 : list.size();
         updatePageOnSuccess(isLoadMore, newCount, totalCount);
@@ -107,7 +107,7 @@ public class FPageModel
      */
     public synchronized void updatePageOnSuccess(boolean isLoadMore, boolean hasNextPage)
     {
-        this.mHasNextPage = hasNextPage;
+        mHasNextPage = hasNextPage;
         if (isLoadMore)
         {
             mCurrentPage++;
