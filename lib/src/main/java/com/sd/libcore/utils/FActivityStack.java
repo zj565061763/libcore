@@ -43,13 +43,11 @@ public class FActivityStack
 
     public synchronized void init(Application application)
     {
-        if (mApplication != null)
-            return;
-
-        mApplication = application;
-
-        application.unregisterActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
-        application.registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
+        if (mApplication == null)
+        {
+            mApplication = application;
+            mApplication.registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
+        }
     }
 
     private final Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks()
