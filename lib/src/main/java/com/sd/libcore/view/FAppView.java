@@ -18,8 +18,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * 如果手动的new对象的话Context必须传入Activity对象
+ * 用{@link FControlView}替代
  */
+@Deprecated
 public class FAppView extends FrameLayout implements FStream, View.OnClickListener
 {
     /**
