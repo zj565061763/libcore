@@ -311,10 +311,10 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
     @Override
     public Object getTagForStream(Class<? extends FStream> clazz)
     {
-        return getStreamTag();
+        return getStreamTagActivity();
     }
 
-    public final String getStreamTag()
+    public final String getStreamTagActivity()
     {
         final FActivity fActivity = getFActivity();
         if (fActivity != null)
