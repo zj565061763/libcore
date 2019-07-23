@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,9 +14,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.sd.lib.stream.FStream;
 import com.sd.lib.stream.FStreamManager;
-import com.sd.libcore.common.SDFragmentManager;
 import com.sd.libcore.stream.activity.ActivityCreatedStream;
 import com.sd.libcore.stream.activity.ActivityDestroyedStream;
 import com.sd.libcore.stream.activity.ActivityInstanceStateStream;
@@ -35,7 +35,6 @@ import java.lang.reflect.Method;
 public abstract class FActivity extends AppCompatActivity implements
         OnClickListener, FStream
 {
-    private SDFragmentManager mFragmentManager;
     private ProgressDialog mProgressDialog;
 
     public Activity getActivity()
@@ -495,20 +494,5 @@ public abstract class FActivity extends AppCompatActivity implements
     public void onClick(View v)
     {
 
-    }
-
-    /**
-     * 不再维护，直接调用原生的方法操作
-     *
-     * @return
-     */
-    @Deprecated
-    public SDFragmentManager getSDFragmentManager()
-    {
-        if (mFragmentManager == null)
-        {
-            mFragmentManager = new SDFragmentManager(getSupportFragmentManager());
-        }
-        return mFragmentManager;
     }
 }

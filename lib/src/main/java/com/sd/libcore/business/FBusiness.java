@@ -1,6 +1,6 @@
 package com.sd.libcore.business;
 
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 import com.sd.lib.stream.FStream;
 import com.sd.libcore.business.stream.BSProgress;

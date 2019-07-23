@@ -5,10 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class FLocalImageLoader
     public void startLoading(final Uri uri)
     {
         stopLoading();
-        mLoader = mActivity.getSupportLoaderManager().initLoader(0, null, new LoaderCallbacks<Cursor>()
+        mLoader = LoaderManager.getInstance(mActivity).initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>()
         {
 
             @Override
