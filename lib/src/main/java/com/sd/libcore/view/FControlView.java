@@ -3,7 +3,6 @@ package com.sd.libcore.view;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 
 import com.sd.lib.stream.FStream;
 import com.sd.lib.stream.FStreamManager;
@@ -30,10 +29,10 @@ public class FControlView extends FViewGroup implements ActivityDestroyedStream
     @Override
     public Object getTagForStream(Class<? extends FStream> clazz)
     {
-        return getStreamTag();
+        return getStreamTagActivity();
     }
 
-    public final String getStreamTag()
+    public final String getStreamTagActivity()
     {
         final FActivity fActivity = getFActivity();
         if (fActivity != null)
