@@ -1,9 +1,7 @@
 package com.sd.libcore.utils;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 
 import java.util.List;
@@ -19,6 +17,7 @@ public class FAppBackgroundListener
     private Application mApplication;
     private boolean mIsBackground;
     private long mBackgroundTime;
+    private int mActiveCount;
 
     private final List<Callback> mListCallback = new CopyOnWriteArrayList<>();
 
@@ -39,6 +38,11 @@ public class FAppBackgroundListener
         return sInstance;
     }
 
+    /**
+     * 初始化
+     *
+     * @param application
+     */
     public synchronized void init(Application application)
     {
         if (application == null)
@@ -51,6 +55,16 @@ public class FAppBackgroundListener
             application.unregisterActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
             application.registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
         }
+    }
+
+    /**
+     * 是否处于后台状态
+     *
+     * @return
+     */
+    public boolean isBackground()
+    {
+        return mIsBackground;
     }
 
     /**
@@ -104,15 +118,8 @@ public class FAppBackgroundListener
         @Override
         public void onActivityResumed(Activity activity)
         {
-            if (mIsBackground)
-            {
-                mIsBackground = false;
-
-                for (Callback item : mListCallback)
-                {
-                    item.onResumeFromBackground();
-                }
-            }
+            mActiveCount++;
+            notifyResumeIfNeed();
         }
 
         @Override
@@ -123,48 +130,49 @@ public class FAppBackgroundListener
         @Override
         public void onActivityStopped(Activity activity)
         {
-            if (!mIsBackground)
-            {
-                if (isAppBackground(mApplication))
-                {
-                    mIsBackground = true;
-                    mBackgroundTime = System.currentTimeMillis();
-
-                    for (Callback item : mListCallback)
-                    {
-                        item.onBackground();
-                    }
-                }
-            }
+            mActiveCount--;
+            notifyBackgroundIfNeed();
         }
 
         @Override
         public void onActivitySaveInstanceState(Activity activity, Bundle outState)
         {
-
         }
 
         @Override
         public void onActivityDestroyed(Activity activity)
         {
-
         }
     };
 
-    public static boolean isAppBackground(Context context)
+    private void notifyBackgroundIfNeed()
     {
-        final ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        final List<ActivityManager.RunningAppProcessInfo> list = manager.getRunningAppProcesses();
-
-        final String packageName = context.getPackageName();
-        for (ActivityManager.RunningAppProcessInfo item : list)
+        if (!mIsBackground)
         {
-            if (item.processName.equals(packageName))
+            if (mActiveCount <= 0)
             {
-                return item.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
+                mIsBackground = true;
+                mBackgroundTime = System.currentTimeMillis();
+
+                for (Callback item : mListCallback)
+                {
+                    item.onBackground();
+                }
             }
         }
-        return false;
+    }
+
+    private void notifyResumeIfNeed()
+    {
+        if (mIsBackground)
+        {
+            mIsBackground = false;
+
+            for (Callback item : mListCallback)
+            {
+                item.onResumeFromBackground();
+            }
+        }
     }
 
     public interface Callback
