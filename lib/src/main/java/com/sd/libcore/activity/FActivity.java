@@ -82,7 +82,6 @@ public abstract class FActivity extends AppCompatActivity implements
     public void setContentView(View view)
     {
         final View contentView = addTitleViewIfNeed(view);
-        contentView.setFitsSystemWindows(true);
         super.setContentView(contentView);
 
         onInitContentView(contentView);
