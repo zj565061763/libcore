@@ -1,7 +1,9 @@
 package com.sd.libcore.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 
 import java.util.List;
@@ -125,12 +127,12 @@ public class FAppBackgroundListener
         @Override
         public void onActivityPaused(Activity activity)
         {
+            mActiveCount--;
         }
 
         @Override
         public void onActivityStopped(Activity activity)
         {
-            mActiveCount--;
             notifyBackgroundIfNeed();
         }
 
@@ -151,12 +153,16 @@ public class FAppBackgroundListener
         {
             if (mActiveCount <= 0)
             {
-                mIsBackground = true;
-                mBackgroundTime = System.currentTimeMillis();
-
-                for (Callback item : mListCallback)
+                final boolean isAppBackground = isAppBackground(mApplication);
+                if (isAppBackground)
                 {
-                    item.onBackground();
+                    mIsBackground = true;
+                    mBackgroundTime = System.currentTimeMillis();
+
+                    for (Callback item : mListCallback)
+                    {
+                        item.onBackground();
+                    }
                 }
             }
         }
@@ -173,6 +179,28 @@ public class FAppBackgroundListener
                 item.onResumeFromBackground();
             }
         }
+    }
+
+    private static boolean isAppBackground(Context context)
+    {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+
+        final String packageName = context.getPackageName();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses)
+        {
+            if (appProcess.processName.equals(packageName))
+            {
+                if (appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
+                {
+                    return true;
+                } else
+                {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     public interface Callback
