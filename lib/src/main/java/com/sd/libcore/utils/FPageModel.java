@@ -7,9 +7,14 @@ import java.util.List;
  */
 public class FPageModel
 {
-    private boolean mHasNextPage = false;
-    private int mCurrentPage = 1;
-    private int mCurrentCount = 0;
+    private int mCurrentPage;
+    private int mCurrentCount;
+    private boolean mHasNextPage;
+
+    public FPageModel()
+    {
+        reset();
+    }
 
     /**
      * 是否有下一页数据
@@ -121,7 +126,7 @@ public class FPageModel
      */
     public synchronized void reset()
     {
-        mCurrentPage = 1;
+        mCurrentPage = 0;
         mCurrentCount = 0;
         mHasNextPage = false;
     }
