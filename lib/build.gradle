@@ -27,7 +27,7 @@ android {
 
 dependencies {
     api 'androidx.appcompat:appcompat:1.0.2'
-    compileOnly 'com.github.zj565061763:stream:latest.release'
+    api 'com.github.zj565061763:stream:latest.release'
 }
 
 // 指定编码

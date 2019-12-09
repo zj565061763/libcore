@@ -26,5 +26,4 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':lib')
-    implementation 'com.github.zj565061763:stream:latest.release'
 }
