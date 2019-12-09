@@ -17,7 +17,7 @@ public class FControlView extends FViewGroup implements ActivityDestroyedStream
     public FControlView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        FStreamManager.getInstance().bindView(this, this);
+        FStreamManager.getInstance().bindStream(this, this);
     }
 
     public FActivity getFActivity()
