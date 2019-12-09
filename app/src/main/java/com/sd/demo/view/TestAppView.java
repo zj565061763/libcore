@@ -5,18 +5,20 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.sd.libcore.stream.activity.ActivityDestroyedStream;
-import com.sd.libcore.stream.activity.ActivityResumedStream;
-import com.sd.libcore.stream.activity.ActivityStoppedStream;
-import com.sd.libcore.view.FAppView;
+import com.sd.lib.eventact.observer.ActivityDestroyedObserver;
+import com.sd.lib.eventact.observer.ActivityResumedObserver;
+import com.sd.libcore.view.FViewGroup;
 
-public class TestAppView extends FAppView implements ActivityResumedStream, ActivityStoppedStream, ActivityDestroyedStream
+public class TestAppView extends FViewGroup
 {
     public static final String TAG = TestAppView.class.getSimpleName();
 
     public TestAppView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+
+        mActivityResumedObserver.register(getActivity());
+        mActivityDestroyedObserver.register(getActivity());
     }
 
     @Override
@@ -33,21 +35,21 @@ public class TestAppView extends FAppView implements ActivityResumedStream, Acti
         Log.i(TAG, "onDetachedFromWindow");
     }
 
-    @Override
-    public void onActivityResumed(Activity activity)
+    private final ActivityResumedObserver mActivityResumedObserver = new ActivityResumedObserver()
     {
-        Log.i(TAG, "onActivityResumed:" + activity);
-    }
+        @Override
+        public void onActivityResumed(Activity activity)
+        {
+            Log.i(TAG, "onActivityResumed:" + activity);
+        }
+    };
 
-    @Override
-    public void onActivityStopped(Activity activity)
+    private final ActivityDestroyedObserver mActivityDestroyedObserver = new ActivityDestroyedObserver()
     {
-        Log.i(TAG, "onActivityStopped:" + activity);
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity)
-    {
-        Log.i(TAG, "onActivityDestroyed:" + activity);
-    }
+        @Override
+        public void onActivityDestroyed(Activity activity)
+        {
+            Log.i(TAG, "onActivityDestroyed:" + activity);
+        }
+    };
 }
