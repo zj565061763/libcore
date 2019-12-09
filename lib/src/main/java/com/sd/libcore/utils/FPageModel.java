@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * 分页逻辑封装
  */
+@Deprecated
 public class FPageModel
 {
     private int mCurrentPage;
