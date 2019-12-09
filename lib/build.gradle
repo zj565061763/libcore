@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 20191209
-        versionName "1.3.0-rc24"
+        versionName "1.3.0-rc25"
     }
 
     buildTypes {
