@@ -5,20 +5,19 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.sd.lib.eventact.observer.ActivityDestroyedObserver;
+import com.sd.lib.eventact.observer.ActivityPausedObserver;
 import com.sd.lib.eventact.observer.ActivityResumedObserver;
-import com.sd.libcore.view.FViewGroup;
+import com.sd.libcore.view.FControlView;
 
-public class TestAppView extends FViewGroup
+public class TestAppView extends FControlView
 {
     public static final String TAG = TestAppView.class.getSimpleName();
 
     public TestAppView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-
         mActivityResumedObserver.register(getActivity());
-        mActivityDestroyedObserver.register(getActivity());
+        mActivityPausedObserver.register(getActivity());
     }
 
     @Override
@@ -44,12 +43,19 @@ public class TestAppView extends FViewGroup
         }
     };
 
-    private final ActivityDestroyedObserver mActivityDestroyedObserver = new ActivityDestroyedObserver()
+    private final ActivityPausedObserver mActivityPausedObserver = new ActivityPausedObserver()
     {
         @Override
-        public void onActivityDestroyed(Activity activity)
+        public void onActivityPaused(Activity activity)
         {
-            Log.i(TAG, "onActivityDestroyed:" + activity);
+            Log.i(TAG, "onActivityPaused:" + activity);
         }
     };
+
+    @Override
+    public void onActivityDestroyed(Activity activity)
+    {
+        super.onActivityDestroyed(activity);
+        Log.i(TAG, "onActivityDestroyed:" + activity);
+    }
 }
