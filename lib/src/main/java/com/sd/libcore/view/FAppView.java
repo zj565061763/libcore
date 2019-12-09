@@ -43,7 +43,7 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
 
     private void baseInit()
     {
-        FStreamManager.getInstance().bindView(this, this);
+        FStreamManager.getInstance().bindStream(this, this);
 
         final int layoutId = onCreateContentView();
         if (layoutId != 0)
