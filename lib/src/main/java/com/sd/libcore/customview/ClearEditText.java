@@ -255,12 +255,12 @@ public class ClearEditText extends EditText implements OnFocusChangeListener, Te
 
     public enum EnumMode
     {
-        NORMAL, CLEAR, PASSWORD;
+        NORMAL, CLEAR, PASSWORD
     }
 
     public interface OnClickDrawableRightListener
     {
-        public boolean onClick(View v);
+        boolean onClick(View v);
     }
 
 }

@@ -4,45 +4,31 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.sd.lib.stream.FStream;
-import com.sd.lib.stream.FStreamManager;
+import com.sd.lib.eventact.callback.ActivityDestroyedCallback;
+import com.sd.lib.eventact.observer.ActivityDestroyedObserver;
 import com.sd.libcore.activity.FActivity;
-import com.sd.libcore.stream.activity.ActivityDestroyedStream;
+import com.sd.libcore.activity.FStreamActivity;
 
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
  */
-public class FControlView extends FViewGroup implements ActivityDestroyedStream
+public class FControlView extends FViewGroup implements ActivityDestroyedCallback
 {
     public FControlView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        FStreamManager.getInstance().bindView(this, this);
-    }
-
-    public FActivity getFActivity()
-    {
-        final Activity activity = getActivity();
-        return activity instanceof FActivity ? (FActivity) activity : null;
-    }
-
-    @Override
-    public Object getTagForStream(Class<? extends FStream> clazz)
-    {
-        return getStreamTagActivity();
     }
 
     public final String getStreamTagActivity()
     {
-        final FActivity fActivity = getFActivity();
-        if (fActivity != null)
-            return fActivity.getStreamTag();
-
         final Activity activity = getActivity();
-        if (activity != null)
-            return activity.toString();
+        if (activity == null)
+            return getStreamTagView();
 
-        return getStreamTagView();
+        if (activity instanceof FStreamActivity)
+            return ((FStreamActivity) activity).getStreamTag();
+
+        return activity.toString();
     }
 
     public final String getStreamTagView()
@@ -54,16 +40,39 @@ public class FControlView extends FViewGroup implements ActivityDestroyedStream
 
     public void showProgressDialog(String msg)
     {
-        final FActivity fActivity = getFActivity();
-        if (fActivity != null)
-            fActivity.showProgressDialog(msg);
+        final Activity activity = getActivity();
+        if (activity instanceof FActivity)
+            ((FActivity) activity).showProgressDialog(msg);
     }
 
     public void dismissProgressDialog()
     {
-        final FActivity fActivity = getFActivity();
-        if (fActivity != null)
-            fActivity.dismissProgressDialog();
+        final Activity activity = getActivity();
+        if (activity instanceof FActivity)
+            ((FActivity) activity).dismissProgressDialog();
+    }
+
+    private final ActivityDestroyedObserver mActivityDestroyedObserver = new ActivityDestroyedObserver()
+    {
+        @Override
+        public void onActivityDestroyed(Activity activity)
+        {
+            FControlView.this.onActivityDestroyed(activity);
+        }
+    };
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        mActivityDestroyedObserver.register(getActivity());
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        super.onDetachedFromWindow();
+        mActivityDestroyedObserver.unregister();
     }
 
     @Override

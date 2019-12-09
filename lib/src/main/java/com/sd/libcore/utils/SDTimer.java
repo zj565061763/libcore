@@ -139,9 +139,9 @@ public class SDTimer
 
 	public interface SDTimerListener
 	{
-		public void onWork();
+		void onWork();
 
-		public void onWorkMain();
+		void onWorkMain();
 	}
 
 }

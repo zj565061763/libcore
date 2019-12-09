@@ -16,25 +16,13 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sd.lib.stream.FStream;
-import com.sd.lib.stream.FStreamManager;
-import com.sd.libcore.stream.activity.ActivityCreatedStream;
-import com.sd.libcore.stream.activity.ActivityDestroyedStream;
-import com.sd.libcore.stream.activity.ActivityInstanceStateStream;
-import com.sd.libcore.stream.activity.ActivityKeyEventStream;
-import com.sd.libcore.stream.activity.ActivityPausedStream;
-import com.sd.libcore.stream.activity.ActivityResultStream;
-import com.sd.libcore.stream.activity.ActivityResumedStream;
-import com.sd.libcore.stream.activity.ActivityStartedStream;
-import com.sd.libcore.stream.activity.ActivityStoppedStream;
-import com.sd.libcore.stream.activity.ActivityTouchEventStream;
-
-import java.lang.reflect.Method;
+import com.sd.lib.eventact.ActivityEventDispatcher;
+import com.sd.lib.eventact.ActivityEventDispatcherFactory;
 
 
-public abstract class FActivity extends AppCompatActivity implements
-        OnClickListener, FStream
+public abstract class FActivity extends AppCompatActivity implements OnClickListener
 {
+    private ActivityEventDispatcher mEventDispatcher;
     private ProgressDialog mProgressDialog;
 
     public Activity getActivity()
@@ -46,13 +34,10 @@ public abstract class FActivity extends AppCompatActivity implements
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        FStreamManager.getInstance().register(this);
 
         final int layoutId = onCreateContentView();
         if (layoutId != 0)
             setContentView(layoutId);
-
-        notifyOnCreate(savedInstanceState);
     }
 
     /**
@@ -180,137 +165,40 @@ public abstract class FActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onStart()
-    {
-        super.onStart();
-        notifyOnStart();
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        notifyOnResume();
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        notifyOnPause();
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        notifyOnStop();
-    }
-
-    @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        FStreamManager.getInstance().unregister(this);
         dismissProgressDialog();
-        notifyOnDestroy();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState)
+    private ActivityEventDispatcher getEventDispatcher()
     {
-        super.onSaveInstanceState(outState);
-        notifyOnSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        super.onRestoreInstanceState(savedInstanceState);
-        notifyOnRestoreInstanceState(savedInstanceState);
+        if (mEventDispatcher == null)
+            mEventDispatcher = ActivityEventDispatcherFactory.create(this);
+        return mEventDispatcher;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        notifyOnActivityResult(requestCode, resultCode, data);
-    }
-
-    private ActivityTouchEventStream mTouchEventStream;
-
-    private ActivityTouchEventStream getTouchEventStream()
-    {
-        if (mTouchEventStream == null)
-        {
-            mTouchEventStream = new FStream.ProxyBuilder()
-                    .setTag(getStreamTag())
-                    .setDispatchCallback(new DispatchCallback()
-                    {
-                        @Override
-                        public boolean beforeDispatch(FStream stream, Method method, Object[] methodParams)
-                        {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean afterDispatch(FStream stream, Method method, Object[] methodParams, Object methodResult)
-                        {
-                            if (Boolean.TRUE.equals(methodResult))
-                                return true;
-
-                            return false;
-                        }
-                    })
-                    .build(ActivityTouchEventStream.class);
-        }
-        return mTouchEventStream;
+        getEventDispatcher().dispatch_onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public boolean dispatchTouchEvent(final MotionEvent ev)
     {
-        final boolean result = getTouchEventStream().dispatchTouchEvent(FActivity.this, ev);
+        final boolean result = getEventDispatcher().dispatch_dispatchTouchEvent(ev);
         if (result)
             return true;
 
         return super.dispatchTouchEvent(ev);
     }
 
-    private ActivityKeyEventStream mKeyEventStream;
-
-    private ActivityKeyEventStream getKeyEventStream()
-    {
-        if (mKeyEventStream == null)
-        {
-            mKeyEventStream = new FStream.ProxyBuilder()
-                    .setTag(getStreamTag())
-                    .setDispatchCallback(new DispatchCallback()
-                    {
-                        @Override
-                        public boolean beforeDispatch(FStream stream, Method method, Object[] methodParams)
-                        {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean afterDispatch(FStream stream, Method method, Object[] methodParams, Object methodResult)
-                        {
-                            if (Boolean.TRUE.equals(methodResult))
-                                return true;
-
-                            return false;
-                        }
-                    })
-                    .build(ActivityKeyEventStream.class);
-        }
-        return mKeyEventStream;
-    }
-
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event)
     {
-        final boolean result = getKeyEventStream().dispatchKeyEvent(FActivity.this, event);
+        final boolean result = getEventDispatcher().dispatch_dispatchKeyEvent(event);
         if (result)
             return true;
 
@@ -383,102 +271,6 @@ public abstract class FActivity extends AppCompatActivity implements
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
-
-    //------------notify callback start------------------
-
-    @Override
-    public Object getTagForStream(Class<? extends FStream> clazz)
-    {
-        return getStreamTag();
-    }
-
-    public final String getStreamTag()
-    {
-        return FActivity.this.toString();
-    }
-
-    private void notifyOnCreate(final Bundle savedInstanceState)
-    {
-        final ActivityCreatedStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityCreatedStream.class);
-
-        stream.onActivityCreated(FActivity.this, savedInstanceState);
-    }
-
-    private void notifyOnStart()
-    {
-        final ActivityStartedStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityStartedStream.class);
-
-        stream.onActivityStarted(FActivity.this);
-    }
-
-    private void notifyOnResume()
-    {
-        final ActivityResumedStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityResumedStream.class);
-
-        stream.onActivityResumed(FActivity.this);
-    }
-
-    private void notifyOnPause()
-    {
-        final ActivityPausedStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityPausedStream.class);
-
-        stream.onActivityPaused(FActivity.this);
-    }
-
-    private void notifyOnStop()
-    {
-        final ActivityStoppedStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityStoppedStream.class);
-
-        stream.onActivityStopped(FActivity.this);
-    }
-
-    private void notifyOnDestroy()
-    {
-        final ActivityDestroyedStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityDestroyedStream.class);
-
-        stream.onActivityDestroyed(FActivity.this);
-    }
-
-    private void notifyOnSaveInstanceState(final Bundle outState)
-    {
-        final ActivityInstanceStateStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityInstanceStateStream.class);
-
-        stream.onActivitySaveInstanceState(FActivity.this, outState);
-    }
-
-    private void notifyOnRestoreInstanceState(final Bundle savedInstanceState)
-    {
-        final ActivityInstanceStateStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityInstanceStateStream.class);
-
-        stream.onActivityRestoreInstanceState(FActivity.this, savedInstanceState);
-    }
-
-    private void notifyOnActivityResult(final int requestCode, final int resultCode, final Intent data)
-    {
-        final ActivityResultStream stream = new FStream.ProxyBuilder()
-                .setTag(getStreamTag())
-                .build(ActivityResultStream.class);
-
-        stream.onActivityResult(FActivity.this, requestCode, resultCode, data);
-    }
-
-    //------------notify callback end------------------
 
     @Override
     public void addContentView(View view, ViewGroup.LayoutParams params)

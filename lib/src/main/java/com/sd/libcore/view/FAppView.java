@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import com.sd.lib.stream.FStream;
 import com.sd.lib.stream.FStreamManager;
 import com.sd.libcore.activity.FActivity;
+import com.sd.libcore.activity.FStreamActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -316,15 +317,14 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
 
     public final String getStreamTagActivity()
     {
-        final FActivity fActivity = getFActivity();
-        if (fActivity != null)
-            return fActivity.getStreamTag();
-
         final Activity activity = getActivity();
-        if (activity != null)
-            return activity.toString();
+        if (activity == null)
+            return getStreamTagView();
 
-        return getStreamTagView();
+        if (activity instanceof FStreamActivity)
+            return ((FStreamActivity) activity).getStreamTag();
+
+        return activity.toString();
     }
 
     public final String getStreamTagView()
