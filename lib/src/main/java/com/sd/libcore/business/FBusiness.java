@@ -1,5 +1,7 @@
 package com.sd.libcore.business;
 
+import androidx.annotation.CallSuper;
+
 import com.sd.lib.stream.FStream;
 import com.sd.libcore.business.stream.BSProgress;
 
@@ -39,6 +41,7 @@ public abstract class FBusiness
         return getStream(BSProgress.class);
     }
 
+    @CallSuper
     public void onDestroy()
     {
     }
