@@ -5,13 +5,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.sd.lib.eventact.observer.ActivityPausedObserver;
-import com.sd.lib.eventact.observer.ActivityResumedObserver;
 import com.sd.lib.stream.FStream;
 import com.sd.lib.stream.FStreamManager;
 import com.sd.libcore.stream.activity.ActivityDestroyedStream;
 import com.sd.libcore.stream.activity.ActivityPausedStream;
 import com.sd.libcore.stream.activity.ActivityResumedStream;
+import com.sd.libcore.stream.activity.ActivityStoppedStream;
 import com.sd.libcore.view.FControlView;
 
 public class TestAppView extends FControlView
@@ -21,11 +20,10 @@ public class TestAppView extends FControlView
     public TestAppView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        mActivityResumedObserver.register(getActivity());
-        mActivityPausedObserver.register(getActivity());
 
-        FStreamManager.getInstance().bindStream(mActivityPausedStream, this);
         FStreamManager.getInstance().bindStream(mActivityResumedStream, this);
+        FStreamManager.getInstance().bindStream(mActivityPausedStream, this);
+        FStreamManager.getInstance().bindStream(mActivityStoppedStream, this);
         FStreamManager.getInstance().bindStream(mActivityDestroyedStream, this);
     }
 
@@ -43,21 +41,18 @@ public class TestAppView extends FControlView
         Log.i(TAG, "onDetachedFromWindow");
     }
 
-    private final ActivityPausedObserver mActivityPausedObserver = new ActivityPausedObserver()
-    {
-        @Override
-        public void onActivityPaused(Activity activity)
-        {
-            Log.i(TAG, "onActivityPaused:" + activity);
-        }
-    };
-
-    private final ActivityResumedObserver mActivityResumedObserver = new ActivityResumedObserver()
+    private final ActivityResumedStream mActivityResumedStream = new ActivityResumedStream()
     {
         @Override
         public void onActivityResumed(Activity activity)
         {
-            Log.i(TAG, "onActivityResumed:" + activity);
+            Log.i(TAG, "Stream onActivityResumed:" + activity);
+        }
+
+        @Override
+        public Object getTagForStream(Class<? extends FStream> clazz)
+        {
+            return getStreamTagActivity();
         }
     };
 
@@ -76,12 +71,12 @@ public class TestAppView extends FControlView
         }
     };
 
-    private final ActivityResumedStream mActivityResumedStream = new ActivityResumedStream()
+    private final ActivityStoppedStream mActivityStoppedStream = new ActivityStoppedStream()
     {
         @Override
-        public void onActivityResumed(Activity activity)
+        public void onActivityStopped(Activity activity)
         {
-            Log.i(TAG, "Stream onActivityResumed:" + activity);
+            Log.i(TAG, "Stream onActivityStopped:" + activity);
         }
 
         @Override
@@ -105,6 +100,27 @@ public class TestAppView extends FControlView
             return getStreamTagActivity();
         }
     };
+
+    @Override
+    public void onActivityResumed(Activity activity)
+    {
+        super.onActivityResumed(activity);
+        Log.i(TAG, "onActivityResumed:" + activity);
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity)
+    {
+        super.onActivityPaused(activity);
+        Log.i(TAG, "onActivityPaused:" + activity);
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity)
+    {
+        super.onActivityStopped(activity);
+        Log.i(TAG, "onActivityStopped:" + activity);
+    }
 
     @Override
     public void onActivityDestroyed(Activity activity)
