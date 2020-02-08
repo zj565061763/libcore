@@ -136,7 +136,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
     /**
      * 把当前View从父容器上移除
      */
-    public final void detach()
+    public void detach()
     {
         final ViewParent parent = getParent();
         if (parent instanceof ViewGroup)
