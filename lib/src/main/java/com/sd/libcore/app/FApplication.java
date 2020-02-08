@@ -1,6 +1,8 @@
 package com.sd.libcore.app;
 
 import android.app.Application;
+import android.os.Build;
+import android.webkit.WebView;
 
 import com.sd.libcore.FLibrary;
 import com.sd.libcore.utils.LibCoreUtil;
@@ -17,6 +19,9 @@ public abstract class FApplication extends Application
         {
             FLibrary.getInstance().init(this);
             onCreateMainProcess();
+        } else
+        {
+            onCreateOtherProcess(processName);
         }
     }
 
@@ -24,4 +29,17 @@ public abstract class FApplication extends Application
      * 主进程调用
      */
     protected abstract void onCreateMainProcess();
+
+    /**
+     * 其他进程回调
+     *
+     * @param processName
+     */
+    protected void onCreateOtherProcess(String processName)
+    {
+        if (Build.VERSION.SDK_INT >= 28)
+        {
+            WebView.setDataDirectorySuffix(processName);
+        }
+    }
 }
