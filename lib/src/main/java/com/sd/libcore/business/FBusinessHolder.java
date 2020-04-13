@@ -222,6 +222,8 @@ public class FBusinessHolder
         if (activity == null)
             return null;
 
+        init(activity);
+
         FBusinessHolder holder = MAP_HOLDER.get(activity);
         if (holder == null)
         {
