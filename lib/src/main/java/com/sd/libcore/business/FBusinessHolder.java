@@ -138,7 +138,7 @@ public class FBusinessHolder
     }
 
     /**
-     * 销毁并清空所有业务类
+     * 销毁所有业务类
      */
     public synchronized void destroy()
     {
@@ -149,7 +149,6 @@ public class FBusinessHolder
                 business.onDestroy();
             }
         }
-        mMapBusiness.clear();
     }
 
     private static String getBusinessTag(FBusiness business)
