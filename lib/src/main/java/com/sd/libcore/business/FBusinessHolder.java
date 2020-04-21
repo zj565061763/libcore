@@ -43,6 +43,24 @@ public class FBusinessHolder
     }
 
     /**
+     * 返回指定业务类的数量
+     *
+     * @param clazz
+     * @return
+     */
+    public synchronized int sizeOf(Class<? extends FBusiness> clazz)
+    {
+        if (clazz == null)
+            return 0;
+
+        final Map<String, FBusiness> map = mMapBusiness.get(clazz);
+        if (map == null)
+            return 0;
+
+        return map.size();
+    }
+
+    /**
      * 移除业务类
      *
      * @param business
