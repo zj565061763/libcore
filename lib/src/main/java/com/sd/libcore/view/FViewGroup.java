@@ -22,10 +22,16 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      */
     private boolean mConsumeTouchEvent = false;
     private WeakReference<ViewGroup> mContainer;
+    private View mContentView;
 
     public FViewGroup(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+    }
+
+    public View getContentView()
+    {
+        return mContentView;
     }
 
     /**
@@ -35,8 +41,8 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      */
     public void setContentView(int layoutId)
     {
-        removeAllViews();
-        LayoutInflater.from(getContext()).inflate(layoutId, this, true);
+        final View view = LayoutInflater.from(getContext()).inflate(layoutId, this, false);
+        setContentView(view);
     }
 
     /**
@@ -47,6 +53,8 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
     public void setContentView(View contentView)
     {
         removeAllViews();
+
+        mContentView = contentView;
         addView(contentView);
     }
 
