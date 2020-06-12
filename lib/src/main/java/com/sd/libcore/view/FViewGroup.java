@@ -29,6 +29,11 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
         super(context, attrs);
     }
 
+    /**
+     * 返回内容View
+     *
+     * @return
+     */
     public View getContentView()
     {
         return mContentView;
@@ -172,5 +177,13 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
             return true;
         }
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onViewRemoved(View child)
+    {
+        super.onViewRemoved(child);
+        if (mContentView == child)
+            mContentView = null;
     }
 }
