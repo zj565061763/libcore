@@ -1,12 +1,11 @@
-package com.sd.libcore.business;
+package com.sd.libcore.business.holder;
 
-import android.app.Activity;
+import com.sd.libcore.business.FBusiness;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FBusinessHolder
@@ -15,7 +14,7 @@ public class FBusinessHolder
 
     private final Map<Class<? extends FBusiness>, Map<String, FBusiness>> mMapBusiness = new ConcurrentHashMap<>();
 
-    private FBusinessHolder()
+    protected FBusinessHolder()
     {
     }
 
@@ -192,24 +191,5 @@ public class FBusinessHolder
         if (tag == null)
             return BUSINESS_EMPTY_TAG;
         return tag;
-    }
-
-    //---------- static ----------
-
-    private static final Map<Activity, FBusinessHolder> MAP_HOLDER = new WeakHashMap<>();
-
-    public static synchronized FBusinessHolder with(Activity activity)
-    {
-        if (activity == null)
-            return null;
-
-        FBusinessHolder holder = MAP_HOLDER.get(activity);
-        if (holder == null)
-        {
-            holder = new FBusinessHolder();
-            if (!activity.isFinishing())
-                MAP_HOLDER.put(activity, holder);
-        }
-        return holder;
     }
 }
