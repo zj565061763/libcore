@@ -43,24 +43,6 @@ public class FBusinessHolder
     }
 
     /**
-     * 返回指定业务类的数量
-     *
-     * @param clazz
-     * @return
-     */
-    public synchronized int sizeOf(Class<? extends FBusiness> clazz)
-    {
-        if (clazz == null)
-            return 0;
-
-        final Map<String, FBusiness> map = mMapBusiness.get(clazz);
-        if (map == null)
-            return 0;
-
-        return map.size();
-    }
-
-    /**
      * 移除业务类
      *
      * @param business
@@ -80,6 +62,24 @@ public class FBusinessHolder
             if (map.isEmpty())
                 mMapBusiness.remove(clazz);
         }
+    }
+
+    /**
+     * 返回指定业务类的数量
+     *
+     * @param clazz
+     * @return
+     */
+    public synchronized int sizeOf(Class<? extends FBusiness> clazz)
+    {
+        if (clazz == null)
+            return 0;
+
+        final Map<String, FBusiness> map = mMapBusiness.get(clazz);
+        if (map == null)
+            return 0;
+
+        return map.size();
     }
 
     /**
@@ -107,29 +107,6 @@ public class FBusinessHolder
     }
 
     /**
-     * 返回指定class的业务类对象，该class有对应多个业务类对象，则抛异常
-     *
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    public synchronized <T extends FBusiness> T getOne(Class<T> clazz)
-    {
-        if (clazz == null)
-            return null;
-
-        final Map<String, FBusiness> map = mMapBusiness.get(clazz);
-        if (map == null || map.isEmpty())
-            return null;
-
-        final int size = map.size();
-        if (size != 1)
-            throw new RuntimeException(size + " business instance was found for class:" + clazz);
-
-        return (T) map.values().iterator().next();
-    }
-
-    /**
      * 返回指定class和tag的业务类对象
      *
      * @param clazz
@@ -150,6 +127,49 @@ public class FBusinessHolder
             tag = BUSINESS_EMPTY_TAG;
 
         return (T) map.get(tag);
+    }
+
+    /**
+     * 返回一个指定class的业务类对象
+     *
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T extends FBusiness> T getOne(Class<T> clazz)
+    {
+        return getOne(clazz, false);
+    }
+
+    /**
+     * 返回指定class的业务类对象，如果该class有对应多个业务类对象，则抛异常
+     *
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T extends FBusiness> T getOneOrThrow(Class<T> clazz)
+    {
+        return getOne(clazz, true);
+    }
+
+    private synchronized <T extends FBusiness> T getOne(Class<T> clazz, boolean checkSize)
+    {
+        if (clazz == null)
+            return null;
+
+        final Map<String, FBusiness> map = mMapBusiness.get(clazz);
+        if (map == null || map.isEmpty())
+            return null;
+
+        if (checkSize)
+        {
+            final int size = map.size();
+            if (size != 1)
+                throw new RuntimeException(size + " business instance was found for class:" + clazz);
+        }
+
+        return (T) map.values().iterator().next();
     }
 
     /**
