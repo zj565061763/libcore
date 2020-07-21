@@ -18,7 +18,7 @@ public class FActivityBusinessHolder extends FBusinessHolder
     public static synchronized FBusinessHolder with(Activity activity)
     {
         if (activity == null)
-            return null;
+            return new FActivityBusinessHolder();
 
         FBusinessHolder holder = MAP_HOLDER.get(activity);
         if (holder == null)
