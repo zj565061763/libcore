@@ -14,6 +14,8 @@ import com.sd.lib.eventact.observer.ActivityResumedObserver;
 import com.sd.lib.eventact.observer.ActivityStoppedObserver;
 import com.sd.libcore.activity.FActivity;
 import com.sd.libcore.activity.FStreamActivity;
+import com.sd.libcore.business.holder.FActivityBusinessHolder;
+import com.sd.libcore.business.holder.FBusinessHolder;
 
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
@@ -60,6 +62,11 @@ public class FControlView extends FViewGroup implements
         final Activity activity = getActivity();
         if (activity instanceof FActivity)
             ((FActivity) activity).dismissProgressDialog();
+    }
+
+    public final FBusinessHolder getBusinessHolder()
+    {
+        return FActivityBusinessHolder.with(getActivity());
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.sd.lib.stream.FStream;
 import com.sd.lib.stream.FStreamManager;
+import com.sd.libcore.business.holder.FActivityBusinessHolder;
+import com.sd.libcore.business.holder.FBusinessHolder;
 
 public abstract class FStreamActivity extends FActivity implements FStream
 {
@@ -30,5 +32,10 @@ public abstract class FStreamActivity extends FActivity implements FStream
     public final String getStreamTag()
     {
         return FStreamActivity.this.toString();
+    }
+
+    public final FBusinessHolder getBusinessHolder()
+    {
+        return FActivityBusinessHolder.with(this);
     }
 }
