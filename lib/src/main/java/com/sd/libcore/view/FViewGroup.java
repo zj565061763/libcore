@@ -61,6 +61,17 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
 
         mContentView = contentView;
         addView(contentView);
+
+        onContentViewChanged(contentView);
+    }
+
+    /**
+     * 内容view发生变化
+     *
+     * @param contentView
+     */
+    protected void onContentViewChanged(View contentView)
+    {
     }
 
     /**
