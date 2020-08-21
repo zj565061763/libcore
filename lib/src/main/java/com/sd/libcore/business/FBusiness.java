@@ -4,6 +4,7 @@ import androidx.annotation.CallSuper;
 
 import com.sd.lib.stream.FStream;
 import com.sd.libcore.business.stream.BSProgress;
+import com.sd.libcore.business.stream.BSTipsCallback;
 
 public abstract class FBusiness
 {
@@ -58,9 +59,14 @@ public abstract class FBusiness
         return new FStream.ProxyBuilder().setTag(null).build(clazz);
     }
 
-    protected final BSProgress getProgress()
+    public final BSProgress getProgress()
     {
         return getStream(BSProgress.class);
+    }
+
+    public final BSTipsCallback getTipsCallback()
+    {
+        return getStream(BSTipsCallback.class);
     }
 
     @CallSuper
