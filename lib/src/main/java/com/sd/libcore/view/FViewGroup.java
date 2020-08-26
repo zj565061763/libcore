@@ -2,6 +2,7 @@ package com.sd.libcore.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -172,6 +173,19 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
             {
             }
         }
+    }
+
+    /**
+     * 是否已经被添加到ui上面
+     *
+     * @return
+     */
+    public boolean isAttached()
+    {
+        if (Build.VERSION.SDK_INT >= 19)
+            return isAttachedToWindow();
+        else
+            return getWindowToken() != null;
     }
 
     @Override
