@@ -53,6 +53,18 @@ public class FControlView extends FViewGroup implements
         return className + "@" + hashCode;
     }
 
+    /**
+     * 返回Http请求标识
+     *
+     * @return
+     */
+    public String getHttpTag()
+    {
+        final String className = getClass().getName();
+        final String hashCode = Integer.toHexString(System.identityHashCode(this));
+        return className + "@" + hashCode;
+    }
+
     public void showProgressDialog(String msg)
     {
         final Activity activity = getActivity();
