@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FActivityStack
@@ -316,6 +317,50 @@ public class FActivityStack
         for (Activity item : mActivityHolder)
         {
             item.finish();
+        }
+    }
+
+    /**
+     * 结束指定activity对象之上的所有activity对象
+     *
+     * @param activity
+     */
+    public void finishActivityAbove(Activity activity)
+    {
+        if (activity == null)
+            return;
+
+        final ListIterator<Activity> it = mActivityHolder.listIterator(mActivityHolder.size());
+        while (it.hasPrevious())
+        {
+            final Activity item = it.previous();
+            if (item == activity)
+                break;
+
+            item.finish();
+            it.remove();
+        }
+    }
+
+    /**
+     * 结束指定类之上的所有activity对象
+     *
+     * @param clazz
+     */
+    public void finishActivityAbove(Class<? extends Activity> clazz)
+    {
+        if (clazz == null)
+            return;
+
+        final ListIterator<Activity> it = mActivityHolder.listIterator(mActivityHolder.size());
+        while (it.hasPrevious())
+        {
+            final Activity item = it.previous();
+            if (item.getClass() == clazz)
+                break;
+
+            item.finish();
+            it.remove();
         }
     }
 }
