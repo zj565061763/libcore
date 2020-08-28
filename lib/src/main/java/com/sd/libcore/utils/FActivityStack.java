@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FActivityStack
@@ -17,6 +19,7 @@ public class FActivityStack
 
     private Application mApplication;
     private final List<Activity> mActivityHolder = new CopyOnWriteArrayList<>();
+    private final Map<Activity, String> mMapActivity = new ConcurrentHashMap<>();
 
     private boolean mIsDebug;
 
@@ -129,9 +132,10 @@ public class FActivityStack
      */
     private void addActivity(Activity activity)
     {
-        if (mActivityHolder.contains(activity))
+        if (mMapActivity.containsKey(activity))
             return;
 
+        mMapActivity.put(activity, "");
         mActivityHolder.add(activity);
 
         if (mIsDebug)
@@ -150,6 +154,7 @@ public class FActivityStack
     {
         if (mActivityHolder.remove(activity))
         {
+            mMapActivity.remove(activity);
             if (mIsDebug)
             {
                 Log.e(FActivityStack.class.getSimpleName(), "----- " + activity + " " + mActivityHolder.size()
@@ -203,7 +208,7 @@ public class FActivityStack
      */
     public boolean containsActivity(Activity activity)
     {
-        return mActivityHolder.contains(activity);
+        return mMapActivity.containsKey(activity);
     }
 
     /**
@@ -327,40 +332,24 @@ public class FActivityStack
      */
     public void finishActivityAbove(Activity activity)
     {
-        if (activity == null)
+        if (activity == null || mActivityHolder.isEmpty())
             return;
 
-        final ListIterator<Activity> it = mActivityHolder.listIterator(mActivityHolder.size());
+        final List<Activity> listCopy = new ArrayList<>(mActivityHolder);
+        final ListIterator<Activity> it = listCopy.listIterator(listCopy.size());
         while (it.hasPrevious())
         {
-            final Activity item = it.previous();
-            if (item == activity)
+            if (!containsActivity(activity))
                 break;
 
-            item.finish();
-            it.remove();
-        }
-    }
-
-    /**
-     * 结束指定类之上的所有activity对象
-     *
-     * @param clazz
-     */
-    public void finishActivityAbove(Class<? extends Activity> clazz)
-    {
-        if (clazz == null)
-            return;
-
-        final ListIterator<Activity> it = mActivityHolder.listIterator(mActivityHolder.size());
-        while (it.hasPrevious())
-        {
             final Activity item = it.previous();
-            if (item.getClass() == clazz)
-                break;
+            if (containsActivity(item))
+            {
+                if (item == activity)
+                    break;
 
-            item.finish();
-            it.remove();
+                item.finish();
+            }
         }
     }
 }
