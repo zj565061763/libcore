@@ -16,6 +16,14 @@ public abstract class FBusiness
     }
 
     /**
+     * 初始化
+     */
+    @CallSuper
+    public void init()
+    {
+    }
+
+    /**
      * 返回当前业务类的标识
      *
      * @return
@@ -69,6 +77,9 @@ public abstract class FBusiness
         return getStream(BSTipsCallback.class);
     }
 
+    /**
+     * 销毁
+     */
     @CallSuper
     public void onDestroy()
     {
