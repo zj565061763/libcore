@@ -188,6 +188,31 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
             return getWindowToken() != null;
     }
 
+    private int[] mTempLocation;
+
+    /**
+     * view是否在某个坐标下面
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean isViewUnder(int x, int y)
+    {
+        if (mTempLocation == null)
+            mTempLocation = new int[2];
+
+        getLocationOnScreen(mTempLocation);
+
+        final int left = mTempLocation[0];
+        final int top = mTempLocation[1];
+        final int right = left + getWidth();
+        final int bottom = top + getHeight();
+
+        return left < right && top < bottom
+                && x >= left && x < right && y >= top && y < bottom;
+    }
+
     @Override
     public void onClick(View v)
     {

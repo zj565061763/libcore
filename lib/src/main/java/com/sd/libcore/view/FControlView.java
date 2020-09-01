@@ -187,10 +187,8 @@ public class FControlView extends FViewGroup implements
         {
             if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN)
             {
-                if (getVisibility() != View.VISIBLE)
-                    return false;
-
-                return onActivityBackPressed();
+                if (getVisibility() == View.VISIBLE)
+                    return onActivityBackPressed();
             }
             return false;
         }
@@ -201,7 +199,18 @@ public class FControlView extends FViewGroup implements
         @Override
         public boolean onActivityDispatchTouchEvent(Activity activity, MotionEvent event)
         {
-            return FControlView.this.onActivityTouchEvent(activity, event);
+            if (event.getAction() == MotionEvent.ACTION_DOWN)
+            {
+                if (getVisibility() == VISIBLE)
+                {
+                    final int x = (int) event.getRawX();
+                    final int y = (int) event.getRawY();
+                    final boolean touchInside = isViewUnder(x, y);
+
+                    return onActivityTouch(touchInside);
+                }
+            }
+            return false;
         }
     };
 
@@ -230,7 +239,13 @@ public class FControlView extends FViewGroup implements
         return false;
     }
 
-    public boolean onActivityTouchEvent(Activity activity, MotionEvent event)
+    /**
+     * Activity触摸事件
+     *
+     * @param touchInside true-view内部；false-view外部
+     * @return
+     */
+    public boolean onActivityTouch(boolean touchInside)
     {
         return false;
     }
