@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.sd.lib.eventact.callback.ActivityDestroyedCallback;
@@ -15,6 +16,7 @@ import com.sd.lib.eventact.observer.ActivityKeyEventObserver;
 import com.sd.lib.eventact.observer.ActivityPausedObserver;
 import com.sd.lib.eventact.observer.ActivityResumedObserver;
 import com.sd.lib.eventact.observer.ActivityStoppedObserver;
+import com.sd.lib.eventact.observer.ActivityTouchEventObserver;
 import com.sd.libcore.activity.FActivity;
 import com.sd.libcore.activity.FStreamActivity;
 import com.sd.libcore.business.holder.FActivityBusinessHolder;
@@ -29,11 +31,29 @@ public class FControlView extends FViewGroup implements
         ActivityStoppedCallback,
         ActivityDestroyedCallback
 {
+    /** 是否监听Activity的触摸事件 */
+    private boolean mListenActivityTouchEvent = false;
+
     public FControlView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
     }
 
+    /**
+     * 设置是否监听Activity的触摸事件
+     *
+     * @param listen
+     */
+    public void setListenActivityTouchEvent(boolean listen)
+    {
+        mListenActivityTouchEvent = listen;
+    }
+
+    /**
+     * Activity流标识
+     *
+     * @return
+     */
     public final String getStreamTagActivity()
     {
         final Activity activity = getActivity();
@@ -46,6 +66,11 @@ public class FControlView extends FViewGroup implements
         return activity.toString();
     }
 
+    /**
+     * View流标识
+     *
+     * @return
+     */
     public final String getStreamTagView()
     {
         final String className = getClass().getName();
@@ -65,6 +90,11 @@ public class FControlView extends FViewGroup implements
         return className + "@" + hashCode;
     }
 
+    /**
+     * 显示进度框
+     *
+     * @param msg
+     */
     public void showProgressDialog(String msg)
     {
         final Activity activity = getActivity();
@@ -72,6 +102,9 @@ public class FControlView extends FViewGroup implements
             ((FActivity) activity).showProgressDialog(msg);
     }
 
+    /**
+     * 隐藏进度框
+     */
     public void dismissProgressDialog()
     {
         final Activity activity = getActivity();
@@ -88,13 +121,15 @@ public class FControlView extends FViewGroup implements
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-
         final Activity activity = getActivity();
         mActivityResumedObserver.register(activity);
         mActivityPausedObserver.register(activity);
         mActivityStoppedObserver.register(activity);
         mActivityDestroyedObserver.register(activity);
         mActivityKeyEventObserver.register(activity);
+
+        if (mListenActivityTouchEvent)
+            mActivityTouchEventObserver.register(activity);
     }
 
     @Override
@@ -106,6 +141,7 @@ public class FControlView extends FViewGroup implements
         mActivityStoppedObserver.unregister();
         mActivityDestroyedObserver.unregister();
         mActivityKeyEventObserver.unregister();
+        mActivityTouchEventObserver.unregister();
     }
 
     private final ActivityResumedObserver mActivityResumedObserver = new ActivityResumedObserver()
@@ -160,6 +196,15 @@ public class FControlView extends FViewGroup implements
         }
     };
 
+    private final ActivityTouchEventObserver mActivityTouchEventObserver = new ActivityTouchEventObserver()
+    {
+        @Override
+        public boolean onActivityDispatchTouchEvent(Activity activity, MotionEvent event)
+        {
+            return FControlView.this.onActivityTouchEvent(activity, event);
+        }
+    };
+
     @Override
     public void onActivityResumed(Activity activity)
     {
@@ -181,6 +226,11 @@ public class FControlView extends FViewGroup implements
     }
 
     public boolean onActivityBackPressed()
+    {
+        return false;
+    }
+
+    public boolean onActivityTouchEvent(Activity activity, MotionEvent event)
     {
         return false;
     }
