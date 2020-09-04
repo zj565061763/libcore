@@ -1,6 +1,5 @@
 package com.sd.demo.app;
 
-import com.sd.lib.stream.FStreamManager;
 import com.sd.libcore.app.FApplication;
 
 /**
@@ -19,6 +18,5 @@ public class App extends FApplication
     protected void onCreateMainProcess()
     {
         sInstance = this;
-        FStreamManager.getInstance().setDebug(true);
     }
 }

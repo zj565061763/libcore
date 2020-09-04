@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.sd.lib.stream.FStream;
-import com.sd.lib.stream.FStreamManager;
 import com.sd.libcore.activity.FActivity;
 import com.sd.libcore.activity.FStreamActivity;
 
@@ -22,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * 用{@link FControlView}替代
  */
 @Deprecated
-public class FAppView extends FrameLayout implements FStream, View.OnClickListener
+public class FAppView extends FrameLayout implements View.OnClickListener
 {
     /**
      * 设置是否消费掉触摸事件，true-事件不会透过view继续往下传递
@@ -299,27 +297,18 @@ public class FAppView extends FrameLayout implements FStream, View.OnClickListen
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-        FStreamManager.getInstance().register(this);
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
         super.onDetachedFromWindow();
-        FStreamManager.getInstance().unregister(this);
-
         mHasOnLayout = false;
         if (mListLayoutRunnable != null)
         {
             mListLayoutRunnable.clear();
             mListLayoutRunnable = null;
         }
-    }
-
-    @Override
-    public Object getTagForStream(Class<? extends FStream> clazz)
-    {
-        return getStreamTagActivity();
     }
 
     public final String getStreamTagActivity()
