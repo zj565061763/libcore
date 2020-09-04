@@ -28,7 +28,7 @@ android {
 dependencies {
     api 'androidx.appcompat:appcompat:1.0.2'
     api 'com.github.zj565061763:activity-event:latest.release'
-    api 'com.github.zj565061763:stream:1.2.0-rc20'
+    api 'com.github.zj565061763:stream:latest.release'
 }
 
 // 指定编码
