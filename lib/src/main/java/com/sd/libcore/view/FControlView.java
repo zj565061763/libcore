@@ -3,16 +3,13 @@ package com.sd.libcore.view;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.sd.lib.eventact.callback.ActivityDestroyedCallback;
 import com.sd.lib.eventact.callback.ActivityPausedCallback;
 import com.sd.lib.eventact.callback.ActivityResumedCallback;
 import com.sd.lib.eventact.callback.ActivityStoppedCallback;
 import com.sd.lib.eventact.observer.ActivityDestroyedObserver;
-import com.sd.lib.eventact.observer.ActivityKeyEventObserver;
 import com.sd.lib.eventact.observer.ActivityPausedObserver;
 import com.sd.lib.eventact.observer.ActivityResumedObserver;
 import com.sd.lib.eventact.observer.ActivityStoppedObserver;
@@ -126,7 +123,6 @@ public class FControlView extends FViewGroup implements
         mActivityPausedObserver.register(activity);
         mActivityStoppedObserver.register(activity);
         mActivityDestroyedObserver.register(activity);
-        mActivityKeyEventObserver.register(activity);
 
         if (mListenActivityTouchEvent)
             mActivityTouchEventObserver.register(activity);
@@ -140,7 +136,6 @@ public class FControlView extends FViewGroup implements
         mActivityPausedObserver.unregister();
         mActivityStoppedObserver.unregister();
         mActivityDestroyedObserver.unregister();
-        mActivityKeyEventObserver.unregister();
         mActivityTouchEventObserver.unregister();
     }
 
@@ -177,20 +172,6 @@ public class FControlView extends FViewGroup implements
         public void onActivityDestroyed(Activity activity)
         {
             FControlView.this.onActivityDestroyed(activity);
-        }
-    };
-
-    private final ActivityKeyEventObserver mActivityKeyEventObserver = new ActivityKeyEventObserver()
-    {
-        @Override
-        public boolean onActivityDispatchKeyEvent(Activity activity, KeyEvent event)
-        {
-            if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN)
-            {
-                if (getVisibility() == View.VISIBLE)
-                    return onActivityBackPressed();
-            }
-            return false;
         }
     };
 
@@ -232,11 +213,6 @@ public class FControlView extends FViewGroup implements
     @Override
     public void onActivityDestroyed(Activity activity)
     {
-    }
-
-    public boolean onActivityBackPressed()
-    {
-        return false;
     }
 
     /**
