@@ -5,6 +5,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.sd.lib.stream.FStream;
+import com.sd.lib.stream.FStreamManager;
+import com.sd.libcore.business.stream.StreamActivityBackPressed;
 import com.sd.libcore.view.FControlView;
 
 public class TestAppView extends FControlView
@@ -16,11 +19,28 @@ public class TestAppView extends FControlView
         super(context, attrs);
     }
 
+    private final StreamActivityBackPressed mStreamActivityBackPressed = new StreamActivityBackPressed()
+    {
+        @Override
+        public boolean onActivityBackPressed()
+        {
+            Log.i(TAG, "onActivityBackPressed");
+            return false;
+        }
+
+        @Override
+        public Object getTagForStream(Class<? extends FStream> clazz)
+        {
+            return getStreamTagActivity();
+        }
+    };
+
     @Override
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
         Log.i(TAG, "onAttachedToWindow");
+        FStreamManager.getInstance().register(mStreamActivityBackPressed);
     }
 
     @Override
@@ -28,6 +48,7 @@ public class TestAppView extends FControlView
     {
         super.onDetachedFromWindow();
         Log.i(TAG, "onDetachedFromWindow");
+        FStreamManager.getInstance().unregister(mStreamActivityBackPressed);
     }
 
     @Override
