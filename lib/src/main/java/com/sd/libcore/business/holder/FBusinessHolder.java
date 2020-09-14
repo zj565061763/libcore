@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
+@Deprecated
 public class FBusinessHolder
 {
     private static final String BUSINESS_EMPTY_TAG = "business_empty_tag";

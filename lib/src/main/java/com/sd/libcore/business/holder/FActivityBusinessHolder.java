@@ -5,6 +5,7 @@ import android.app.Activity;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+@Deprecated
 public class FActivityBusinessHolder extends FBusinessHolder
 {
     private FActivityBusinessHolder()

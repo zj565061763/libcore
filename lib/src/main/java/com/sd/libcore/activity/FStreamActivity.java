@@ -30,6 +30,7 @@ public abstract class FStreamActivity extends FActivity implements FStream
         return FStreamActivity.this.toString();
     }
 
+    @Deprecated
     public final FBusinessHolder getBusinessHolder()
     {
         return FActivityBusinessHolder.with(this);

@@ -109,6 +109,7 @@ public class FControlView extends FViewGroup implements
             ((FActivity) activity).dismissProgressDialog();
     }
 
+    @Deprecated
     public final FBusinessHolder getBusinessHolder()
     {
         return FActivityBusinessHolder.with(getActivity());
