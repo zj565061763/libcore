@@ -24,10 +24,16 @@ public abstract class FActivity extends AppCompatActivity implements OnClickList
 {
     private ActivityEventDispatcher mEventDispatcher;
     private ProgressDialog mProgressDialog;
+    private View mContentView;
 
     public Activity getActivity()
     {
         return this;
+    }
+
+    public final View getContentView()
+    {
+        return mContentView;
     }
 
     @Override
@@ -69,6 +75,7 @@ public abstract class FActivity extends AppCompatActivity implements OnClickList
         final View contentView = addTitleViewIfNeed(view);
         super.setContentView(contentView);
 
+        mContentView = view;
         onInitContentView(contentView);
     }
 
