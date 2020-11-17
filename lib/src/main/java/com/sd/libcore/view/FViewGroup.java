@@ -163,6 +163,10 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      */
     public void detach()
     {
+        final Activity activity = getActivity();
+        if (activity != null && activity.isFinishing())
+            return;
+
         final ViewParent parent = getParent();
         if (parent instanceof ViewGroup)
         {
