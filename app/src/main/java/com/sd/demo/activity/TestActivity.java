@@ -27,7 +27,7 @@ public class TestActivity extends FStreamActivity
         if (v == mBinding.btnOrder)
         {
             final Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
     }
