@@ -5,28 +5,29 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.sd.demo.R;
-import com.sd.demo.databinding.ActMainBinding;
+import com.sd.demo.databinding.ActTestBinding;
 import com.sd.libcore.activity.FStreamActivity;
 
-public class MainActivity extends FStreamActivity
+public class TestActivity extends FStreamActivity
 {
-    private ActMainBinding mBinding;
+    private ActTestBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_main);
-        mBinding = ActMainBinding.bind(getContentView());
+        setContentView(R.layout.act_test);
+        mBinding = ActTestBinding.bind(getContentView());
     }
 
     @Override
     public void onClick(View v)
     {
         super.onClick(v);
-        if (v == mBinding.btn)
+        if (v == mBinding.btnOrder)
         {
-            final Intent intent = new Intent(this, TestActivity.class);
+            final Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             startActivity(intent);
         }
     }
