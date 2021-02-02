@@ -65,18 +65,6 @@ public abstract class FBusiness
         return new FStream.ProxyBuilder().setTag(getTag()).build(clazz);
     }
 
-    /**
-     * 返回一个不带tag标识的流代理对象
-     *
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    protected final <T extends FStream> T getNoneTagStream(Class<T> clazz)
-    {
-        return new FStream.ProxyBuilder().setTag(null).build(clazz);
-    }
-
     public final BSProgress getProgress()
     {
         return getStream(BSProgress.class);
