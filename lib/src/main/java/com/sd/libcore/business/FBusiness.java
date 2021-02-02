@@ -8,7 +8,7 @@ import com.sd.libcore.business.stream.BSTipsCallback;
 
 public abstract class FBusiness
 {
-    private final String mTag;
+    private String mTag;
 
     public FBusiness(String tag)
     {
@@ -31,6 +31,16 @@ public abstract class FBusiness
     public final String getTag()
     {
         return mTag;
+    }
+
+    /**
+     * 设置业务类标识
+     *
+     * @param tag
+     */
+    public final void setTag(String tag)
+    {
+        mTag = tag;
     }
 
     /**
