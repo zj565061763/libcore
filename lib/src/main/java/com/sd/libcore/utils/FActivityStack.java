@@ -225,6 +225,9 @@ public class FActivityStack
      */
     public List<Activity> getActivity(Class<? extends Activity> clazz)
     {
+        if (clazz == null)
+            throw new IllegalArgumentException("clazz is null");
+
         final List<Activity> list = new ArrayList<>(1);
         for (Activity item : mActivityHolder)
         {
@@ -242,6 +245,9 @@ public class FActivityStack
      */
     public Activity getFirstActivity(Class<? extends Activity> clazz)
     {
+        if (clazz == null)
+            throw new IllegalArgumentException("clazz is null");
+
         for (Activity item : mActivityHolder)
         {
             if (item.getClass() == clazz)
