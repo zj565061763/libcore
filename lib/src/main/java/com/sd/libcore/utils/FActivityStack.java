@@ -71,24 +71,17 @@ public class FActivityStack
         @Override
         public void onActivityResumed(Activity activity)
         {
-            final int index = mActivityHolder.indexOf(activity);
-            if (index < 0)
-                return;
-
-            final int size = mActivityHolder.size();
-            if (size <= 1)
-                return;
-
-            if (index != (size - 1))
+            final Activity lastActivity = getLastActivity();
+            if (lastActivity != activity)
             {
                 if (mIsDebug)
-                    Log.e(FActivityStack.class.getSimpleName(), "start order activity " + activity + " old index " + index);
+                    Log.e(FActivityStack.class.getSimpleName(), "order activity start " + activity);
 
                 removeActivity(activity);
                 addActivity(activity);
 
                 if (mIsDebug)
-                    Log.e(FActivityStack.class.getSimpleName(), "end order activity " + activity + " new index " + mActivityHolder.indexOf(activity));
+                    Log.e(FActivityStack.class.getSimpleName(), "order activity finish " + activity);
             }
         }
 
