@@ -6,7 +6,6 @@ import android.view.View;
 import com.sd.demo.R;
 import com.sd.demo.databinding.ActTestBinding;
 import com.sd.libcore.activity.FStreamActivity;
-import com.sd.libcore.utils.FActivityStack;
 
 public class TestActivity extends FStreamActivity
 {
@@ -30,8 +29,7 @@ public class TestActivity extends FStreamActivity
         super.onClick(v);
         if (v == mBinding.btnOrder)
         {
-            // 压入栈底
-            FActivityStack.getInstance().pushToBottom(this);
+
         }
     }
 

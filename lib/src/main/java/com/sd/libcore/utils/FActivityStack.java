@@ -2,7 +2,6 @@ package com.sd.libcore.utils;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -371,27 +370,6 @@ public class FActivityStack
 
                 item.finish();
             }
-        }
-    }
-
-    /**
-     * 压入栈底
-     *
-     * @param activity
-     */
-    public void pushToBottom(Activity activity)
-    {
-        if (!containsActivity(activity))
-            return;
-
-        for (Activity item : mActivityHolder)
-        {
-            if (item == activity)
-                break;
-
-            final Intent intent = new Intent(activity, item.getClass());
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            activity.startActivity(intent);
         }
     }
 }
