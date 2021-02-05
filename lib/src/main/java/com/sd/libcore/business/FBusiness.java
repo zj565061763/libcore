@@ -21,6 +21,7 @@ public abstract class FBusiness
     @CallSuper
     public void init()
     {
+        FBusinessManager.getInstance().addBusiness(this);
     }
 
     /**
@@ -81,5 +82,6 @@ public abstract class FBusiness
     @CallSuper
     public void onDestroy()
     {
+        FBusinessManager.getInstance().removeBusiness(this);
     }
 }
