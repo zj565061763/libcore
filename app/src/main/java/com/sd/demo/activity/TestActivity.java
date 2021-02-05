@@ -7,6 +7,7 @@ import android.view.View;
 import com.sd.demo.R;
 import com.sd.demo.databinding.ActTestBinding;
 import com.sd.libcore.activity.FStreamActivity;
+import com.sd.libcore.utils.FActivityStack;
 
 public class TestActivity extends FStreamActivity
 {
@@ -26,9 +27,8 @@ public class TestActivity extends FStreamActivity
         super.onClick(v);
         if (v == mBinding.btnOrder)
         {
-            final Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);
+            // 压入栈底
+            FActivityStack.getInstance().pushToBottom(this);
         }
     }
 }
