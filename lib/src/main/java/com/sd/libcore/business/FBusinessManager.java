@@ -35,26 +35,6 @@ public class FBusinessManager
     }
 
     /**
-     * 保存业务类
-     *
-     * @param business
-     */
-    synchronized void addBusiness(FBusiness business)
-    {
-        mMapBusiness.put(business, "");
-    }
-
-    /**
-     * 移除业务类
-     *
-     * @param business
-     */
-    synchronized void removeBusiness(FBusiness business)
-    {
-        mMapBusiness.remove(business);
-    }
-
-    /**
      * 放回指定tag的业务类
      *
      * @param tag
@@ -143,6 +123,26 @@ public class FBusinessManager
             if (callback.onBusiness(item))
                 break;
         }
+    }
+
+    /**
+     * 保存业务类
+     *
+     * @param business
+     */
+    synchronized void addBusiness(FBusiness business)
+    {
+        mMapBusiness.put(business, "");
+    }
+
+    /**
+     * 移除业务类
+     *
+     * @param business
+     */
+    synchronized void removeBusiness(FBusiness business)
+    {
+        mMapBusiness.remove(business);
     }
 
     public interface FindBusinessCallback
