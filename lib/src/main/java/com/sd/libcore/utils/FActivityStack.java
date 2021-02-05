@@ -288,6 +288,9 @@ public class FActivityStack
      */
     public void finishActivityExcept(Activity activity)
     {
+        if (activity == null)
+            throw new IllegalArgumentException("activity is null");
+
         for (Activity item : mActivityHolder)
         {
             if (item != activity)
@@ -302,6 +305,9 @@ public class FActivityStack
      */
     public void finishActivityExcept(Class<? extends Activity> clazz)
     {
+        if (clazz == null)
+            throw new IllegalArgumentException("clazz is null");
+
         for (Activity item : mActivityHolder)
         {
             if (item.getClass() != clazz)
@@ -316,6 +322,9 @@ public class FActivityStack
      */
     public void finishSameClassActivityExcept(Activity activity)
     {
+        if (activity == null)
+            throw new IllegalArgumentException("activity is null");
+
         for (Activity item : mActivityHolder)
         {
             if (item.getClass() == activity.getClass())
