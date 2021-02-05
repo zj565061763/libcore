@@ -1,6 +1,5 @@
 package com.sd.demo.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,6 +11,7 @@ import com.sd.libcore.utils.FActivityStack;
 public class TestActivity extends FStreamActivity
 {
     private ActTestBinding mBinding;
+    private static int sCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,6 +19,9 @@ public class TestActivity extends FStreamActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_test);
         mBinding = ActTestBinding.bind(getContentView());
+        sCount++;
+
+        mBinding.tvContent.setText(String.valueOf(sCount));
     }
 
     @Override
@@ -30,5 +33,12 @@ public class TestActivity extends FStreamActivity
             // 压入栈底
             FActivityStack.getInstance().pushToBottom(this);
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        sCount--;
     }
 }
