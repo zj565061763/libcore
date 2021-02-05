@@ -197,6 +197,9 @@ public class FActivityStack
      */
     public Activity getLastActivity()
     {
+        if (mActivityHolder.isEmpty())
+            return null;
+
         return getActivity(mActivityHolder.size() - 1);
     }
 
