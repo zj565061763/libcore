@@ -75,13 +75,13 @@ public class FActivityStack
             if (lastActivity != activity)
             {
                 if (mIsDebug)
-                    Log.e(FActivityStack.class.getSimpleName(), "order activity start " + activity);
+                    Log.e(FActivityStack.class.getSimpleName(), "order start " + activity);
 
                 removeActivity(activity);
                 addActivity(activity);
 
                 if (mIsDebug)
-                    Log.e(FActivityStack.class.getSimpleName(), "order activity finish " + activity);
+                    Log.e(FActivityStack.class.getSimpleName(), "order finish " + activity);
             }
         }
 
@@ -126,16 +126,19 @@ public class FActivityStack
      */
     private void addActivity(Activity activity)
     {
-        if (mMapActivity.containsKey(activity))
+        if (activity == null)
             return;
 
-        mMapActivity.put(activity, "");
-        mActivityHolder.add(activity);
-
-        if (mIsDebug)
+        final String put = mMapActivity.put(activity, "");
+        if (put == null)
         {
-            Log.i(FActivityStack.class.getSimpleName(), "+++++ " + activity + " " + mActivityHolder.size()
-                    + "\r\n" + getCurrentStack());
+            mActivityHolder.add(activity);
+
+            if (mIsDebug)
+            {
+                Log.i(FActivityStack.class.getSimpleName(), "+++++ " + activity + " " + mActivityHolder.size()
+                        + "\r\n" + getCurrentStack());
+            }
         }
     }
 
@@ -146,6 +149,9 @@ public class FActivityStack
      */
     private void removeActivity(Activity activity)
     {
+        if (activity == null)
+            return;
+
         if (mActivityHolder.remove(activity))
         {
             mMapActivity.remove(activity);
@@ -204,6 +210,7 @@ public class FActivityStack
     {
         if (activity == null)
             return false;
+
         return mMapActivity.containsKey(activity);
     }
 
