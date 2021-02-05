@@ -47,7 +47,7 @@ public class FControlView extends FViewGroup implements
     }
 
     /**
-     * Activity流标识
+     * 放回Activity流标识
      *
      * @return
      */
@@ -64,7 +64,7 @@ public class FControlView extends FViewGroup implements
     }
 
     /**
-     * View流标识
+     * 放回当前View流标识
      *
      * @return
      */
