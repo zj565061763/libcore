@@ -1,5 +1,7 @@
 package com.sd.libcore.business;
 
+import android.text.TextUtils;
+
 import androidx.annotation.CallSuper;
 
 import com.sd.lib.stream.FStream;
@@ -41,7 +43,12 @@ public abstract class FBusiness
      */
     public final void setTag(String tag)
     {
-        mTag = tag;
+        final String oldTag = mTag;
+        if (!TextUtils.equals(oldTag, tag))
+        {
+            mTag = tag;
+            onTagChanged(oldTag, tag);
+        }
     }
 
     /**
@@ -74,6 +81,16 @@ public abstract class FBusiness
     public final BSTipsCallback getTipsCallback()
     {
         return getStream(BSTipsCallback.class);
+    }
+
+    /**
+     * 标识变化回调
+     *
+     * @param oldTag
+     * @param newTag
+     */
+    protected void onTagChanged(String oldTag, String newTag)
+    {
     }
 
     /**
