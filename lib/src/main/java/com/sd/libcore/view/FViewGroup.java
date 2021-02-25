@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -18,14 +21,12 @@ import java.lang.ref.WeakReference;
  */
 public class FViewGroup extends FrameLayout implements View.OnClickListener
 {
-    /**
-     * 设置是否消费掉触摸事件，true-事件不会透过view继续往下传递
-     */
+    /** 置是否消费掉触摸事件，true-事件不会透过view继续往下传递 */
     private boolean mConsumeTouchEvent = false;
     private WeakReference<ViewGroup> mContainer;
     private View mContentView;
 
-    public FViewGroup(Context context, AttributeSet attrs)
+    public FViewGroup(@NonNull Context context, @Nullable AttributeSet attrs)
     {
         super(context, attrs);
     }
@@ -35,6 +36,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @return
      */
+    @Nullable
     public View getContentView()
     {
         return mContentView;
@@ -56,7 +58,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @param contentView
      */
-    public void setContentView(View contentView)
+    public void setContentView(@Nullable View contentView)
     {
         removeAllViews();
 
@@ -71,7 +73,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @param contentView
      */
-    protected void onContentViewChanged(View contentView)
+    protected void onContentViewChanged(@Nullable View contentView)
     {
     }
 
@@ -91,7 +93,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      * @param container
      * @return
      */
-    public FViewGroup setContainer(View container)
+    public FViewGroup setContainer(@Nullable View container)
     {
         if (container == null)
         {
@@ -111,11 +113,13 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @return
      */
+    @Nullable
     public ViewGroup getContainer()
     {
         return mContainer == null ? null : mContainer.get();
     }
 
+    @Nullable
     public Activity getActivity()
     {
         final Context context = getContext();
