@@ -71,7 +71,7 @@ public class FBusinessManager
     public <T extends FBusiness> List<T> getBusiness(@NonNull final Class<T> clazz)
     {
         if (clazz == null)
-            throw new IllegalArgumentException("null arg");
+            throw new IllegalArgumentException("null argument");
 
         final List<T> listResult = new ArrayList<>();
         findBusiness(new FindBusinessCallback()
@@ -99,7 +99,7 @@ public class FBusinessManager
     public <T extends FBusiness> List<T> getBusiness(@NonNull final Class<T> clazz, @Nullable final String tag)
     {
         if (clazz == null)
-            throw new IllegalArgumentException("null arg");
+            throw new IllegalArgumentException("null argument");
 
         final List<T> listResult = new ArrayList<>();
         findBusiness(new FindBusinessCallback()
@@ -124,7 +124,7 @@ public class FBusinessManager
     public void findBusiness(@NonNull FindBusinessCallback callback)
     {
         if (callback == null)
-            throw new IllegalArgumentException("null arg");
+            throw new IllegalArgumentException("null argument");
 
         final Collection<FBusiness> listCopy = new ArrayList<>(mMapBusiness.keySet());
         for (FBusiness item : listCopy)
@@ -145,7 +145,7 @@ public class FBusinessManager
     synchronized void addBusiness(@NonNull FBusiness business)
     {
         if (business == null)
-            throw new IllegalArgumentException("null arg");
+            throw new IllegalArgumentException("null argument");
 
         mMapBusiness.put(business, "");
     }
@@ -158,7 +158,7 @@ public class FBusinessManager
     synchronized void removeBusiness(@NonNull FBusiness business)
     {
         if (business == null)
-            throw new IllegalArgumentException("null arg");
+            throw new IllegalArgumentException("null argument");
 
         mMapBusiness.remove(business);
     }

@@ -3,6 +3,8 @@ package com.sd.libcore;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.sd.libcore.utils.FActivityStack;
 import com.sd.libcore.utils.FAppBackgroundListener;
 
@@ -33,8 +35,11 @@ public class FLibrary
         return mContext;
     }
 
-    public synchronized void init(Application application)
+    public synchronized void init(@NonNull Application application)
     {
+        if (application == null)
+            throw new IllegalArgumentException("null argument");
+
         if (mContext == null)
         {
             mContext = application;
