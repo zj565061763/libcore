@@ -3,6 +3,8 @@ package com.sd.libcore.business;
 import android.text.TextUtils;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.sd.lib.stream.FStream;
 import com.sd.libcore.business.stream.BSProgress;
@@ -12,7 +14,7 @@ public abstract class FBusiness
 {
     private String mTag;
 
-    public FBusiness(String tag)
+    public FBusiness(@Nullable String tag)
     {
         mTag = tag;
     }
@@ -31,6 +33,7 @@ public abstract class FBusiness
      *
      * @return
      */
+    @Nullable
     public final String getTag()
     {
         return mTag;
@@ -41,7 +44,7 @@ public abstract class FBusiness
      *
      * @param tag
      */
-    public final void setTag(String tag)
+    public final void setTag(@Nullable String tag)
     {
         final String oldTag = mTag;
         if (!TextUtils.equals(oldTag, tag))
@@ -56,6 +59,7 @@ public abstract class FBusiness
      *
      * @return
      */
+    @NonNull
     public String getHttpTag()
     {
         return toString();
@@ -68,16 +72,19 @@ public abstract class FBusiness
      * @param <T>
      * @return
      */
-    protected final <T extends FStream> T getStream(Class<T> clazz)
+    @NonNull
+    protected final <T extends FStream> T getStream(@NonNull Class<T> clazz)
     {
         return new FStream.ProxyBuilder().setTag(getTag()).build(clazz);
     }
 
+    @NonNull
     public final BSProgress getProgress()
     {
         return getStream(BSProgress.class);
     }
 
+    @NonNull
     public final BSTipsCallback getTipsCallback()
     {
         return getStream(BSTipsCallback.class);
@@ -89,7 +96,7 @@ public abstract class FBusiness
      * @param oldTag
      * @param newTag
      */
-    protected void onTagChanged(String oldTag, String newTag)
+    protected void onTagChanged(@Nullable String oldTag, @Nullable String newTag)
     {
     }
 
