@@ -5,6 +5,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.sd.lib.eventact.callback.ActivityDestroyedCallback;
 import com.sd.lib.eventact.callback.ActivityPausedCallback;
 import com.sd.lib.eventact.callback.ActivityResumedCallback;
@@ -31,7 +34,7 @@ public class FControlView extends FViewGroup implements
     /** 是否监听Activity的触摸事件 */
     private boolean mListenActivityTouchEvent = false;
 
-    public FControlView(Context context, AttributeSet attrs)
+    public FControlView(@NonNull Context context, @Nullable AttributeSet attrs)
     {
         super(context, attrs);
     }
@@ -51,6 +54,7 @@ public class FControlView extends FViewGroup implements
      *
      * @return
      */
+    @NonNull
     public final String getStreamTagActivity()
     {
         final Activity activity = getActivity();
@@ -68,6 +72,7 @@ public class FControlView extends FViewGroup implements
      *
      * @return
      */
+    @NonNull
     public final String getStreamTagView()
     {
         final String className = getClass().getName();
@@ -80,6 +85,7 @@ public class FControlView extends FViewGroup implements
      *
      * @return
      */
+    @NonNull
     public String getHttpTag()
     {
         final String className = getClass().getName();
@@ -92,7 +98,7 @@ public class FControlView extends FViewGroup implements
      *
      * @param msg
      */
-    public void showProgressDialog(String msg)
+    public void showProgressDialog(@Nullable String msg)
     {
         final Activity activity = getActivity();
         if (activity instanceof FActivity)
