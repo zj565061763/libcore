@@ -2,6 +2,9 @@ package com.sd.libcore.business;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -40,10 +43,10 @@ public class FBusinessManager
      * @param tag
      * @return
      */
-    public List<FBusiness> getBusiness(final String tag)
+    @NonNull
+    public List<FBusiness> getBusiness(@Nullable final String tag)
     {
         final List<FBusiness> listResult = new ArrayList<>();
-
         findBusiness(new FindBusinessCallback()
         {
             @Override
@@ -64,10 +67,13 @@ public class FBusinessManager
      * @param <T>
      * @return
      */
-    public <T extends FBusiness> List<T> getBusiness(final Class<T> clazz)
+    @NonNull
+    public <T extends FBusiness> List<T> getBusiness(@NonNull final Class<T> clazz)
     {
-        final List<T> listResult = new ArrayList<>();
+        if (clazz == null)
+            throw new IllegalArgumentException("null arg");
 
+        final List<T> listResult = new ArrayList<>();
         findBusiness(new FindBusinessCallback()
         {
             @Override
@@ -89,10 +95,13 @@ public class FBusinessManager
      * @param <T>
      * @return
      */
-    public <T extends FBusiness> List<T> getBusiness(final Class<T> clazz, final String tag)
+    @NonNull
+    public <T extends FBusiness> List<T> getBusiness(@NonNull final Class<T> clazz, @Nullable final String tag)
     {
-        final List<T> listResult = new ArrayList<>();
+        if (clazz == null)
+            throw new IllegalArgumentException("null arg");
 
+        final List<T> listResult = new ArrayList<>();
         findBusiness(new FindBusinessCallback()
         {
             @Override
@@ -112,14 +121,17 @@ public class FBusinessManager
      * @param callback
      * @return
      */
-    public void findBusiness(FindBusinessCallback callback)
+    public void findBusiness(@NonNull FindBusinessCallback callback)
     {
         if (callback == null)
-            return;
+            throw new IllegalArgumentException("null arg");
 
         final Collection<FBusiness> listCopy = new ArrayList<>(mMapBusiness.keySet());
         for (FBusiness item : listCopy)
         {
+            if (item == null)
+                continue;
+
             if (callback.onBusiness(item))
                 break;
         }
@@ -130,8 +142,11 @@ public class FBusinessManager
      *
      * @param business
      */
-    synchronized void addBusiness(FBusiness business)
+    synchronized void addBusiness(@NonNull FBusiness business)
     {
+        if (business == null)
+            throw new IllegalArgumentException("null arg");
+
         mMapBusiness.put(business, "");
     }
 
@@ -140,8 +155,11 @@ public class FBusinessManager
      *
      * @param business
      */
-    synchronized void removeBusiness(FBusiness business)
+    synchronized void removeBusiness(@NonNull FBusiness business)
     {
+        if (business == null)
+            throw new IllegalArgumentException("null arg");
+
         mMapBusiness.remove(business);
     }
 
@@ -153,6 +171,6 @@ public class FBusinessManager
          * @param business
          * @return true-停止查找
          */
-        boolean onBusiness(FBusiness business);
+        boolean onBusiness(@NonNull FBusiness business);
     }
 }
