@@ -149,7 +149,7 @@ public class FControlView extends FViewGroup implements
     private final ActivityResumedObserver mActivityResumedObserver = new ActivityResumedObserver()
     {
         @Override
-        public void onActivityResumed(Activity activity)
+        public void onActivityResumed(@NonNull Activity activity)
         {
             FControlView.this.onActivityResumed(activity);
         }
@@ -158,7 +158,7 @@ public class FControlView extends FViewGroup implements
     private final ActivityPausedObserver mActivityPausedObserver = new ActivityPausedObserver()
     {
         @Override
-        public void onActivityPaused(Activity activity)
+        public void onActivityPaused(@NonNull Activity activity)
         {
             FControlView.this.onActivityPaused(activity);
         }
@@ -167,7 +167,7 @@ public class FControlView extends FViewGroup implements
     private final ActivityStoppedObserver mActivityStoppedObserver = new ActivityStoppedObserver()
     {
         @Override
-        public void onActivityStopped(Activity activity)
+        public void onActivityStopped(@NonNull Activity activity)
         {
             FControlView.this.onActivityStopped(activity);
         }
@@ -176,7 +176,7 @@ public class FControlView extends FViewGroup implements
     private final ActivityDestroyedObserver mActivityDestroyedObserver = new ActivityDestroyedObserver()
     {
         @Override
-        public void onActivityDestroyed(Activity activity)
+        public void onActivityDestroyed(@NonNull Activity activity)
         {
             FControlView.this.onActivityDestroyed(activity);
         }
@@ -185,7 +185,7 @@ public class FControlView extends FViewGroup implements
     private final ActivityTouchEventObserver mActivityTouchEventObserver = new ActivityTouchEventObserver()
     {
         @Override
-        public boolean onActivityDispatchTouchEvent(Activity activity, MotionEvent event)
+        public boolean onActivityDispatchTouchEvent(@NonNull Activity activity, @NonNull MotionEvent event)
         {
             if (event.getAction() == MotionEvent.ACTION_DOWN)
             {
@@ -203,22 +203,22 @@ public class FControlView extends FViewGroup implements
     };
 
     @Override
-    public void onActivityResumed(Activity activity)
+    public void onActivityResumed(@NonNull Activity activity)
     {
     }
 
     @Override
-    public void onActivityPaused(Activity activity)
+    public void onActivityPaused(@NonNull Activity activity)
     {
     }
 
     @Override
-    public void onActivityStopped(Activity activity)
+    public void onActivityStopped(@NonNull Activity activity)
     {
     }
 
     @Override
-    public void onActivityDestroyed(Activity activity)
+    public void onActivityDestroyed(@NonNull Activity activity)
     {
     }
 
