@@ -50,7 +50,7 @@ abstract class FBusiness {
      */
     @CallSuper
     open fun init() {
-        FBusinessManager.getInstance().addBusiness(this)
+        FBusinessManager.instance.addBusiness(this)
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class FBusiness {
      * @param <T>
      * @return
     </T> */
-    protected fun <T : FStream?> getStream(clazz: Class<T>): T {
+    protected fun <T : FStream> getStream(clazz: Class<T>): T {
         return ProxyBuilder().setTag(tag).build(clazz)
     }
 
@@ -77,6 +77,6 @@ abstract class FBusiness {
      */
     @CallSuper
     open fun onDestroy() {
-        FBusinessManager.getInstance().removeBusiness(this)
+        FBusinessManager.instance.removeBusiness(this)
     }
 }
