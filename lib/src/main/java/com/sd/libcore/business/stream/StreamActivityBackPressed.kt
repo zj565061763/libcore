@@ -1,8 +1,7 @@
-package com.sd.libcore.business.stream;
+package com.sd.libcore.business.stream
 
-import com.sd.lib.stream.FStream;
+import com.sd.lib.stream.FStream
 
-public interface StreamActivityBackPressed extends FStream
-{
-    boolean onActivityBackPressed();
+interface StreamActivityBackPressed : FStream {
+    fun onActivityBackPressed(): Boolean
 }
