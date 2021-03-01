@@ -1,68 +1,56 @@
-package com.sd.libcore.business;
+package com.sd.libcore.business
 
-import android.text.TextUtils;
+import android.text.TextUtils
+import androidx.annotation.CallSuper
+import com.sd.lib.stream.FStream
+import com.sd.lib.stream.FStream.ProxyBuilder
+import com.sd.libcore.business.stream.BSProgress
+import com.sd.libcore.business.stream.BSTipsCallback
 
-import androidx.annotation.CallSuper;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+abstract class FBusiness {
 
-import com.sd.lib.stream.FStream;
-import com.sd.libcore.business.stream.BSProgress;
-import com.sd.libcore.business.stream.BSTipsCallback;
-
-public abstract class FBusiness
-{
-    private String mTag;
-
-    public FBusiness(@Nullable String tag)
-    {
-        mTag = tag;
+    constructor(businessTag: String?) {
+        tag = businessTag
     }
 
     /**
-     * 初始化
+     * 业务类标识
      */
-    @CallSuper
-    public void init()
-    {
-        FBusinessManager.getInstance().addBusiness(this);
-    }
-
-    /**
-     * 返回当前业务类的标识
-     *
-     * @return
-     */
-    @Nullable
-    public final String getTag()
-    {
-        return mTag;
-    }
-
-    /**
-     * 设置业务类标识
-     *
-     * @param tag
-     */
-    public final void setTag(@Nullable String tag)
-    {
-        final String oldTag = mTag;
-        if (!TextUtils.equals(oldTag, tag))
-        {
-            mTag = tag;
-            onTagChanged(oldTag, tag);
+    var tag: String?
+        set(value) {
+            val oldTag = field
+            if (!TextUtils.equals(oldTag, value)) {
+                field = value
+                onTagChanged(oldTag, value)
+            }
         }
-    }
 
     /**
      * 返回Http请求标识
      *
      * @return
      */
-    @NonNull
-    public String getHttpTag()
-    {
-        return toString();
+    open val httpTag: String
+        get() = toString()
+
+    /**
+     * [BSProgress]
+     */
+    val progress: BSProgress
+        get() = getStream(BSProgress::class.java)
+
+    /**
+     * [BSTipsCallback]
+     */
+    val tipsCallback: BSTipsCallback
+        get() = getStream(BSTipsCallback::class.java)
+
+    /**
+     * 初始化
+     */
+    @CallSuper
+    open fun init() {
+        FBusinessManager.getInstance().addBusiness(this)
     }
 
     /**
@@ -71,23 +59,9 @@ public abstract class FBusiness
      * @param clazz
      * @param <T>
      * @return
-     */
-    @NonNull
-    protected final <T extends FStream> T getStream(@NonNull Class<T> clazz)
-    {
-        return new FStream.ProxyBuilder().setTag(getTag()).build(clazz);
-    }
-
-    @NonNull
-    public final BSProgress getProgress()
-    {
-        return getStream(BSProgress.class);
-    }
-
-    @NonNull
-    public final BSTipsCallback getTipsCallback()
-    {
-        return getStream(BSTipsCallback.class);
+    </T> */
+    protected fun <T : FStream?> getStream(clazz: Class<T>): T {
+        return ProxyBuilder().setTag(tag).build(clazz)
     }
 
     /**
@@ -96,16 +70,13 @@ public abstract class FBusiness
      * @param oldTag
      * @param newTag
      */
-    protected void onTagChanged(@Nullable String oldTag, @Nullable String newTag)
-    {
-    }
+    protected open fun onTagChanged(oldTag: String?, newTag: String?) {}
 
     /**
      * 销毁
      */
     @CallSuper
-    public void onDestroy()
-    {
-        FBusinessManager.getInstance().removeBusiness(this);
+    open fun onDestroy() {
+        FBusinessManager.getInstance().removeBusiness(this)
     }
 }
