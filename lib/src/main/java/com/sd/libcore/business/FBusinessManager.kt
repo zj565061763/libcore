@@ -68,7 +68,7 @@ class FBusinessManager private constructor() {
      * 保存业务类
      */
     @Synchronized
-    fun addBusiness(business: FBusiness) {
+    internal fun addBusiness(business: FBusiness) {
         requireNotNull(business) { "null argument" }
         mMapBusiness[business] = ""
     }
@@ -77,7 +77,7 @@ class FBusinessManager private constructor() {
      * 移除业务类
      */
     @Synchronized
-    fun removeBusiness(business: FBusiness) {
+    internal fun removeBusiness(business: FBusiness) {
         requireNotNull(business) { "null argument" }
         mMapBusiness.remove(business)
     }
