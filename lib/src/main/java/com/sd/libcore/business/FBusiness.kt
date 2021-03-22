@@ -9,7 +9,8 @@ import com.sd.libcore.business.stream.BSTipsCallback
 
 abstract class FBusiness {
 
-    constructor(businessTag: String?) {
+    @JvmOverloads
+    constructor(businessTag: String? = null) {
         tag = businessTag
     }
 
