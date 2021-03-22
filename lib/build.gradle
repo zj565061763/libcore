@@ -9,7 +9,7 @@ def libVersionName = "1.3.0-rc58"
 android {
     compileSdkVersion 28
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode libVersionCode
         versionName libVersionName
@@ -35,6 +35,7 @@ dependencies {
     api 'androidx.appcompat:appcompat:1.0.2'
     api 'com.github.zj565061763:activity-event:latest.release'
     api 'com.github.zj565061763:stream:latest.release'
+    api 'com.github.zj565061763:tag-view:+'
 }
 
 task generateSourcesJar(type: Jar) {

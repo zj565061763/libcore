@@ -4,10 +4,11 @@ import android.text.TextUtils
 import androidx.annotation.CallSuper
 import com.sd.lib.stream.FStream
 import com.sd.lib.stream.FStream.ProxyBuilder
+import com.sd.lib.tag_view.ITagView
 import com.sd.libcore.business.stream.BSProgress
 import com.sd.libcore.business.stream.BSTipsCallback
 
-abstract class FBusiness {
+abstract class FBusiness : ITagView.Item {
 
     @JvmOverloads
     constructor(businessTag: String? = null) {
@@ -55,12 +56,8 @@ abstract class FBusiness {
     }
 
     /**
-     * 返回一个流代理对象
-     *
-     * @param clazz
-     * @param <T>
-     * @return
-    </T> */
+     * 创建[clazz]的流代理对象
+     */
     protected fun <T : FStream> getStream(clazz: Class<T>): T {
         return ProxyBuilder().setTag(tag).build(clazz)
     }
@@ -68,8 +65,8 @@ abstract class FBusiness {
     /**
      * 标识变化回调
      *
-     * @param oldTag
-     * @param newTag
+     * @param oldTag 旧标识
+     * @param newTag 新标识
      */
     protected open fun onTagChanged(oldTag: String?, newTag: String?) {}
 
@@ -79,5 +76,14 @@ abstract class FBusiness {
     @CallSuper
     open fun onDestroy() {
         FBusinessManager.instance.removeBusiness(this)
+    }
+
+    final override fun initItem(tagView: ITagView) {
+        tag = tagView.viewTag
+        init()
+    }
+
+    final override fun destroyItem() {
+        onDestroy()
     }
 }

@@ -17,6 +17,7 @@ import com.sd.lib.eventact.observer.ActivityPausedObserver;
 import com.sd.lib.eventact.observer.ActivityResumedObserver;
 import com.sd.lib.eventact.observer.ActivityStoppedObserver;
 import com.sd.lib.eventact.observer.ActivityTouchEventObserver;
+import com.sd.lib.tag_view.FTagViewApi;
 import com.sd.libcore.activity.FActivity;
 import com.sd.libcore.activity.FStreamActivity;
 import com.sd.libcore.business.holder.FActivityBusinessHolder;
@@ -33,10 +34,18 @@ public class FControlView extends FViewGroup implements
 {
     /** 是否监听Activity的触摸事件 */
     private boolean mListenActivityTouchEvent = false;
+    private FTagViewApi mTagViewApi;
 
     public FControlView(@NonNull Context context, @Nullable AttributeSet attrs)
     {
         super(context, attrs);
+    }
+
+    public FTagViewApi getTagViewApi()
+    {
+        if (mTagViewApi == null)
+            mTagViewApi = new FTagViewApi(this);
+        return mTagViewApi;
     }
 
     /**

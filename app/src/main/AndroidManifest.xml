@@ -19,8 +19,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.TestActivity" />
-
     </application>
 
 </manifest>
