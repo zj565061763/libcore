@@ -28,6 +28,10 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    packagingOptions {
+        pickFirst 'META-INF/lib_release.kotlin_module'
+    }
 }
 
 dependencies {
