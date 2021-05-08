@@ -58,7 +58,7 @@ object FBusinessManager {
     fun findBusiness(callback: FindBusinessCallback) {
         val listCopy = ArrayList<FBusiness>(_mapBusiness.keys)
         for (item in listCopy) {
-            if (callback.onBusiness(item!!)) {
+            if (callback.onBusiness(item)) {
                 break
             }
         }
