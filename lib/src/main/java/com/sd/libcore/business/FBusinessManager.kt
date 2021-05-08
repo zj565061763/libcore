@@ -2,18 +2,19 @@ package com.sd.libcore.business
 
 import android.text.TextUtils
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 业务类管理
  */
-class FBusinessManager private constructor() {
-    private val mMapBusiness: MutableMap<FBusiness, String> = WeakHashMap()
+object FBusinessManager {
+    private val _mapBusiness = WeakHashMap<FBusiness, String>()
 
     /**
      * 放回指定tag的业务类
      */
-    fun getBusiness(tag: String?): List<FBusiness> {
-        val listResult: MutableList<FBusiness> = ArrayList()
+    fun getBusiness(tag: String?): Collection<FBusiness> {
+        val listResult = mutableListOf<FBusiness>()
         findBusiness {
             if (TextUtils.equals(it.tag, tag)) {
                 listResult.add(it)
@@ -26,9 +27,8 @@ class FBusinessManager private constructor() {
     /**
      * 返回指定类型的业务类
      */
-    fun <T : FBusiness> getBusiness(clazz: Class<T>): List<T> {
-        requireNotNull(clazz) { "null argument" }
-        val listResult: MutableList<T> = ArrayList()
+    fun <T : FBusiness> getBusiness(clazz: Class<T>): Collection<T> {
+        val listResult = mutableListOf<T>()
         findBusiness {
             if (it.javaClass == clazz) {
                 listResult.add(it as T)
@@ -41,8 +41,8 @@ class FBusinessManager private constructor() {
     /**
      * 返回指定类型和tag的业务类
      */
-    fun <T : FBusiness> getBusiness(clazz: Class<T>, tag: String?): List<T> {
-        val listResult: MutableList<T> = ArrayList()
+    fun <T : FBusiness> getBusiness(clazz: Class<T>, tag: String?): Collection<T> {
+        val listResult = mutableListOf<T>()
         findBusiness {
             if (it.javaClass == clazz && TextUtils.equals(it.tag, tag)) {
                 listResult.add(it as T)
@@ -56,7 +56,7 @@ class FBusinessManager private constructor() {
      * 查找业务类
      */
     fun findBusiness(callback: FindBusinessCallback) {
-        val listCopy = ArrayList(mMapBusiness.keys)
+        val listCopy = ArrayList<FBusiness>(_mapBusiness.keys)
         for (item in listCopy) {
             if (callback.onBusiness(item!!)) {
                 break
@@ -69,8 +69,7 @@ class FBusinessManager private constructor() {
      */
     @Synchronized
     internal fun addBusiness(business: FBusiness) {
-        requireNotNull(business) { "null argument" }
-        mMapBusiness[business] = ""
+        _mapBusiness[business] = ""
     }
 
     /**
@@ -78,23 +77,14 @@ class FBusinessManager private constructor() {
      */
     @Synchronized
     internal fun removeBusiness(business: FBusiness) {
-        requireNotNull(business) { "null argument" }
-        mMapBusiness.remove(business)
+        _mapBusiness.remove(business)
     }
 
     fun interface FindBusinessCallback {
         /**
          * 业务类对象回调
-         *
          * @return true-停止查找
          */
         fun onBusiness(business: FBusiness): Boolean
-    }
-
-    companion object {
-        @JvmStatic
-        val instance: FBusinessManager by lazy {
-            FBusinessManager()
-        }
     }
 }

@@ -4,11 +4,12 @@ import android.text.TextUtils
 import androidx.annotation.CallSuper
 import com.sd.lib.stream.FStream
 import com.sd.lib.stream.FStream.ProxyBuilder
+import com.sd.lib.tag_view.FTagView
 import com.sd.lib.tag_view.ITagView
 import com.sd.libcore.business.stream.BSProgress
 import com.sd.libcore.business.stream.BSTipsCallback
 
-abstract class FBusiness : ITagView.Item {
+abstract class FBusiness : FTagView.Item {
 
     @JvmOverloads
     constructor(businessTag: String? = null) {
@@ -29,8 +30,6 @@ abstract class FBusiness : ITagView.Item {
 
     /**
      * 返回Http请求标识
-     *
-     * @return
      */
     open val httpTag: String
         get() = toString()
@@ -52,7 +51,7 @@ abstract class FBusiness : ITagView.Item {
      */
     @CallSuper
     open fun init() {
-        FBusinessManager.instance.addBusiness(this)
+        FBusinessManager.addBusiness(this)
     }
 
     /**
@@ -75,7 +74,7 @@ abstract class FBusiness : ITagView.Item {
      */
     @CallSuper
     open fun onDestroy() {
-        FBusinessManager.instance.removeBusiness(this)
+        FBusinessManager.removeBusiness(this)
     }
 
     final override fun initItem(tagView: ITagView) {
