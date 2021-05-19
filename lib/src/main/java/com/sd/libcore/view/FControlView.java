@@ -30,21 +30,21 @@ public class FControlView extends FViewGroup implements
         ActivityResumedCallback,
         ActivityPausedCallback,
         ActivityStoppedCallback,
-        ActivityDestroyedCallback
-{
-    /** 是否监听Activity的触摸事件 */
+        ActivityDestroyedCallback {
+    /**
+     * 是否监听Activity的触摸事件
+     */
     private boolean mListenActivityTouchEvent = false;
     private FTagViewApi mTagViewApi;
 
-    public FControlView(@NonNull Context context, @Nullable AttributeSet attrs)
-    {
+    public FControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FTagViewApi getTagViewApi()
-    {
-        if (mTagViewApi == null)
+    public FTagViewApi getTagViewApi() {
+        if (mTagViewApi == null) {
             mTagViewApi = new FTagViewApi(this);
+        }
         return mTagViewApi;
     }
 
@@ -53,8 +53,7 @@ public class FControlView extends FViewGroup implements
      *
      * @param listen
      */
-    public void setListenActivityTouchEvent(boolean listen)
-    {
+    public void setListenActivityTouchEvent(boolean listen) {
         mListenActivityTouchEvent = listen;
     }
 
@@ -64,42 +63,37 @@ public class FControlView extends FViewGroup implements
      * @return
      */
     @NonNull
-    public final String getStreamTagActivity()
-    {
+    public final String getStreamTagActivity() {
         final Activity activity = getActivity();
-        if (activity == null)
+        if (activity == null) {
             return getStreamTagView();
+        }
 
-        if (activity instanceof FStreamActivity)
+        if (activity instanceof FStreamActivity) {
             return ((FStreamActivity) activity).getStreamTag();
+        }
 
         return activity.toString();
     }
 
     /**
      * 返回当前View流标识
-     *
-     * @return
      */
     @NonNull
-    public final String getStreamTagView()
-    {
-        final String className = getClass().getName();
-        final String hashCode = Integer.toHexString(System.identityHashCode(this));
-        return className + "@" + hashCode;
+    public final String getStreamTagView() {
+        final int hashCode = System.identityHashCode(this);
+        final String hashCodeString = Integer.toHexString(hashCode);
+        return getClass().getName() + "@" + hashCodeString;
     }
 
     /**
      * 返回Http请求标识
-     *
-     * @return
      */
     @NonNull
-    public String getHttpTag()
-    {
-        final String className = getClass().getName();
-        final String hashCode = Integer.toHexString(System.identityHashCode(this));
-        return className + "@" + hashCode;
+    public String getHttpTag() {
+        final int hashCode = System.identityHashCode(this);
+        final String hashCodeString = Integer.toHexString(hashCode);
+        return getClass().getName() + "@" + hashCodeString;
     }
 
     /**
@@ -107,32 +101,30 @@ public class FControlView extends FViewGroup implements
      *
      * @param msg
      */
-    public void showProgressDialog(@Nullable String msg)
-    {
+    public void showProgressDialog(@Nullable String msg) {
         final Activity activity = getActivity();
-        if (activity instanceof FActivity)
+        if (activity instanceof FActivity) {
             ((FActivity) activity).showProgressDialog(msg);
+        }
     }
 
     /**
      * 隐藏进度框
      */
-    public void dismissProgressDialog()
-    {
+    public void dismissProgressDialog() {
         final Activity activity = getActivity();
-        if (activity instanceof FActivity)
+        if (activity instanceof FActivity) {
             ((FActivity) activity).dismissProgressDialog();
+        }
     }
 
     @Deprecated
-    public final FBusinessHolder getBusinessHolder()
-    {
+    public final FBusinessHolder getBusinessHolder() {
         return FActivityBusinessHolder.with(getActivity());
     }
 
     @Override
-    protected void onAttachedToWindow()
-    {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         final Activity activity = getActivity();
         mActivityResumedObserver.register(activity);
@@ -140,13 +132,13 @@ public class FControlView extends FViewGroup implements
         mActivityStoppedObserver.register(activity);
         mActivityDestroyedObserver.register(activity);
 
-        if (mListenActivityTouchEvent)
+        if (mListenActivityTouchEvent) {
             mActivityTouchEventObserver.register(activity);
+        }
     }
 
     @Override
-    protected void onDetachedFromWindow()
-    {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mActivityResumedObserver.unregister();
         mActivityPausedObserver.unregister();
@@ -155,51 +147,39 @@ public class FControlView extends FViewGroup implements
         mActivityTouchEventObserver.unregister();
     }
 
-    private final ActivityResumedObserver mActivityResumedObserver = new ActivityResumedObserver()
-    {
+    private final ActivityResumedObserver mActivityResumedObserver = new ActivityResumedObserver() {
         @Override
-        public void onActivityResumed(@NonNull Activity activity)
-        {
+        public void onActivityResumed(@NonNull Activity activity) {
             FControlView.this.onActivityResumed(activity);
         }
     };
 
-    private final ActivityPausedObserver mActivityPausedObserver = new ActivityPausedObserver()
-    {
+    private final ActivityPausedObserver mActivityPausedObserver = new ActivityPausedObserver() {
         @Override
-        public void onActivityPaused(@NonNull Activity activity)
-        {
+        public void onActivityPaused(@NonNull Activity activity) {
             FControlView.this.onActivityPaused(activity);
         }
     };
 
-    private final ActivityStoppedObserver mActivityStoppedObserver = new ActivityStoppedObserver()
-    {
+    private final ActivityStoppedObserver mActivityStoppedObserver = new ActivityStoppedObserver() {
         @Override
-        public void onActivityStopped(@NonNull Activity activity)
-        {
+        public void onActivityStopped(@NonNull Activity activity) {
             FControlView.this.onActivityStopped(activity);
         }
     };
 
-    private final ActivityDestroyedObserver mActivityDestroyedObserver = new ActivityDestroyedObserver()
-    {
+    private final ActivityDestroyedObserver mActivityDestroyedObserver = new ActivityDestroyedObserver() {
         @Override
-        public void onActivityDestroyed(@NonNull Activity activity)
-        {
+        public void onActivityDestroyed(@NonNull Activity activity) {
             FControlView.this.onActivityDestroyed(activity);
         }
     };
 
-    private final ActivityTouchEventObserver mActivityTouchEventObserver = new ActivityTouchEventObserver()
-    {
+    private final ActivityTouchEventObserver mActivityTouchEventObserver = new ActivityTouchEventObserver() {
         @Override
-        public boolean onActivityDispatchTouchEvent(@NonNull Activity activity, @NonNull MotionEvent event)
-        {
-            if (event.getAction() == MotionEvent.ACTION_DOWN)
-            {
-                if (getVisibility() == VISIBLE)
-                {
+        public boolean onActivityDispatchTouchEvent(@NonNull Activity activity, @NonNull MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (getVisibility() == VISIBLE) {
                     final int x = (int) event.getRawX();
                     final int y = (int) event.getRawY();
                     final boolean touchInside = isViewUnder(x, y);
@@ -212,23 +192,19 @@ public class FControlView extends FViewGroup implements
     };
 
     @Override
-    public void onActivityResumed(@NonNull Activity activity)
-    {
+    public void onActivityResumed(@NonNull Activity activity) {
     }
 
     @Override
-    public void onActivityPaused(@NonNull Activity activity)
-    {
+    public void onActivityPaused(@NonNull Activity activity) {
     }
 
     @Override
-    public void onActivityStopped(@NonNull Activity activity)
-    {
+    public void onActivityStopped(@NonNull Activity activity) {
     }
 
     @Override
-    public void onActivityDestroyed(@NonNull Activity activity)
-    {
+    public void onActivityDestroyed(@NonNull Activity activity) {
     }
 
     /**
@@ -237,8 +213,7 @@ public class FControlView extends FViewGroup implements
      * @param touchInside true-view内部；false-view外部
      * @return
      */
-    public boolean onActivityTouch(boolean touchInside)
-    {
+    public boolean onActivityTouch(boolean touchInside) {
         return false;
     }
 }
