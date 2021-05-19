@@ -47,10 +47,9 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
      * @param layoutId 布局id
      */
     public void setContentView(int layoutId) {
-        View view = null;
-        if (layoutId != 0) {
-            view = LayoutInflater.from(getContext()).inflate(layoutId, this, false);
-        }
+        final View view = layoutId == 0 ?
+                null :
+                LayoutInflater.from(getContext()).inflate(layoutId, this, false);
         setContentView(view);
     }
 
