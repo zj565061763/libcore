@@ -10,64 +10,54 @@ import com.sd.libcore.business.stream.StreamActivityBackPressed;
 
 import java.lang.reflect.Method;
 
-public abstract class FStreamActivity extends FActivity implements FStream
-{
+public abstract class FStreamActivity extends FActivity implements FStream {
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FStreamManager.getInstance().register(this);
     }
 
     @Override
-    public Object getTagForStream(Class<? extends FStream> clazz)
-    {
+    public Object getTagForStream(Class<? extends FStream> clazz) {
         return getStreamTag();
     }
 
-    public final String getStreamTag()
-    {
+    public final String getStreamTag() {
         return FStreamActivity.this.toString();
     }
 
     @Deprecated
-    public final FBusinessHolder getBusinessHolder()
-    {
+    public final FBusinessHolder getBusinessHolder() {
         return FActivityBusinessHolder.with(this);
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         final StreamActivityBackPressed stream = new ProxyBuilder()
-                .setDispatchCallback(new DispatchCallback()
-                {
+                .setDispatchCallback(new DispatchCallback() {
                     @Override
-                    public boolean beforeDispatch(FStream stream, Method method, Object[] methodParams)
-                    {
+                    public boolean beforeDispatch(FStream stream, Method method, Object[] methodParams) {
                         return false;
                     }
 
                     @Override
-                    public boolean afterDispatch(FStream stream, Method method, Object[] methodParams, Object methodResult)
-                    {
-                        if (Boolean.TRUE.equals(methodResult))
-                            return true;
-                        return false;
+                    public boolean afterDispatch(FStream stream, Method method, Object[] methodParams, Object methodResult) {
+                        return Boolean.TRUE.equals(methodResult);
                     }
                 })
                 .setTag(getStreamTag())
                 .build(StreamActivityBackPressed.class);
 
-        if (stream.onActivityBackPressed())
+        if (stream.onActivityBackPressed()) {
             return;
+        }
 
         super.onBackPressed();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
         FStreamManager.getInstance().unregister(this);
     }
