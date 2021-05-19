@@ -49,6 +49,7 @@ dependencies {
     api 'com.github.zj565061763:activity-event:latest.release'
     api 'com.github.zj565061763:stream:latest.release'
     api 'com.github.zj565061763:tag-view:latest.release'
+    api 'com.github.zj565061763:libkt:latest.release'
 }
 
 task generateSourcesJar(type: Jar) {

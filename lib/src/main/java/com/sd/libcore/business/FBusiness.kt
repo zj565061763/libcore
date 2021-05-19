@@ -2,14 +2,21 @@ package com.sd.libcore.business
 
 import android.text.TextUtils
 import androidx.annotation.CallSuper
+import com.sd.lib.libkt.coroutine.FMainScope
 import com.sd.lib.stream.FStream
 import com.sd.lib.stream.FStream.ProxyBuilder
 import com.sd.lib.tag_view.FTagView
 import com.sd.lib.tag_view.ITagView
 import com.sd.libcore.business.stream.BSProgress
 import com.sd.libcore.business.stream.BSTipsCallback
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 abstract class FBusiness : FTagView.Item {
+    private val _mainScope by lazy { FMainScope() }
 
     @JvmOverloads
     constructor(businessTag: String? = null) {
@@ -51,7 +58,7 @@ abstract class FBusiness : FTagView.Item {
      */
     @CallSuper
     open fun init() {
-        FBusinessManager.addBusiness(this)
+        _mainScope.init()
     }
 
     /**
@@ -70,11 +77,26 @@ abstract class FBusiness : FTagView.Item {
     protected open fun onTagChanged(oldTag: String?, newTag: String?) {}
 
     /**
+     * 协程
+     */
+    fun launchRoot(
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job? {
+        return _mainScope.launch(
+            context = context,
+            start = start,
+            block = block
+        )
+    }
+
+    /**
      * 销毁
      */
     @CallSuper
     open fun onDestroy() {
-        FBusinessManager.removeBusiness(this)
+        _mainScope.destroy()
     }
 
     final override fun initItem(tagView: ITagView) {
