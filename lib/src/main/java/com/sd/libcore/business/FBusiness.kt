@@ -2,7 +2,7 @@ package com.sd.libcore.business
 
 import android.text.TextUtils
 import androidx.annotation.CallSuper
-import com.sd.lib.libkt.coroutine.FMainScope
+import com.sd.lib.libkt.coroutine.scope.FMainScope
 import com.sd.lib.stream.FStream
 import com.sd.lib.stream.FStream.ProxyBuilder
 import com.sd.lib.tag_view.FTagView
