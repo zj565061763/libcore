@@ -19,15 +19,15 @@ import java.lang.ref.WeakReference;
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
  */
-public class FViewGroup extends FrameLayout implements View.OnClickListener
-{
-    /** 置是否消费掉触摸事件，true-事件不会透过view继续往下传递 */
+public class FViewGroup extends FrameLayout implements View.OnClickListener {
+    /**
+     * 置是否消费掉触摸事件，true-事件不会透过view继续往下传递
+     */
     private boolean mConsumeTouchEvent = false;
     private WeakReference<ViewGroup> mContainer;
     private View mContentView;
 
-    public FViewGroup(@NonNull Context context, @Nullable AttributeSet attrs)
-    {
+    public FViewGroup(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -37,8 +37,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      * @return
      */
     @Nullable
-    public View getContentView()
-    {
+    public View getContentView() {
         return mContentView;
     }
 
@@ -47,9 +46,11 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @param layoutId 布局id
      */
-    public void setContentView(int layoutId)
-    {
-        final View view = LayoutInflater.from(getContext()).inflate(layoutId, this, false);
+    public void setContentView(int layoutId) {
+        View view = null;
+        if (layoutId != 0) {
+            view = LayoutInflater.from(getContext()).inflate(layoutId, this, false);
+        }
         setContentView(view);
     }
 
@@ -58,12 +59,13 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @param contentView
      */
-    public void setContentView(@Nullable View contentView)
-    {
+    public void setContentView(@Nullable View contentView) {
         removeAllViews();
-
         mContentView = contentView;
-        addView(contentView);
+
+        if (contentView != null) {
+            addView(contentView);
+        }
 
         onContentViewChanged(contentView);
     }
@@ -73,8 +75,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @param contentView
      */
-    protected void onContentViewChanged(@Nullable View contentView)
-    {
+    protected void onContentViewChanged(@Nullable View contentView) {
     }
 
     /**
@@ -82,8 +83,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @param consumeTouchEvent true-消费掉事件，事件不会透过view继续往下传递
      */
-    public void setConsumeTouchEvent(boolean consumeTouchEvent)
-    {
+    public void setConsumeTouchEvent(boolean consumeTouchEvent) {
         mConsumeTouchEvent = consumeTouchEvent;
     }
 
@@ -93,17 +93,15 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      * @param container
      * @return
      */
-    public FViewGroup setContainer(@Nullable View container)
-    {
-        if (container == null)
-        {
+    public FViewGroup setContainer(@Nullable View container) {
+        if (container == null) {
             mContainer = null;
-        } else
-        {
-            if (container instanceof ViewGroup)
+        } else {
+            if (container instanceof ViewGroup) {
                 mContainer = new WeakReference<>((ViewGroup) container);
-            else
+            } else {
                 throw new IllegalArgumentException("container must be instance of ViewGroup");
+            }
         }
         return this;
     }
@@ -114,14 +112,12 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      * @return
      */
     @Nullable
-    public ViewGroup getContainer()
-    {
+    public ViewGroup getContainer() {
         return mContainer == null ? null : mContainer.get();
     }
 
     @Nullable
-    public Activity getActivity()
-    {
+    public Activity getActivity() {
         final Context context = getContext();
         return context instanceof Activity ? (Activity) context : null;
     }
@@ -131,32 +127,28 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @param replace true-父容器仅保留当前View对象在容器中
      */
-    public final void attach(boolean replace)
-    {
+    public final void attach(boolean replace) {
         final ViewGroup viewGroup = getContainer();
-        if (viewGroup == null)
+        if (viewGroup == null) {
             return;
+        }
 
-        if (getParent() != viewGroup)
-        {
-            if (replace)
+        if (getParent() != viewGroup) {
+            if (replace) {
                 viewGroup.removeAllViews();
+            }
 
             detach();
             viewGroup.addView(this);
-        } else
-        {
-            if (replace)
-            {
-                final int count = viewGroup.getChildCount();
-                if (count != 1)
-                {
-                    for (int i = count - 1; i >= 0; i--)
-                    {
-                        final View item = viewGroup.getChildAt(i);
-                        if (item != this)
-                            viewGroup.removeView(item);
-                    }
+            return;
+        }
+
+        if (replace) {
+            final int count = viewGroup.getChildCount();
+            for (int i = count - 1; i >= 0; i--) {
+                final View item = viewGroup.getChildAt(i);
+                if (item != this) {
+                    viewGroup.removeView(item);
                 }
             }
         }
@@ -165,20 +157,17 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
     /**
      * 把当前View从父容器上移除
      */
-    public void detach()
-    {
+    public void detach() {
         final Activity activity = getActivity();
-        if (activity != null && activity.isFinishing())
+        if (activity != null && activity.isFinishing()) {
             return;
+        }
 
         final ViewParent parent = getParent();
-        if (parent instanceof ViewGroup)
-        {
-            try
-            {
+        if (parent instanceof ViewGroup) {
+            try {
                 ((ViewGroup) parent).removeView(this);
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
             }
         }
     }
@@ -188,12 +177,12 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      *
      * @return
      */
-    public boolean isAttached()
-    {
-        if (Build.VERSION.SDK_INT >= 19)
+    public boolean isAttached() {
+        if (Build.VERSION.SDK_INT >= 19) {
             return isAttachedToWindow();
-        else
+        } else {
             return getWindowToken() != null;
+        }
     }
 
     private int[] mTempLocation;
@@ -205,10 +194,10 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
      * @param y
      * @return
      */
-    public boolean isViewUnder(int x, int y)
-    {
-        if (mTempLocation == null)
+    public boolean isViewUnder(int x, int y) {
+        if (mTempLocation == null) {
             mTempLocation = new int[2];
+        }
 
         getLocationOnScreen(mTempLocation);
 
@@ -222,15 +211,12 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
     }
 
     @Override
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        if (mConsumeTouchEvent)
-        {
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mConsumeTouchEvent) {
             super.onTouchEvent(event);
             return true;
         }
@@ -238,10 +224,10 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener
     }
 
     @Override
-    public void onViewRemoved(View child)
-    {
+    public void onViewRemoved(View child) {
         super.onViewRemoved(child);
-        if (mContentView == child)
+        if (mContentView == child) {
             mContentView = null;
+        }
     }
 }
