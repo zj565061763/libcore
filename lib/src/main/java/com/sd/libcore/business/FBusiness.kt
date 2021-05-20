@@ -2,6 +2,7 @@ package com.sd.libcore.business
 
 import android.text.TextUtils
 import androidx.annotation.CallSuper
+import com.sd.lib.libkt.coroutine.scope.FCoroutineScope
 import com.sd.lib.libkt.coroutine.scope.FMainScope
 import com.sd.lib.stream.FStream
 import com.sd.lib.stream.FStream.ProxyBuilder
@@ -9,11 +10,6 @@ import com.sd.lib.tag_view.FTagView
 import com.sd.lib.tag_view.ITagView
 import com.sd.libcore.business.stream.BSProgress
 import com.sd.libcore.business.stream.BSTipsCallback
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 abstract class FBusiness : FTagView.Item {
     private val _mainScope by lazy { FMainScope() }
@@ -40,6 +36,12 @@ abstract class FBusiness : FTagView.Item {
      */
     open val httpTag: String
         get() = toString()
+
+    /**
+     * 协程作用域
+     */
+    val mainScope: FCoroutineScope
+        get() = _mainScope
 
     /**
      * [BSProgress]
@@ -75,21 +77,6 @@ abstract class FBusiness : FTagView.Item {
      * @param newTag 新标识
      */
     protected open fun onTagChanged(oldTag: String?, newTag: String?) {}
-
-    /**
-     * 协程
-     */
-    fun launchRoot(
-        context: CoroutineContext = EmptyCoroutineContext,
-        start: CoroutineStart = CoroutineStart.DEFAULT,
-        block: suspend CoroutineScope.() -> Unit
-    ): Job? {
-        return _mainScope.launch(
-            context = context,
-            start = start,
-            block = block
-        )
-    }
 
     /**
      * 销毁
