@@ -53,7 +53,20 @@ public abstract class FStreamActivity extends FActivity implements FStream {
             return;
         }
 
+        if (onActivityBackPressed()) {
+            return;
+        }
+
         super.onBackPressed();
+    }
+
+    /**
+     * 返回键回调
+     *
+     * @return true-拦截掉事件
+     */
+    protected boolean onActivityBackPressed() {
+        return false;
     }
 
     @Override
