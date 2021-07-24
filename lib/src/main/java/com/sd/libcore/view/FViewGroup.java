@@ -13,13 +13,18 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
 
 import java.lang.ref.WeakReference;
 
 /**
  * 如果手动的new对象的话Context必须传入Activity对象
  */
-public class FViewGroup extends FrameLayout implements View.OnClickListener {
+public class FViewGroup extends FrameLayout implements
+        View.OnClickListener, LifecycleOwner {
+
     /** 置是否消费掉触摸事件，true-事件不会透过view继续往下传递 */
     private boolean mConsumeTouchEvent = false;
     private WeakReference<ViewGroup> mContainer;
@@ -28,8 +33,17 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
     /** {@link #onCreate()}是否已经通知 */
     private volatile boolean mHasOnCreate = false;
 
+    /** 生命周期事件分发 */
+    private final LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
+
     public FViewGroup(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return mLifecycleRegistry;
     }
 
     /**
@@ -53,8 +67,6 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
 
     /**
      * 返回内容View
-     *
-     * @return
      */
     @Nullable
     public View getContentView() {
@@ -75,8 +87,6 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
 
     /**
      * 设置内容View
-     *
-     * @param contentView
      */
     public void setContentView(@Nullable View contentView) {
         removeAllViews();
@@ -91,8 +101,6 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
 
     /**
      * 内容view发生变化
-     *
-     * @param contentView
      */
     protected void onContentViewChanged(@Nullable View contentView) {
     }
@@ -108,9 +116,6 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
 
     /**
      * 设置父容器
-     *
-     * @param container
-     * @return
      */
     public FViewGroup setContainer(@Nullable View container) {
         if (container == null) {
@@ -127,8 +132,6 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
 
     /**
      * 返回设置的父容器
-     *
-     * @return
      */
     @Nullable
     public ViewGroup getContainer() {
@@ -193,8 +196,6 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
 
     /**
      * 是否已经被添加到ui上面
-     *
-     * @return
      */
     public final boolean isAttached() {
         if (Build.VERSION.SDK_INT >= 19) {
@@ -208,10 +209,6 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
 
     /**
      * view是否在某个坐标下面
-     *
-     * @param x
-     * @param y
-     * @return
      */
     public boolean isViewUnder(int x, int y) {
         if (mTempLocation == null) {
@@ -253,6 +250,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
         if (!mHasOnCreate) {
             post(new Runnable() {
                 @Override
@@ -261,5 +259,11 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
     }
 }
