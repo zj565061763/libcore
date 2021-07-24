@@ -20,15 +20,35 @@ import java.lang.ref.WeakReference;
  * 如果手动的new对象的话Context必须传入Activity对象
  */
 public class FViewGroup extends FrameLayout implements View.OnClickListener {
-    /**
-     * 置是否消费掉触摸事件，true-事件不会透过view继续往下传递
-     */
+    /** 置是否消费掉触摸事件，true-事件不会透过view继续往下传递 */
     private boolean mConsumeTouchEvent = false;
     private WeakReference<ViewGroup> mContainer;
     private View mContentView;
 
+    /** {@link #onCreate()}是否已经通知 */
+    private volatile boolean mHasOnCreate = false;
+
     public FViewGroup(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    /**
+     * 通知{@link #onCreate()}
+     */
+    private void notifyOnCreate() {
+        if (mHasOnCreate) {
+            return;
+        }
+        if (isAttached()) {
+            mHasOnCreate = true;
+            onCreate();
+        }
+    }
+
+    /**
+     * View第一次被添加到UI上面的时候回调
+     */
+    protected void onCreate() {
     }
 
     /**
@@ -176,7 +196,7 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
      *
      * @return
      */
-    public boolean isAttached() {
+    public final boolean isAttached() {
         if (Build.VERSION.SDK_INT >= 19) {
             return isAttachedToWindow();
         } else {
@@ -227,6 +247,19 @@ public class FViewGroup extends FrameLayout implements View.OnClickListener {
         super.onViewRemoved(child);
         if (mContentView == child) {
             mContentView = null;
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (!mHasOnCreate) {
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyOnCreate();
+                }
+            });
         }
     }
 }

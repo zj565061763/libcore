@@ -7,13 +7,28 @@ import com.sd.demo.business.MyBusiness
 import com.sd.libcore.view.FControlView
 
 class TestAppView : FControlView {
-
     val TAG = TestAppView::class.java.simpleName
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        Log.i(TAG, "constructor")
         tagViewApi.prepare {
             val business = it.getItem(MyBusiness::class.java)
             Log.i(TAG, "prepare tagView:${it} business:${business}")
         }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.i(TAG, "onCreate")
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        Log.i(TAG, "onAttachedToWindow")
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        Log.i(TAG, "onDetachedFromWindow")
     }
 }
