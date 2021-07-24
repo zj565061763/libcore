@@ -3,6 +3,9 @@ package com.sd.demo.view
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import com.sd.demo.business.MyBusiness
 import com.sd.libcore.view.FControlView
 
@@ -15,6 +18,12 @@ class TestAppView : FControlView {
             val business = it.getItem(MyBusiness::class.java)
             Log.i(TAG, "prepare tagView:${it} business:${business}")
         }
+
+        lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                Log.i(TAG, "lifecycle onStateChanged ${event}")
+            }
+        })
     }
 
     override fun onCreate() {
